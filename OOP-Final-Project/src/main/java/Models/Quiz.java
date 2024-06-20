@@ -14,7 +14,6 @@ public class Quiz {
     private String quizDescription;
     private int quizScore;
     private ArrayList<Integer> questionIds;
-    private QuizHistory quizHistory;
     private boolean isSinglePage;
     private boolean randomizeQuestions;
     private boolean immediateFeedback;
@@ -127,23 +126,6 @@ public class Quiz {
         this.questionIds = questionIds;
     }
 
-    /**
-     * Retrieves the history of the quiz, including past attempts and scores.
-     *
-     * @return the quiz history object
-     */
-    public QuizHistory getQuizHistory() {
-        return quizHistory;
-    }
-
-    /**
-     * Sets the history of the quiz.
-     *
-     * @param quizHistory the quiz history object
-     */
-    public void setQuizHistory(QuizHistory quizHistory) {
-        this.quizHistory = quizHistory;
-    }
 
     /**
      * Checks if the quiz is displayed on a single page.
