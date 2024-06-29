@@ -1,8 +1,9 @@
 package DAO;
 
 import Models.Account;
-
-import javax.sql.DataSource;
+import Models.PasswordHasher;
+import org.apache.commons.dbcp2.BasicDataSource;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,14 +16,14 @@ import java.util.List;
  * Provides methods to perform CRUD operations on the Account table.
  */
 public class AccountDAO {
-    private final DataSource dataSource;
+    private final BasicDataSource dataSource;
 
     /**
      * Constructs an AccountDAO with the specified DataSource.
      *
      * @param dataSource the DataSource to be used for database connections.
      */
-    public AccountDAO(DataSource dataSource) {
+    public AccountDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -35,20 +36,18 @@ public class AccountDAO {
         String query = "INSERT INTO Accounts (userName, firstName, lastName, password, email, imageUrl, salt) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
+
             setStatement(account, statement);
+            String salt = PasswordHasher.generateSalt();
+            statement.setString(4, PasswordHasher.hash(account.getPassword(),salt));
+            statement.setString(7, salt);
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Sets the parameters of a PreparedStatement using the provided Account object.
-     *
-     * @param account   the Account object containing the account details.
-     * @param statement the PreparedStatement to be set with account details.
-     * @throws SQLException if a database access error occurs.
-     */
+
     private void setStatement(Account account, PreparedStatement statement) throws SQLException {
         statement.setString(1, account.getUserName());
         statement.setString(2, account.getFirstName());
@@ -59,15 +58,10 @@ public class AccountDAO {
         statement.setString(7, account.getSalt());
     }
 
-    /**
-     * Reads an account from the database by its userId.
-     *
-     * @param userId the ID of the account to be read.
-     * @return the Account object containing the account details, or null if no account is found.
-     */
-    public Account readAccount(int userId) {
-        List<Integer> friends = new ArrayList<>();
-        String query = "SELECT * FROM Accounts WHERE userId = ?";
+
+    public Account readAccount(String userName) {
+        List<String> friends = new ArrayList<>();
+        String query = "SELECT * FROM Accounts WHERE userName = ?";
         String queryFriends = "SELECT userId1, userId2 FROM Friends WHERE userId1 = ? OR userId2 = ?";
         Account account = null;
 
@@ -75,9 +69,9 @@ public class AccountDAO {
              PreparedStatement statement = connection.prepareStatement(query);
              PreparedStatement statementFriends = connection.prepareStatement(queryFriends)) {
 
-            statement.setInt(1, userId);
-            statementFriends.setInt(1, userId);
-            statementFriends.setInt(2, userId);
+            statement.setString(1, userName);
+            statementFriends.setString(1, userName);
+            statementFriends.setString(2, userName);
             try (ResultSet resultSet = statement.executeQuery();
                  ResultSet resultSetFriends = statementFriends.executeQuery()) {
                 if (resultSet.next()) {
@@ -94,16 +88,15 @@ public class AccountDAO {
                 }
 
                 while (resultSetFriends.next()) {
-                    int userId1 = resultSetFriends.getInt("userId1");
-                    int userId2 = resultSetFriends.getInt("userId2");
+                    String userName1 = resultSetFriends.getString("userName1");
+                    String userName2 = resultSetFriends.getString("userName2");
 
-                    if (userId1 != userId) {
-                        friends.add(userId1);
+                    if (!userName1.equals(userName)) {
+                        friends.add(userName1);
                     } else {
-                        friends.add(userId2);
+                        friends.add(userName2);
                     }
                 }
-
                 account.setFriends(friends);
             }
         } catch (SQLException e) {
@@ -112,11 +105,7 @@ public class AccountDAO {
         return account;
     }
 
-    /**
-     * Updates an existing account in the database.
-     *
-     * @param account the Account object containing the updated account details.
-     */
+
     public void updateAccount(Account account) {
         String query = "UPDATE Accounts SET userName = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ? WHERE userId = ?";
         try (Connection connection = dataSource.getConnection();
@@ -129,16 +118,11 @@ public class AccountDAO {
         }
     }
 
-    /**
-     * Deletes an account from the database by its userId.
-     *
-     * @param userId the ID of the account to be deleted.
-     */
-    public void deleteAccount(int userId) {
-        String query = "DELETE FROM Accounts WHERE userId = ?";
+    public void deleteAccount(String username) {
+        String query = "DELETE FROM Accounts WHERE userName = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, userId);
+            statement.setString(1, username);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
