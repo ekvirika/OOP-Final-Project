@@ -62,7 +62,7 @@ public class AccountDAO {
     public Account readAccount(String userName) {
         List<String> friends = new ArrayList<>();
         String query = "SELECT * FROM Accounts WHERE userName = ?";
-        String queryFriends = "SELECT userId1, userId2 FROM Friends WHERE userId1 = ? OR userId2 = ?";
+        String queryFriends = "SELECT userName1, userName2 FROM Friends WHERE userName1 = ? OR userName2 = ?";
         Account account = null;
 
         try (Connection connection = dataSource.getConnection();
