@@ -1,0 +1,66 @@
+
+body {
+    font-family: "Raleway", sans-serif;
+    font-optical-sizing: auto;
+    background-color: #1B1616; /* Background color */
+    color: #EEEDE5; /* Text color */
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #EEEDE5; /* Container background color */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #1B1616; /* Adjusted text color */
+    text-align: center;
+}
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+.profile-info {
+    margin-bottom: 20px;
+    text-align: left; /* Align text left */
+    padding-left: 20px; /* Add padding for text alignment */
+}
+.profile-info h2 {
+    color: #FC6916; /* Header color */
+    margin-bottom: 10px;
+}
+.profile-info p {
+    margin: 5px 0;
+}
+.achievements {
+    margin-bottom: 20px;
+}
+.achievements h3 {
+    color: #FC6916; /* Header color */
+    margin-bottom: 10px;
+}
+.quizzes {
+    margin-bottom: 20px;
+}
+.quizzes h3 {
+    color: #FC6916; /* Header color */
+    margin-bottom: 10px;
+}
+.friends {
+    margin-bottom: 20px;
+}
+.friends h3 {
+    color: #FC6916; /* Header color */
+    margin-bottom: 10px;
+}
+.friends ul {
+    list-style-type: none;
+    padding: 0;
+}
+.friends ul li {
+    margin-bottom: 5px;
+}
