@@ -6,8 +6,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Quiz</title>
     <link rel="stylesheet" href="./css/StartPage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -42,7 +45,7 @@
             <span class="third">MIND</span>
         </h1>
     </div>
-    <div class="animation ">
+    <div class="animation">
         <div class="scene animate__animated animate__fadeInRight" id="scene">
             <div class="pivot centered " id="pivot" style="transform: rotateX(-35deg) rotateY(-135deg)">
                 <div class="cube" id="cube"></div>
