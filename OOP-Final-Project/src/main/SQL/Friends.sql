@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS Friends (
-    userId1 INT NOT NULL,
-    userId2 INT NOT NULL,
+    userName1 VARCHAR(255) NOT NULL,
+    userName2 VARCHAR(255) NOT NULL,
     status ENUM('pending', 'accepted', 'rejected') NOT NULL DEFAULT 'pending',
-    PRIMARY KEY (userId1, userId2),
-    FOREIGN KEY (userId1) REFERENCES Accounts(userId) ON DELETE CASCADE,
-    FOREIGN KEY (userId2) REFERENCES Accounts(userId) ON DELETE CASCADE,
-    UNIQUE (userId1, userId2)
+    PRIMARY KEY (userName1, userName2),
+    FOREIGN KEY (userName1) REFERENCES Accounts(userName) ON DELETE CASCADE,
+    FOREIGN KEY (userName2) REFERENCES Accounts(userName) ON DELETE CASCADE,
+    UNIQUE (userName1, userName2)
 );
