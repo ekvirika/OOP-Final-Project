@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class SQLConnector {
-    private static final String URL = "jdbc:mysql://localhost:3306/OOP_Quiz";
+    private static final String URL = "jdbc:mysql://localhost:3306/OOP_QUIZ";
     private final static String USERNAME = "root";
 
     private final static String PASSWORD = "1234";

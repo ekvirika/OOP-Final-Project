@@ -28,16 +28,13 @@ public class RegistrationServlet extends HttpServlet{
         Account account = new Account(username, name, lastName, password, email, "", "");
         httpRequest.setAttribute("first-name", name);
         httpRequest.setAttribute("last-name", lastName);
-        try {
-            if (accountManager.successfulLogin(username, password)) {
-                RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("HomePage.jsp");
-                requestDispatcher.forward(httpRequest, httpResponse);
-            } else {
-                RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("RegisterTryAgain.jsp");
-                requestDispatcher.forward(httpRequest, httpResponse);
-            }
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+        if (!accountManager.accountExists(username)) {
+            accountManager.createNewUser(account);
+            RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("HomePage.jsp");
+            requestDispatcher.forward(httpRequest, httpResponse);
+        } else {
+            RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("RegistrationTryAgain.jsp");
+            requestDispatcher.forward(httpRequest, httpResponse);
         }
     }
 }
