@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://cdn.dribbble.com/users/3975278/screenshots/17581195/media/2bd56e0a2606bfdf3c11edb74875658c.png?resize=800x600&vertical=center">
+    <link rel="icon" href="./assets/Logo.png">
     <title>Registration Form</title>
+    <link rel="icon" href="./assets/Logo.png">
+    <link rel="stylesheet" href="./css/Registration.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-
 <div class="container">
     <h2>Register</h2>
     <form action="/RegistrationServlet" method="post">
@@ -36,6 +37,7 @@
         </div>
         <button type="submit" class="btn">Register</button>
     </form>
+    <a class="link" href="./Authorisation.jsp">Already have Account? Sign in</a>
 </div>
 
 </body>
