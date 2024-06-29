@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Data Access Object (DAO) for the Account model.
@@ -30,7 +32,7 @@ public class AccountDAO {
      * @param account the Account object containing the account details.
      */
     public void createAccount(Account account) {
-        String query = "INSERT INTO Accounts (userName, firstName, lastName, password, email, imageUrl) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Accounts (userName, firstName, lastName, password, email, imageUrl, salt) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(account, statement);
@@ -54,6 +56,7 @@ public class AccountDAO {
         statement.setString(4, account.getPassword());
         statement.setString(5, account.getEmail());
         statement.setString(6, account.getImageUrl());
+        statement.setString(7, account.getSalt());
     }
 
     /**
@@ -63,12 +66,20 @@ public class AccountDAO {
      * @return the Account object containing the account details, or null if no account is found.
      */
     public Account readAccount(int userId) {
+        List<Integer> friends = new ArrayList<>();
         String query = "SELECT * FROM Accounts WHERE userId = ?";
+        String queryFriends = "SELECT userId1, userId2 FROM Friends WHERE userId1 = ? OR userId2 = ?";
         Account account = null;
+
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(query);
+             PreparedStatement statementFriends = connection.prepareStatement(queryFriends)) {
+
             statement.setInt(1, userId);
-            try (ResultSet resultSet = statement.executeQuery()) {
+            statementFriends.setInt(1, userId);
+            statementFriends.setInt(2, userId);
+            try (ResultSet resultSet = statement.executeQuery();
+                 ResultSet resultSetFriends = statementFriends.executeQuery()) {
                 if (resultSet.next()) {
                     account = new Account(
                             resultSet.getInt("userId"),
@@ -77,9 +88,23 @@ public class AccountDAO {
                             resultSet.getString("lastName"),
                             resultSet.getString("password"),
                             resultSet.getString("email"),
-                            resultSet.getString("imageUrl")
+                            resultSet.getString("imageUrl"),
+                            resultSet.getString("salt")
                     );
                 }
+
+                while (resultSetFriends.next()) {
+                    int userId1 = resultSetFriends.getInt("userId1");
+                    int userId2 = resultSetFriends.getInt("userId2");
+
+                    if (userId1 != userId) {
+                        friends.add(userId1);
+                    } else {
+                        friends.add(userId2);
+                    }
+                }
+
+                account.setFriends(friends);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,7 +118,7 @@ public class AccountDAO {
      * @param account the Account object containing the updated account details.
      */
     public void updateAccount(Account account) {
-        String query = "UPDATE Accounts SET userName = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ? WHERE userId = ?";
+        String query = "UPDATE Accounts SET userName = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ? WHERE userId = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(account, statement);

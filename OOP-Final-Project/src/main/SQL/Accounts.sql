@@ -5,5 +5,7 @@ CREATE TABLE IF NOT EXISTS Accounts (
     lastName VARCHAR(50),
     password VARCHAR(255),
     email VARCHAR(100) UNIQUE,
-    imageUrl VARCHAR(255)
+    imageUrl VARCHAR(255),
+    salt VARCHAR(10),
+    CONSTRAINT chk_password_length CHECK (CHAR_LENGTH(password) >= 8)
 );
