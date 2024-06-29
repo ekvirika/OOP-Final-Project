@@ -1,0 +1,79 @@
+body {
+    font-family: "Raleway", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #1B1616;
+}
+
+* {
+    user-select: none;
+}
+
+h3{
+    color: #eda633;
+}
+
+.container {
+    background-color: #1B1616; /* Form background color */
+    padding: 40px;
+    border-radius: 8px;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    width: 1000px; /* Increased width */
+    height: 250px;
+}
+
+.container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1B1616;
+}
+
+.question {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #1B1616;
+    text-align: center; /* Center the question */
+}
+
+.answers {
+    display: flex;
+    justify-content: space-between; /* Distribute answers evenly */
+    gap: 15px;
+    margin-top: 90px;
+}
+
+.answer-btn {
+    font-size: 1.5em;
+    padding: 10px 20px;
+    /* background-color: #FC6916; Button color */
+    color: #1B1616;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Raleway', Arial, sans-serif; /* Apply Raleway font */
+    flex: 1; /* Make buttons stretch evenly */
+    text-align: center;
+}
+
+.answer-btn:hover {
+    background-color: #eda633; /* Button hover color */
+}
+
+.answer-btn[value="A"] {
+    background-color: #17A6E8; /* Custom color for button with value "A" */
+}
+
+.answer-btn[value="B"] {
+    background-color: #fe9ce3; /* Custom color for button with value "A" */
+}
+
+.answer-btn[value="C"] {
+    background-color: #fc6916; /* Custom color for button with value "A" */
+}
+
+.answer-btn[value="D"] {
+    background-color: #f5eaec; /* Custom color for button with value "A" */
+}
