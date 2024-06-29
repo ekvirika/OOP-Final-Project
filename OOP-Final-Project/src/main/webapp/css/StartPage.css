@@ -2,135 +2,92 @@ body {
   overflow: hidden;
   font-family: "Raleway", sans-serif;
   font-optical-sizing: auto;
-  margin: 0;
   padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   line-height: 1.6;
   background-color: #1B1616;
   color: #17A6E8;
   height: 100vh;
   width: 100vw;
-  width: 100%;
   margin: 0 auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 header {
-  -ms-flex-item-align: center;
-      align-self: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-self: center;
   display: flex;
   width: 90%;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  justify-content: space-between;
 }
-
 header .logo-area {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
 }
-
 header .logo-area .website-name {
   font-weight: bolder;
   font-size: 30px;
 }
-
 header .logo-area .website-name .u {
   color: #fe9ce3;
 }
-
 header .logo-area .website-name .i {
   color: #fc6916;
 }
-
 header img {
   width: 70px;
 }
-
 header ul li {
   display: inline-block;
   font-weight: bold;
   margin: 0 10px;
 }
-
 header ul li a {
   text-decoration: none;
   position: relative;
-  -webkit-transition: color 0.3s ease;
   transition: color 0.3s ease;
 }
-
 header ul li a::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   height: 2px;
   bottom: 0;
   left: 0;
   visibility: hidden;
-  -webkit-transform: scaleX(0);
-          transform: scaleX(0);
-  -webkit-transition: all 0.3s ease-in-out;
+  transform: scaleX(0);
   transition: all 0.3s ease-in-out;
 }
-
 header ul li a:hover::before {
   visibility: visible;
-  -webkit-transform: scaleX(1);
-          transform: scaleX(1);
+  transform: scaleX(1);
 }
-
 header ul li:nth-child(1) a {
   color: #17A6E8;
 }
-
 header ul li:nth-child(1) a:hover {
   color: #17A6E8;
 }
-
 header ul li:nth-child(1) a:before {
   background-color: #17A6E8;
 }
-
 header ul li:nth-child(2) a {
   color: #fe9ce3;
 }
-
 header ul li:nth-child(2) a:hover {
   color: #fe9ce3;
 }
-
 header ul li:nth-child(2) a:before {
   background-color: #fe9ce3;
 }
-
 header ul li:nth-child(3) a {
   color: #fc6916;
 }
-
 header ul li:nth-child(3) a:hover {
   color: #fc6916;
 }
-
 header ul li:nth-child(3) a:before {
   background-color: #fc6916;
 }
@@ -138,39 +95,28 @@ header ul li:nth-child(3) a:before {
 main {
   height: 100%;
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-around;
+  align-items: center;
   overflow: hidden;
 }
-
 main .text {
   width: 40%;
-  position: relative;
-  /* Ensure position is set for z-index to work */
+  position: relative; /* Ensure position is set for z-index to work */
   z-index: -1;
 }
-
 main h1 {
   font-size: 25px;
   font-weight: 300;
   font-style: normal;
   color: #f5eaec;
 }
-
 main .first {
   color: #17A6E8;
 }
-
 main .second {
   color: #fe9ce3;
 }
-
 main .third {
   color: #fc6916;
 }
@@ -183,32 +129,25 @@ main .third {
 .scene {
   width: 100%;
   height: 100%;
-  -webkit-perspective: 1000px;
-          perspective: 1000px;
-  -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
+  perspective: 1000px;
+  transform-style: preserve-3d;
 }
-
 .scene > .pivot {
   width: 0;
   height: 0;
-  -webkit-transition: .18s;
-  transition: .18s;
+  transition: 0.18s;
 }
-
 .scene .anchor {
   width: 2em;
   height: 6em;
 }
-
 .scene div {
   position: absolute;
-  -webkit-transform-style: inherit;
-          transform-style: inherit;
+  transform-style: inherit;
 }
 
 #piece4 > .element.top > .sticker {
-  background-image: URL("http://i63.tinypic.com/25hh1xu.png");
+  background-image: url("http://i63.tinypic.com/25hh1xu.png");
   background-size: cover;
 }
 
@@ -217,12 +156,10 @@ main .third {
   margin-left: -1em;
   margin-top: -1em;
 }
-
 .cube > .piece {
   width: 1.9em;
   height: 1.9em;
 }
-
 .cube > .piece > .element {
   width: 100%;
   height: 100%;
@@ -231,69 +168,47 @@ main .third {
   border: 0.05em solid #f5eaec;
   border-radius: 10%;
 }
-
 .cube > .piece > .element.left {
-  -webkit-transform: rotateX(0deg) rotateY(-90deg) rotateZ(180deg) translateZ(1em);
-          transform: rotateX(0deg) rotateY(-90deg) rotateZ(180deg) translateZ(1em);
+  transform: rotateX(0deg) rotateY(-90deg) rotateZ(180deg) translateZ(1em);
 }
-
 .cube > .piece > .element.right {
-  -webkit-transform: rotateX(0deg) rotateY(90deg) rotateZ(90deg) translateZ(1em);
-          transform: rotateX(0deg) rotateY(90deg) rotateZ(90deg) translateZ(1em);
+  transform: rotateX(0deg) rotateY(90deg) rotateZ(90deg) translateZ(1em);
 }
-
 .cube > .piece > .element.back {
-  -webkit-transform: rotateX(0deg) rotateY(180deg) rotateZ(-90deg) translateZ(1em);
-          transform: rotateX(0deg) rotateY(180deg) rotateZ(-90deg) translateZ(1em);
+  transform: rotateX(0deg) rotateY(180deg) rotateZ(-90deg) translateZ(1em);
 }
-
 .cube > .piece > .element.front {
-  -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(1em);
-          transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(1em);
+  transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(1em);
 }
-
 .cube > .piece > .element.bottom {
-  -webkit-transform: rotateX(-90deg) rotateY(0deg) rotateZ(-90deg) translateZ(1em);
-          transform: rotateX(-90deg) rotateY(0deg) rotateZ(-90deg) translateZ(1em);
+  transform: rotateX(-90deg) rotateY(0deg) rotateZ(-90deg) translateZ(1em);
 }
-
 .cube > .piece > .element.top {
-  -webkit-transform: rotateX(90deg) rotateY(0deg) rotateZ(180deg) translateZ(1em);
-          transform: rotateX(90deg) rotateY(0deg) rotateZ(180deg) translateZ(1em);
+  transform: rotateX(90deg) rotateY(0deg) rotateZ(180deg) translateZ(1em);
 }
-
 .cube > .piece > .element > .sticker {
-  -webkit-transform: translateZ(2px);
-          transform: translateZ(2px);
+  transform: translateZ(2px);
   width: 95%;
   height: 95%;
   border-radius: 10%;
   outline: 1px solid transparent;
-  -webkit-box-shadow: inset 0.05em 0.05em 0.2rem 0 rgba(255, 255, 255, 0.25), inset -0.05em -0.05em 0.2rem 0 rgba(0, 0, 0, 0.25);
-          box-shadow: inset 0.05em 0.05em 0.2rem 0 rgba(255, 255, 255, 0.25), inset -0.05em -0.05em 0.2rem 0 rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0.05em 0.05em 0.2rem 0 rgba(255, 255, 255, 0.25), inset -0.05em -0.05em 0.2rem 0 rgba(0, 0, 0, 0.25);
 }
-
 .cube > .piece > .element > .sticker.blue {
   background-color: #001ca8;
 }
-
 .cube > .piece > .element > .sticker.green {
   background-color: #fe9ce3;
 }
-
 .cube > .piece > .element > .sticker.white {
   background-color: #17A6E8;
 }
-
 .cube > .piece > .element > .sticker.yellow {
   background-color: #E0AE00;
 }
-
 .cube > .piece > .element > .sticker.orange {
   background-color: #fc6916;
 }
-
 .cube > .piece > .element > .sticker.red {
   background-color: #DF0500;
-}
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */
