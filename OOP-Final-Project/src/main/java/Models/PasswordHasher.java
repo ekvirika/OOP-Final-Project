@@ -57,8 +57,8 @@ public class PasswordHasher {
      * @return true if the hashed new password matches the stored hashed password, false otherwise.
      * @throws NoSuchAlgorithmException if the SHA-256 algorithm is not available.
      */
-    public boolean isCorrectPassword(String newPassword, String hashedPassword) throws NoSuchAlgorithmException {
-        String newHashed = hash(newPassword, generateSalt());
+    public boolean isCorrectPassword(String newPassword, String salt,String hashedPassword) throws NoSuchAlgorithmException {
+        String newHashed = hash(newPassword, salt);
         return hashedPassword.equals(newHashed);
     }
 
