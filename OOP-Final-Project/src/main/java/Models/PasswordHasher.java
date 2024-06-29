@@ -30,23 +30,11 @@ public class PasswordHasher {
      * @return a Base64 encoded string representation of the hashed password.
      * @throws NoSuchAlgorithmException if the SHA-256 algorithm is not available.
      */
-    private static String hash(String password, String salt) throws NoSuchAlgorithmException {
+    public static String hash(String password, String salt) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(salt.getBytes());
         byte[] hashed = md.digest(password.getBytes());
         return Base64.getEncoder().encodeToString(hashed);
-    }
-
-    /**
-     * Generates a hashed password with a new salt.
-     *
-     * @param password the password to hash.
-     * @return the hashed password with the generated salt.
-     * @throws NoSuchAlgorithmException if the SHA-256 algorithm is not available.
-     */
-    public String hashedPassword(String password) throws NoSuchAlgorithmException {
-        String salt = generateSalt();
-        return hash(password, salt);
     }
 
     /**
@@ -57,7 +45,7 @@ public class PasswordHasher {
      * @return true if the hashed new password matches the stored hashed password, false otherwise.
      * @throws NoSuchAlgorithmException if the SHA-256 algorithm is not available.
      */
-    public boolean isCorrectPassword(String newPassword, String salt,String hashedPassword) throws NoSuchAlgorithmException {
+    public static boolean isCorrectPassword(String newPassword, String salt,String hashedPassword) throws NoSuchAlgorithmException {
         String newHashed = hash(newPassword, salt);
         return hashedPassword.equals(newHashed);
     }
