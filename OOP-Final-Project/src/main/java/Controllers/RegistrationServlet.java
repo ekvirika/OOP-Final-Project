@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 @WebServlet(name = "Registration", urlPatterns = {"/RegistrationServlet"})
 public class RegistrationServlet extends HttpServlet{
@@ -27,12 +28,16 @@ public class RegistrationServlet extends HttpServlet{
         Account account = new Account(username, name, lastName, password, email, "", "");
         httpRequest.setAttribute("first-name", name);
         httpRequest.setAttribute("last-name", lastName);
-        if (accountManager.successfulLogin(username, password)) {
-            RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("HomePage.jsp");
-            requestDispatcher.forward(httpRequest, httpResponse);
-        } else {
-            RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("RegisterTryAgain.jsp");
-            requestDispatcher.forward(httpRequest, httpResponse);
+        try {
+            if (accountManager.successfulLogin(username, password)) {
+                RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("HomePage.jsp");
+                requestDispatcher.forward(httpRequest, httpResponse);
+            } else {
+                RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("RegisterTryAgain.jsp");
+                requestDispatcher.forward(httpRequest, httpResponse);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
     }
 }
