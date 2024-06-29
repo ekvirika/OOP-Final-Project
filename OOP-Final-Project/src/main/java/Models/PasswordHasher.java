@@ -9,7 +9,7 @@ public class PasswordHasher {
 
     public static  String generateSalt(){
         SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
+        byte[] salt = new byte[10];
         random.nextBytes(salt);
         return Base64.getEncoder().encodeToString(salt);
     }
@@ -23,7 +23,12 @@ public class PasswordHasher {
 
     public  String hashedPassword(String password) throws NoSuchAlgorithmException {
         String salt = generateSalt();
-        String hashed = hash(password,salt);
-        return salt + " : " + hashed;
+        return hash(password, salt);
     }
+
+    public boolean isCorrectPassword(String newPassword, String hashedPassword) throws NoSuchAlgorithmException {
+        String newHashed = hash(newPassword, generateSalt());
+        return hashedPassword.equals(newHashed);
+    }
+
 }
