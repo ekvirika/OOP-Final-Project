@@ -6,22 +6,21 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import java.sql.SQLException;
 
 public class FriendRequest {
-    private int FriendIdFrom;
-    private int FriendIdTo;
+    private String FriendIdFrom;
+    private String FriendIdTo;
     private boolean FriendToStatus;
 
-    public FriendRequest(int friendIdFrom, int friendIdTo) throws SQLException {
+    public FriendRequest(String friendIdFrom, String friendIdTo) throws SQLException {
         this.FriendIdFrom = friendIdFrom;
         this.FriendIdTo = friendIdTo;
         this.FriendToStatus = false;
-        sendFriendRequest();
     }
 
-    public int getFriendIdFrom() {
+    public String getFriendIdFrom() {
         return FriendIdFrom;
     }
 
-    public int getFriendIdTo() {
+    public String getFriendIdTo() {
         return FriendIdTo;
     }
 
@@ -29,18 +28,18 @@ public class FriendRequest {
         return FriendToStatus;
     }
 
-    public void setFriendToStatus(boolean friendToStatus) {
+    public void setFriendToStatus(boolean friendToStatus, BasicDataSource dataSource) throws SQLException {
         FriendToStatus = friendToStatus;
+        String status = friendToStatus ? "accepted" : "pending";
+        updateFriendshipStatus(status, dataSource);
     }
 
-    public void sendFriendRequest() throws SQLException {
-        BasicDataSource dataSource = new BasicDataSource();
+    public void sendFriendRequest(BasicDataSource dataSource) throws SQLException {
         FriendsDAO friendsDAO = new FriendsDAO(dataSource);
         friendsDAO.addFriendship(this);
     }
 
-    public void updateFriendshipStatus(String status) throws SQLException {
-        BasicDataSource dataSource = new BasicDataSource();
+    private void updateFriendshipStatus(String status, BasicDataSource dataSource) throws SQLException {
         FriendsDAO friendsDAO = new FriendsDAO(dataSource);
         friendsDAO.updateFriendshipStatus(FriendIdFrom, FriendIdTo, status);
     }
