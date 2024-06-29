@@ -1,31 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const cube = document.getElementById('cube');
+	const cube = document.getElementById('cube');
 
-    // Function to create a piece element with all necessary elements
-    function createPiece() {
-        const piece = document.createElement('div');
-        piece.classList.add('piece');
+	// Function to create a piece element with all necessary elements
+	function createPiece() {
+		const piece = document.createElement('div');
+		piece.classList.add('piece');
 
-        const faces = ['left', 'right', 'top', 'bottom', 'back', 'front'];
-        faces.forEach(face => {
-            const element = document.createElement('div');
-            element.classList.add('element', face);
-            piece.appendChild(element);
-        });
+		const faces = ['left', 'right', 'top', 'bottom', 'back', 'front'];
+		faces.forEach(face => {
+			const element = document.createElement('div');
+			element.classList.add('element', face);
+			piece.appendChild(element);
+		});
 
-        return piece;
-    }
+		return piece;
+	}
 
-    // Create 27 pieces (adjust the number as needed for a complete Rubik's Cube)
-    for (let i = 0; i < 27; i++) {
-        const piece = createPiece();
-        cube.appendChild(piece);
-    }
+	// Create 27 pieces (adjust the number as needed for a complete Rubik's Cube)
+	for (let i = 0; i < 27; i++) {
+		const piece = createPiece();
+		cube.appendChild(piece);
+	}
 });
 
 
 var colors = ['blue', 'green', 'white', 'yellow', 'orange', 'red'],
-		pieces = document.getElementsByClassName('piece');
+	pieces = document.getElementsByClassName('piece');
 
 // Returns j-th adjacent face of i-th face
 function mx(i, j) {
@@ -61,14 +61,14 @@ function getPieceBy(face, index, corner) {
 function swapPieces(face, times) {
 	for (var i = 0; i < 6 * times; i++) {
 		var piece1 = getPieceBy(face, i / 2, i % 2),
-				piece2 = getPieceBy(face, i / 2 + 1, i % 2);
+			piece2 = getPieceBy(face, i / 2 + 1, i % 2);
 		for (var j = 0; j < 5; j++) {
 			var sticker1 = piece1.children[j < 4 ? mx(face, j) : face].firstChild,
-					sticker2 = piece2.children[j < 4 ? mx(face, j + 1) : face].firstChild,
-					className = sticker1 ? sticker1.className : '';
+				sticker2 = piece2.children[j < 4 ? mx(face, j + 1) : face].firstChild,
+				className = sticker1 ? sticker1.className : '';
 			if (className)
 				sticker1.className = sticker2.className,
-				sticker2.className = className;
+					sticker2.className = className;
 		}
 	}
 }
@@ -76,12 +76,12 @@ function swapPieces(face, times) {
 // Animates rotation of the face (by clockwise if cw), and then swaps stickers
 function animateRotation(face, cw, currentTime) {
 	var k = .3 * (face % 2 * 2 - 1) * (2 * cw - 1),
-			qubes = Array(9).fill(pieces[face]).map(function (value, index) {
-				return index ? getPieceBy(face, index / 2, index % 2) : value;
-			});
+		qubes = Array(9).fill(pieces[face]).map(function (value, index) {
+			return index ? getPieceBy(face, index / 2, index % 2) : value;
+		});
 	(function rotatePieces() {
 		var passed = Date.now() - currentTime,
-				style = 'rotate' + getAxis(face) + '(' + k * passed * (passed < 300) + 'deg)';
+			style = 'rotate' + getAxis(face) + '(' + k * passed * (passed < 300) + 'deg)';
 		qubes.forEach(function (piece) {
 			piece.style.transform = piece.style.transform.replace(/rotate.\(\S+\)/, style);
 		});
@@ -94,8 +94,8 @@ function animateRotation(face, cw, currentTime) {
 // Events
 function mousedown(md_e) {
 	var startXY = pivot.style.transform.match(/-?\d+\.?\d*/g).map(Number),
-			element = md_e.target.closest('.element'),
-			face = [].indexOf.call((element || cube).parentNode.children, element);
+		element = md_e.target.closest('.element'),
+		face = [].indexOf.call((element || cube).parentNode.children, element);
 	function mousemove(mm_e) {
 		if (element) {
 			var gid = /\d/.exec(document.elementFromPoint(mm_e.pageX, mm_e.pageY).id);

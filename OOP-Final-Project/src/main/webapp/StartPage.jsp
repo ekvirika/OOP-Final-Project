@@ -60,6 +60,7 @@
         </div>
     </div>
 </main>
-<script src="script.js"></script>
+<script src="./javascript/StartPage.js"></script>
+
 </body>
 </html>
