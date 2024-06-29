@@ -18,7 +18,7 @@ public class Account {
     private String password;
     private String email;
     private String imageUrl;
-    private List<Integer> friends;
+    private List<String> friends;
 
     /**
      * Constructs a new Account object with the specified user details.
@@ -186,11 +186,11 @@ public class Account {
         this.imageUrl = imageUrl;
     }
 
-    public List<Integer> getFriends() {
+    public List<String> getFriends() {
         return Collections.unmodifiableList(friends);
     }
 
-    public void setFriends(List<Integer> friends) {
+    public void setFriends(List<String> friends) {
         this.friends = friends;
     }
 
