@@ -8,7 +8,6 @@ import java.util.List;
  * Represents a user account with basic information such as user ID, username, first name, last name,
  * password, email, and profile image URL.
  */
-
 public class Account {
     private String salt;
     private final int userId;
@@ -30,6 +29,7 @@ public class Account {
      * @param password  the user's password
      * @param email     the user's email address
      * @param imageUrl  the URL of the user's profile image
+     * @param salt      the salt used for password hashing
      */
     public Account(int userId, String userName, String firstName, String lastName,
                    String password, String email, String imageUrl, String salt) {
@@ -44,7 +44,6 @@ public class Account {
         this.salt = salt;
     }
 
-
     /**
      * Constructs a new Account object with the specified user details.
      *
@@ -54,6 +53,7 @@ public class Account {
      * @param password  the user's password
      * @param email     the user's email address
      * @param imageUrl  the URL of the user's profile image
+     * @param salt      the salt used for password hashing
      */
     public Account(String userName, String firstName, String lastName,
                    String password, String email, String imageUrl, String salt) {
@@ -67,7 +67,6 @@ public class Account {
         this.friends = new ArrayList<>();
         this.salt = salt;
     }
-
 
     /**
      * Retrieves the user ID of the account.
@@ -186,21 +185,59 @@ public class Account {
         this.imageUrl = imageUrl;
     }
 
+    /**
+     * Retrieves the list of friends associated with the account.
+     *
+     * @return the list of friends
+     */
     public List<String> getFriends() {
         return Collections.unmodifiableList(friends);
     }
 
+    /**
+     * Sets the list of friends associated with the account.
+     *
+     * @param friends the new list of friends to set
+     */
     public void setFriends(List<String> friends) {
         this.friends = friends;
     }
 
+    /**
+     * Retrieves the salt used for password hashing.
+     *
+     * @return the salt
+     */
     public String getSalt() {
         return salt;
     }
 
+    /**
+     * Sets the salt used for password hashing.
+     *
+     * @param salt the new salt to set
+     */
     public void setSalt(String salt) {
         this.salt = salt;
     }
 
-
+    /**
+     * Returns a string representation of the Account object.
+     *
+     * @return a string representation of the Account object
+     */
+    @Override
+    public String toString() {
+        return "Account{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", friends=" + friends +
+                ", salt=" + salt +
+                ", password=" + password +
+                '}';
+    }
 }

@@ -85,7 +85,7 @@ public class AccountDAO {
                             resultSet.getString("imageUrl"),
                             resultSet.getString("salt")
                     );
-                }
+                } else return null;
 
                 while (resultSetFriends.next()) {
                     String userName1 = resultSetFriends.getString("userName1");

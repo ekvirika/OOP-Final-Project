@@ -5,7 +5,6 @@ import Models.Account;
 import Models.PasswordHasher;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 
 /**
  * The AccountManager class manages user accounts, allowing for the creation of new users and
@@ -30,12 +29,8 @@ public class AccountManager {
      * @param account new account
      * @return true if the account was successfully created, false if the username already exists
      */
-    public boolean createNewUser(Account account) {
-        if (accountExists(account.getUserName())) {
-            return false;
-        }
+    public void createNewUser(Account account) {
         accountDAO.createAccount(account);
-        return true;
     }
 
     /**
@@ -57,9 +52,7 @@ public class AccountManager {
      */
     public boolean successfulLogin(String username, String password) throws NoSuchAlgorithmException {
         Account account = accountDAO.readAccount(username);
-        if (account == null) {
-            return false;
-        }
+        System.out.println(account.toString());
         String newPassword = PasswordHasher.hash(password, account.getSalt());
         System.out.println(newPassword + ": " + account.getPassword());
         return PasswordHasher.isCorrectPassword(newPassword, account.getSalt(), account.getPassword());

@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.Account;
 import Models.Managers.AccountManager;
+import Models.PasswordHasher;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,14 +22,21 @@ public class RegistrationServlet extends HttpServlet{
         AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
         String username = httpRequest.getParameter("username");
         String password = httpRequest.getParameter("password");
+        String salt = PasswordHasher.generateSalt();
+        try {
+            password = PasswordHasher.hash(password, salt);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
         String email = httpRequest.getParameter("email");
-        String name = httpRequest.getParameter("first-name");
-        String lastName = httpRequest.getParameter("last-name");
+        String name = httpRequest.getParameter("first_name");
+        String lastName = httpRequest.getParameter("last_name");
 
-        Account account = new Account(username, name, lastName, password, email, "", "");
+        Account account = new Account(username, name, lastName, password, email, "", salt);
         httpRequest.setAttribute("first-name", name);
         httpRequest.setAttribute("last-name", lastName);
         if (!accountManager.accountExists(username)) {
+            System.out.println(account);
             accountManager.createNewUser(account);
             RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("HomePage.jsp");
             requestDispatcher.forward(httpRequest, httpResponse);
