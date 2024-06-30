@@ -3,6 +3,7 @@ package DAO;
 import Models.Account;
 import Models.PasswordHasher;
 import org.apache.commons.dbcp2.BasicDataSource;
+
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,11 +39,8 @@ public class AccountDAO {
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             setStatement(account, statement);
-            String salt = PasswordHasher.generateSalt();
-            statement.setString(4, PasswordHasher.hash(account.getPassword(),salt));
-            statement.setString(7, salt);
             statement.executeUpdate();
-        } catch (SQLException | NoSuchAlgorithmException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
