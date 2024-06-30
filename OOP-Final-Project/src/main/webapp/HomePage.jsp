@@ -2,7 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Models.Account" %>
 <%@ page import="Models.LeaderboardEntry" %>
 <%@ page import="Models.Quiz" %>
 <!DOCTYPE html>
@@ -44,11 +43,11 @@
         <h2>Leaderboard</h2>
         <table>
             <thead>
-            <tr>
-                <th>Rank</th>
-                <th>User</th>
-                <th>Score</th>
-            </tr>
+                <tr>
+                    <th>Rank</th>
+                    <th>User</th>
+                    <th>Score</th>
+                </tr>
             </thead>
             <tbody>
             <% List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) request.getAttribute("leaderboard");
@@ -78,7 +77,6 @@
     </section>
 </div>
 
-<!-- Footer -->
 <footer>
     <p>&copy; 2024 Quiz Website. All rights reserved.</p>
 </footer>
