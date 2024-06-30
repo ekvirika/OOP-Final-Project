@@ -12,10 +12,10 @@
     <div class="container">
         <div class="question"><h3>What is the capital of France?</h3></div>
         <ul class="answers">
-            <button class="answer-btn" value="A">London</button>
-            <button class="answer-btn" value="B">Berlin</button>
-            <button class="answer-btn" value="C">Paris</button>
-            <button class="answer-btn" value="D">Madrid</button>
+            <button class="answer-btn" value="A">A. London</button>
+            <button class="answer-btn" value="B">B. Berlin</button>
+            <button class="answer-btn" value="C">C. Paris</button>
+            <button class="answer-btn" value="D">D. Madrid</button>
         </ul>
     </div>
 </body>
