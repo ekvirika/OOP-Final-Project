@@ -9,13 +9,15 @@
     <link rel="stylesheet" href="./css/Registration.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
 </head>
 <body>
 <div class="container">
     <h2>Register</h2>
     <form action="/RegistrationServlet" method="post">
-        <h2>User already exists with this username, please pick another username. </h2>
+        <h2>User already exists with this username <span class="exists"><%=request.getAttribute("username")%></span>,
+            please pick another username. </h2>
         <div class="form-group">
             <label for="first-name">First Name</label>
             <input type="text" id="first-name" name="first_name" required>

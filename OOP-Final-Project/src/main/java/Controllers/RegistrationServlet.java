@@ -33,15 +33,16 @@ public class RegistrationServlet extends HttpServlet{
         String lastName = httpRequest.getParameter("last_name");
 
         Account account = new Account(username, name, lastName, password, email, "", salt);
-        httpRequest.setAttribute("first-name", name);
-        httpRequest.setAttribute("last-name", lastName);
+        httpRequest.setAttribute("first_name", name);
+        httpRequest.setAttribute("last_name", lastName);
+        httpRequest.setAttribute("username", username);
         if (!accountManager.accountExists(username)) {
             System.out.println(account);
             accountManager.createNewUser(account);
             RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("HomePage.jsp");
             requestDispatcher.forward(httpRequest, httpResponse);
         } else {
-            RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("RegistrationTryAgain.jsp");
+            RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("RegisterTryAgain.jsp");
             requestDispatcher.forward(httpRequest, httpResponse);
         }
     }
