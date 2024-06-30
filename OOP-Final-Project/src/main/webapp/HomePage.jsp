@@ -1,58 +1,82 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
+<%@ page import="java.util.List" %>
+<%@ page import="Models.Account" %>
+<%@ page import="Models.LeaderboardEntry" %>
+<%@ page import="Models.Quiz" %>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Quiz Website</title>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
     <link rel="stylesheet" type="text/css" href="./css/HomePage.css">
+    <link rel="stylesheet" href="./css/StartPage.css">
+    <link rel="stylesheet" href="./css/NavBar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
 </head>
 <body>
 <!-- Navigation Bar -->
-<nav>
-    <ul>
-        <li><a href="Profile.jsp">Profile</a></li>
-        <li><a href="/">Logout</a></li>
-    </ul>
-</nav>
-
-<!-- Welcome Message -->
-<header>
-    <h1>Welcome to the Quiz Website!</h1>
+<header class="animate__animated animate__fadeInDown">
+    <div class="logo-area">
+        <img src="./assets/Logo.png" alt="Logo">
+        <span class="website-name">Q<span class="u">u</span><span class="i">i</span>zzz</span>
+    </div>
+    <div class="nav-bar">
+        <ul>
+            <li><a href="/HomePageServlet">Quizzies</a></li>
+            <li><a href="/ProfileServlet">Profile</a></li>
+            <li><a href="/">Logout</a></li>
+        </ul>
+    </div>
 </header>
 
-<!-- Leaderboard -->
-<section>
-    <h2>Leaderboard</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>Rank</th>
-            <th>User</th>
-            <th>Score</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="user" items="${leaderboard}">
+<div class="container">
+    <h1>Welcome to the Quizzz.com, <%= request.getAttribute("username") %>!</h1>
+    <!-- Leaderboard -->
+    <section>
+        <h2>Leaderboard</h2>
+        <table>
+            <thead>
             <tr>
-                <td>${user.rank}</td>
-                <td>${user.username}</td>
-                <td>${user.score}</td>
+                <th>Rank</th>
+                <th>User</th>
+                <th>Score</th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-</section>
+            </thead>
+            <tbody>
+            <% List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) request.getAttribute("leaderboard");
+                for (LeaderboardEntry user : leaderboard) { %>
+            <tr>
+                <td><%= user.getRank() %></td>
+                <td><%= user.getUsername() %></td>
+                <td><%= user.getScore() %></td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </section>
 
-<!-- New Quizzes -->
-<section>
-    <h2>New Quizzes</h2>
-    <ul>
-        <c:forEach var="quiz" items="${newQuizzes}">
+    <!-- New Quizzes -->
+    <section>
+        <h2>New Quizzes</h2>
+        <ul>
+            <% List<Quiz> newQuizzes = (List<Quiz>) request.getAttribute("newQuizzes");
+                for (Quiz quiz : newQuizzes) { %>
             <li>
-                <a href="quiz.jsp?id=${quiz.id}">${quiz.title}</a>
+                <a href="quiz.jsp?id=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %></a>
             </li>
-        </c:forEach>
-    </ul>
-</section>
+            <% } %>
+        </ul>
+
+    </section>
+</div>
 
 <!-- Footer -->
 <footer>

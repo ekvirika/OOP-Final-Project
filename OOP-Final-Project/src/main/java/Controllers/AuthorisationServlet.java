@@ -11,26 +11,25 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-@WebServlet(name = "Authorisation", urlPatterns = {"/AuthorisationServlet"})
+@WebServlet(name = "AuthorisationServlet", urlPatterns = {"/AuthorisationServlet"})
 public class AuthorisationServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
-        String username = httpRequest.getParameter("username");
-        String password = httpRequest.getParameter("password");
-        httpRequest.setAttribute("username", username);
 
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        request.setAttribute("username", username);
         try {
             if (accountManager.successfulLogin(username, password)) {
-                RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("HomePage.jsp");
-                requestDispatcher.forward(httpRequest, httpResponse);
+                request.getSession().setAttribute("username", username);
+                response.sendRedirect(request.getContextPath() + "/HomePageServlet");
             } else {
-                RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("AuthorisationTryAgain.jsp");
-                requestDispatcher.forward(httpRequest, httpResponse);
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("AuthorisationTryAgain.jsp");
+                requestDispatcher.forward(request, response);
             }
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

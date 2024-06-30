@@ -1,0 +1,92 @@
+*{
+    user-select: none;
+}
+
+.submit{
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #17A6E8;
+    border: none;
+}
+
+.submit:hover{
+    padding: 10px;
+    transition: .3s linear;
+    background-color: #dc5103;
+}
+
+body {
+    font-family: "Raleway", sans-serif;
+    overflow: hidden;
+    font-optical-sizing: auto;
+    background-color: #1B1616;
+    color: #17A6E8;
+    height: 100vh;
+    width: 100vw;
+    background-image: url("data:image/svg+xml,%0A%3Csvg id='visual' viewBox='0 0 1920 1080' width='1920' height='1080' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1'%3E%3Crect x='0' y='0' width='1920' height='1080' fill='%231B1616'%3E%3C/rect%3E%3Cpath d='M0 813L45.7 810.3C91.3 807.7 182.7 802.3 274.2 800.8C365.7 799.3 457.3 801.7 548.8 797C640.3 792.3 731.7 780.7 823 773.5C914.3 766.3 1005.7 763.7 1097 769.3C1188.3 775 1279.7 789 1371.2 795.3C1462.7 801.7 1554.3 800.3 1645.8 799.3C1737.3 798.3 1828.7 797.7 1874.3 797.3L1920 797L1920 1081L1874.3 1081C1828.7 1081 1737.3 1081 1645.8 1081C1554.3 1081 1462.7 1081 1371.2 1081C1279.7 1081 1188.3 1081 1097 1081C1005.7 1081 914.3 1081 823 1081C731.7 1081 640.3 1081 548.8 1081C457.3 1081 365.7 1081 274.2 1081C182.7 1081 91.3 1081 45.7 1081L0 1081Z' fill='%2317a6e8'%3E%3C/path%3E%3Cpath d='M0 879L45.7 880.7C91.3 882.3 182.7 885.7 274.2 886.2C365.7 886.7 457.3 884.3 548.8 881.2C640.3 878 731.7 874 823 872.7C914.3 871.3 1005.7 872.7 1097 873.2C1188.3 873.7 1279.7 873.3 1371.2 877.3C1462.7 881.3 1554.3 889.7 1645.8 886.8C1737.3 884 1828.7 870 1874.3 863L1920 856L1920 1081L1874.3 1081C1828.7 1081 1737.3 1081 1645.8 1081C1554.3 1081 1462.7 1081 1371.2 1081C1279.7 1081 1188.3 1081 1097 1081C1005.7 1081 914.3 1081 823 1081C731.7 1081 640.3 1081 548.8 1081C457.3 1081 365.7 1081 274.2 1081C182.7 1081 91.3 1081 45.7 1081L0 1081Z' fill='%23d363c1'%3E%3C/path%3E%3Cpath d='M0 962L45.7 961.2C91.3 960.3 182.7 958.7 274.2 959.3C365.7 960 457.3 963 548.8 966.2C640.3 969.3 731.7 972.7 823 975.2C914.3 977.7 1005.7 979.3 1097 980.7C1188.3 982 1279.7 983 1371.2 979.7C1462.7 976.3 1554.3 968.7 1645.8 963C1737.3 957.3 1828.7 953.7 1874.3 951.8L1920 950L1920 1081L1874.3 1081C1828.7 1081 1737.3 1081 1645.8 1081C1554.3 1081 1462.7 1081 1371.2 1081C1279.7 1081 1188.3 1081 1097 1081C1005.7 1081 914.3 1081 823 1081C731.7 1081 640.3 1081 548.8 1081C457.3 1081 365.7 1081 274.2 1081C182.7 1081 91.3 1081 45.7 1081L0 1081Z' fill='%23dc5103'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+
+
+.container {
+    width: 40%;
+    margin: 0 auto;
+    background-color: #EEEDE5; /* Container background color */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #1B1616; /* Adjusted text color */
+    text-align: center;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+.profile-info {
+    margin-bottom: 20px;
+    text-align: left; /* Align text left */
+    padding-left: 20px; /* Add padding for text alignment */
+}
+.profile-info h2 {
+    color: #FC6916; /* Header color */
+    margin-bottom: 10px;
+}
+.profile-info p {
+    margin: 5px 0;
+}
+.achievements {
+    margin-bottom: 20px;
+}
+.achievements h3 {
+    color: #FC6916; /* Header color */
+    margin-bottom: 10px;
+}
+.quizzes {
+    margin-bottom: 20px;
+}
+.quizzes h3 {
+    color: #FC6916; /* Header color */
+    margin-bottom: 10px;
+}
+.friends {
+    margin-bottom: 20px;
+}
+.friends h3 {
+    color: #FC6916; /* Header color */
+    margin-bottom: 10px;
+}
+.friends ul {
+    list-style-type: none;
+    padding: 0;
+}
+.friends ul li {
+    margin-bottom: 5px;
+}
+

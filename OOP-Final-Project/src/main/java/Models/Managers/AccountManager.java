@@ -2,9 +2,13 @@ package Models.Managers;
 
 import DAO.AccountDAO;
 import Models.Account;
+import Models.LeaderboardEntry;
 import Models.PasswordHasher;
+import Models.Quiz;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The AccountManager class manages user accounts, allowing for the creation of new users and
@@ -56,5 +60,33 @@ public class AccountManager {
             System.out.println(account.toString());
             return PasswordHasher.isCorrectPassword(password, account.getSalt(), account.getPassword());
         } else return false;
+    }
+
+
+    /**
+     * Retrieves an account based on the username.
+     *
+     * @param username the username of the account
+     * @return the account corresponding to the given username, or null if no such account exists
+     */
+    public Account getAccount(String username) {
+        return accountDAO.readAccount(username);
+    }
+
+    /**
+     * Updates an account based on the username.
+     *
+     * @param account  the account
+     */
+    public void updateAccount(Account account) {
+        accountDAO.updateAccount(account);
+    }
+
+    public List<LeaderboardEntry> getLeaderboard() {
+        return new ArrayList<>();
+    }
+
+    public List<Quiz> getNewQuizzes() {
+        return new ArrayList<>();
     }
 }

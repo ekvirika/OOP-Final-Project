@@ -14,6 +14,7 @@
     <title>Quiz</title>
     <link rel="icon" href="./assets/Logo.png">
     <link rel="stylesheet" href="./css/StartPage.css">
+    <link rel="stylesheet" href="./css/NavBar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
