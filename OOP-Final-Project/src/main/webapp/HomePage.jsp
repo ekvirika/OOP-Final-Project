@@ -9,8 +9,8 @@
 <!-- Navigation Bar -->
 <nav>
     <ul>
-        <li><a href="profile.jsp">Profile</a></li>
-        <li><a href="logout.jsp">Logout</a></li>
+        <li><a href="Profile.jsp">Profile</a></li>
+        <li><a href="/">Logout</a></li>
     </ul>
 </nav>
 

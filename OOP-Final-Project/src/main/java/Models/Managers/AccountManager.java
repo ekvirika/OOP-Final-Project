@@ -51,10 +51,10 @@ public class AccountManager {
      * @return true if the username exists and the password matches, false otherwise
      */
     public boolean successfulLogin(String username, String password) throws NoSuchAlgorithmException {
-        Account account = accountDAO.readAccount(username);
-        System.out.println(account.toString());
-        String newPassword = PasswordHasher.hash(password, account.getSalt());
-        System.out.println(newPassword + ": " + account.getPassword());
-        return PasswordHasher.isCorrectPassword(newPassword, account.getSalt(), account.getPassword());
+        if(accountExists(username)){
+            Account account = accountDAO.readAccount(username);
+            System.out.println(account.toString());
+            return PasswordHasher.isCorrectPassword(password, account.getSalt(), account.getPassword());
+        } else return false;
     }
 }
