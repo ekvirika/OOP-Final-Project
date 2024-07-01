@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class QuizHistory {
 
     private int quizId;
-    private int userId;
+    private String username;
     private int quizScore;
     private Time startTime;
     private Time endTime;
@@ -23,10 +23,10 @@ public class QuizHistory {
      * @param quizId the ID of the quiz
      * @param userId the ID of the user who attempted the quiz
      */
-    public QuizHistory(int quizId, int userId) {
+    public QuizHistory(int quizId, String username) {
         this.quizId = quizId;
-        this.userId = userId;
-        this.quizScore = 0; // Initialize quiz score to 0
+        this.username = username;
+        this.quizScore = 0;
         this.startTime = null;
         this.endTime = null;
         this.elapsedTime = 0;
@@ -55,8 +55,8 @@ public class QuizHistory {
      *
      * @return the ID of the user
      */
-    public int getUserId() {
-        return userId;
+    public String getUsermame() {
+        return username;
     }
 
     /**
@@ -64,8 +64,8 @@ public class QuizHistory {
      *
      * @param userId the ID of the user
      */
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserId(String username) {
+        this.username = username;
     }
 
     /**
