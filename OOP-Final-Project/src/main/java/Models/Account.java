@@ -10,7 +10,6 @@ import java.util.List;
  */
 public class Account {
     private String salt;
-    private final int userId;
     private String userName;
     private String firstName;
     private String lastName;
@@ -33,7 +32,6 @@ public class Account {
      */
     public Account(String userName, String firstName, String lastName,
                    String password, String email, String imageUrl, String salt) {
-        this.userId = -1;
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,15 +40,6 @@ public class Account {
         this.imageUrl = imageUrl;
         this.friends = new ArrayList<>();
         this.salt = salt;
-    }
-
-    /**
-     * Retrieves the user ID of the account.
-     *
-     * @return the user ID
-     */
-    public int getUserId() {
-        return userId;
     }
 
     /**
@@ -205,7 +194,6 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "userId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

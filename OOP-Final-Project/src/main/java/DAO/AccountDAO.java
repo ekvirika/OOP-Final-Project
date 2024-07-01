@@ -74,7 +74,6 @@ public class AccountDAO {
                  ResultSet resultSetFriends = statementFriends.executeQuery()) {
                 if (resultSet.next()) {
                     account = new Account(
-                            resultSet.getInt("userId"),
                             resultSet.getString("userName"),
                             resultSet.getString("firstName"),
                             resultSet.getString("lastName"),
@@ -105,11 +104,11 @@ public class AccountDAO {
 
 
     public void updateAccount(Account account) {
-        String query = "UPDATE Accounts SET userName = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ? WHERE userId = ?";
+        String query = "UPDATE Accounts SET userName = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ? WHERE userName = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(account, statement);
-            statement.setInt(7, account.getUserId());
+            statement.setString(7, account.getUserName());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
