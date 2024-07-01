@@ -1,6 +1,8 @@
 package Models;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Represents a quiz entity, containing details such as quiz ID, creator ID, name, description,
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 public class Quiz {
 
     private final int quizID;
-    private Integer creatorId;
+    private String username;
     private String quizName;
     private String quizDescription;
     private int quizScore;
@@ -17,6 +19,7 @@ public class Quiz {
     private boolean isSinglePage;
     private boolean randomizeQuestions;
     private boolean immediateFeedback;
+    private Timestamp createTime;
 
     /**
      * Constructs a new Quiz instance with the specified quiz ID.
@@ -25,6 +28,7 @@ public class Quiz {
      */
     public Quiz(int quizID) {
         this.quizID = quizID;
+        this.questionIds = new ArrayList<>();
     }
 
     /**
@@ -37,21 +41,21 @@ public class Quiz {
     }
 
     /**
-     * Retrieves the ID of the creator of the quiz.
+     * Retrieves the username of the creator of the quiz.
      *
-     * @return the creator ID of the quiz
+     * @return the username of the creator of the quiz
      */
-    public Integer getCreatorId() {
-        return creatorId;
+    public String getCreatorUsername() {
+        return username;
     }
 
     /**
-     * Sets the ID of the creator of the quiz.
+     * Sets the username of the creator of the quiz.
      *
-     * @param creatorId the creator ID of the quiz
+     * @param username the username of the creator of the quiz
      */
-    public void setCreatorId(Integer creatorId) {
-        this.creatorId = creatorId;
+    public void setCreatorUsername(String username) {
+        this.username = username;
     }
 
     /**
@@ -109,6 +113,22 @@ public class Quiz {
     }
 
     /**
+     * Increments the score of the quiz by a specified amount.
+     *
+     * @param increment the amount to increment the score by
+     */
+    public void incrementQuizScore(int increment) {
+        this.quizScore += increment;
+    }
+
+    /**
+     * Resets the score of the quiz to zero.
+     */
+    public void resetQuizScore() {
+        this.quizScore = 0;
+    }
+
+    /**
      * Retrieves the list of question IDs associated with the quiz.
      *
      * @return the list of question IDs
@@ -126,6 +146,23 @@ public class Quiz {
         this.questionIds = questionIds;
     }
 
+    /**
+     * Adds a question ID to the quiz.
+     *
+     * @param questionId the ID of the question to add
+     */
+    public void addQuestionId(int questionId) {
+        this.questionIds.add(questionId);
+    }
+
+    /**
+     * Removes a question ID from the quiz.
+     *
+     * @param questionId the ID of the question to remove
+     */
+    public void removeQuestionId(int questionId) {
+        this.questionIds.remove(Integer.valueOf(questionId));
+    }
 
     /**
      * Checks if the quiz is displayed on a single page.
@@ -179,5 +216,52 @@ public class Quiz {
      */
     public void setImmediateFeedback(boolean immediateFeedback) {
         this.immediateFeedback = immediateFeedback;
+    }
+
+    /**
+     * Retrieves the creation time of the quiz.
+     *
+     * @return the creation time of the quiz
+     */
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * Sets the creation time of the quiz.
+     *
+     * @param createTime the creation time of the quiz
+     */
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Quiz quiz = (Quiz) o;
+        return quizID == quiz.quizID;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(quizID);
+    }
+
+    @Override
+    public String toString() {
+        return "Quiz{" +
+                "quizID=" + quizID +
+                ", username='" + username + '\'' +
+                ", quizName='" + quizName + '\'' +
+                ", quizDescription='" + quizDescription + '\'' +
+                ", quizScore=" + quizScore +
+                ", questionIds=" + questionIds +
+                ", isSinglePage=" + isSinglePage +
+                ", randomizeQuestions=" + randomizeQuestions +
+                ", immediateFeedback=" + immediateFeedback +
+                ", createTime=" + createTime +
+                '}';
     }
 }
