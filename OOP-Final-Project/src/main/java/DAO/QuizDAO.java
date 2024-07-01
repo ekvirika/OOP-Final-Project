@@ -6,6 +6,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DAO class for managing Quiz entities in the database.
@@ -56,7 +57,7 @@ public class QuizDAO {
      * @return the Quiz object, or null if not found
      * @throws SQLException if any SQL error occurs
      */
-    public Quiz ReadQuiz(int quizID) throws SQLException {
+    public Quiz readQuiz(int quizID) throws SQLException {
         String query = "SELECT * FROM Quiz WHERE quizID = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -114,6 +115,38 @@ public class QuizDAO {
             statement.setInt(1, quizID);
             statement.executeUpdate();
         }
+    }
+
+    /**
+     * Retrieves all quizzes from the database.
+     *
+     * @return a list of all Quiz objects
+     * @throws SQLException if any SQL error occurs
+     */
+    public List<Quiz> getAllQuizzes() throws SQLException {
+        List<Quiz> quizzes = new ArrayList<>();
+        String query = "SELECT * FROM Quiz";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Quiz quiz = new Quiz(
+                        resultSet.getInt("quizID"),
+                        resultSet.getString("username"),
+                        resultSet.getString("quizName"),
+                        resultSet.getString("quizDescription"),
+                        resultSet.getInt("quizScore"),
+                        new Gson().fromJson(resultSet.getString("questionIds"), ArrayList.class),
+                        resultSet.getBoolean("isSinglePage"),
+                        resultSet.getBoolean("randomizeQuestions"),
+                        resultSet.getBoolean("immediateFeedback"),
+                        resultSet.getTimestamp("createTime")
+                );
+                quizzes.add(quiz);
+            }
+        }
+        return quizzes;
     }
 
 }
