@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="Models.Quiz" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
@@ -20,6 +19,10 @@
 </head>
 <body>
 <% Quiz quiz = (Quiz) request.getAttribute("currentQuiz"); %>
+<% List<Integer> questionIds = new ArrayList<>(quiz.getQuestionIds()); %>
+    <% if (quiz.isRandomizeQuestions()) {
+           Collections.shuffle(questionIds);
+       } %>
 <header>
     <h1><%= quiz.getQuizName() %></h1>
 </header>
@@ -41,7 +44,10 @@
     </div>
 </div>
 
-<button type="submit" class="start-btn" onclick="location.href='quiz.html?quizId=<%= quiz.getQuizID() %>'">Start Quiz</button>
+<form action="QuizServlet" method="post">
+    <input type="hidden" name="quizId" value="<%= quiz.getQuizID() %>">
+    <button type="submit" class="start-btn">Start Quiz</button>
+</form>
 
 </body>
 </html>
