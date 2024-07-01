@@ -65,15 +65,17 @@
     <!-- New Quizzes -->
     <section>
         <h2>New Quizzes</h2>
-        <ul>
-            <% List<Quiz> newQuizzes = (List<Quiz>) request.getAttribute("newQuizzes");
-                for (Quiz quiz : newQuizzes) { %>
-            <li>
-                <a href="QuizDescription.jsp?id=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %></a>
+        <ul class="quiz-list">
+            <%
+                List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
+                for (Quiz quiz : quizzes) {
+            %>
+            <li class="quiz-item">
+                <h2><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %></a></h2>
+                <!-- <button onclick="window.location.href='QuizServlet?quizId=<%= quiz.getQuizID() %>'">Start Quiz</button> -->
             </li>
             <% } %>
         </ul>
-
     </section>
 </div>
 

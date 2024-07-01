@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="Models.Account" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
@@ -39,15 +40,15 @@
 <div class="container">
     <div class="top">
         <div class="profile-picture-container">
-            <p><%= ((Account) request.getAttribute("account")).getImageUrl() %></p>
-
-            <!-- <img src="<%= ((Account) request.getAttribute("account")).getImageUrl() %>" alt="Profile Picture"
-                 class="profile-picture"> -->
+            <img src="<%= ((Account) request.getAttribute("account")).getImageUrl() %>" alt="Profile Picture"
+                 class="profile-picture">
         </div>
         <div class="profile-info selected">
             <h2>User Profile</h2>
             <p>
-                <strong>Name:</strong> <%= ((Account) request.getAttribute("account")).getFirstName() %> %>
+                <strong>Name:</strong> <%= ((Account) request.getAttribute("account")).getFirstName() %> 
+            </p>
+            <p>
                 <strong>Last name:</strong><%= ((Account) request.getAttribute("account")).getLastName() %>
             </p>
             <p><strong>Username:</strong> <%= ((Account) request.getAttribute("account")).getUserName() %>
@@ -79,9 +80,9 @@
             <%--        </ul>--%>
         </div>
     </div>
-    <c:if test="${request.getAttribute('isSelf')}">
-        <button onclick="window.location.href='EditProfile.jsp'">Edit Profile</button>
-    </c:if>
+    <% if (request.getAttribute("isSelf") != null && (Boolean) request.getAttribute("isSelf")) { %>
+        <button type="button" onclick="window.location.href='EditProfile.jsp'">Edit Profile</button>
+    <% } %>    
 </div>
 
 </body>

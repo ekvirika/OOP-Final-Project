@@ -24,10 +24,6 @@ public class ProfileServlet extends HttpServlet {
         String loggedInUsername = (String) request.getSession().getAttribute("username");
         String username = request.getParameter("username");
 
-        if (username == null) {
-            username = loggedInUsername;
-        }
-
         Account account = accountManager.getAccount(username);
         request.setAttribute("account", account);
         request.setAttribute("isSelf", username.equals(loggedInUsername));
@@ -44,14 +40,12 @@ public class ProfileServlet extends HttpServlet {
         Account account = accountManager.getAccount(username);
         String loggedInUser = (String) request.getSession().getAttribute("username");
 
-        // Update basic profile details
         account.setFirstName(request.getParameter("firstName"));
         account.setLastName(request.getParameter("lastName"));
         account.setEmail(request.getParameter("email"));
         request.setAttribute("account", account);
         request.setAttribute("isSelf", username.equals(loggedInUser));
 
-        // Handle image upload
         Part filePart = request.getPart("image");
         if (filePart != null && filePart.getSize() > 0) {
             String fileName = getSubmittedFileName(filePart);
@@ -65,7 +59,7 @@ public class ProfileServlet extends HttpServlet {
         }
 
         accountManager.updateAccount(account);
-        response.sendRedirect(request.getContextPath() + "/ProfileServlet?username=" + username);
+        response.sendRedirect("/ProfileServlet?username=" + username);
     }
 
     private String getSubmittedFileName(Part part) {

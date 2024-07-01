@@ -2,11 +2,8 @@ package DAO;
 
 import Models.Quiz;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +14,9 @@ import java.util.List;
 public class QuizDAO {
 
     private final BasicDataSource dataSource;
-    private final Gson gson;
 
     public QuizDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
-        this.gson = new Gson();
     }
 
     /**
@@ -48,7 +43,7 @@ public class QuizDAO {
         statement.setString(2, quiz.getQuizName());
         statement.setString(3, quiz.getQuizDescription());
         statement.setInt(4, quiz.getQuizScore());
-        statement.setString(5, gson.toJson(quiz.getQuestionIds()));
+        statement.setString(5, new Gson().toJson(quiz.getQuestionIds()));
         statement.setBoolean(6, quiz.isSinglePage());
         statement.setBoolean(7, quiz.isRandomizeQuestions());
         statement.setBoolean(8, quiz.isImmediateFeedback());
@@ -79,22 +74,13 @@ public class QuizDAO {
     }
 
     private Quiz extractQuizFromResultSet(ResultSet rs) throws SQLException {
-        String questionIdsJson = rs.getString("questionIds");
-        List<Integer> questionIds = new ArrayList<>();
-        try {
-            Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
-            questionIds = gson.fromJson(questionIdsJson, listType);
-        } catch (JsonSyntaxException e) {
-            throw new RuntimeException("Error parsing questionIds JSON: " + e.getMessage(), e);
-        }
-
         return new Quiz(
                 rs.getInt("quizID"),
                 rs.getString("username"),
                 rs.getString("quizName"),
                 rs.getString("quizDescription"),
                 rs.getInt("quizScore"),
-                (ArrayList<Integer>) questionIds,
+                new Gson().fromJson(rs.getString("questionIds"), ArrayList.class),
                 rs.getBoolean("isSinglePage"),
                 rs.getBoolean("randomizeQuestions"),
                 rs.getBoolean("immediateFeedback"),
@@ -151,8 +137,7 @@ public class QuizDAO {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                Quiz quiz = extractQuizFromResultSet(resultSet);
-                quizzes.add(quiz);
+                quizzes.add(extractQuizFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error retrieving all quizzes: " + e.getMessage(), e);
