@@ -19,10 +19,6 @@
 </head>
 <body>
 <% Quiz quiz = (Quiz) request.getAttribute("currentQuiz"); %>
-<% List<Integer> questionIds = new ArrayList<>(quiz.getQuestionIds()); %>
-    <% if (quiz.isRandomizeQuestions()) {
-           Collections.shuffle(questionIds);
-       } %>
 <header>
     <h1><%= quiz.getQuizName() %></h1>
 </header>
