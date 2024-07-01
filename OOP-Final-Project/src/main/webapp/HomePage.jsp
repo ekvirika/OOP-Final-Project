@@ -31,7 +31,7 @@
         <ul>
             <li><a href="/HomePageServlet">Quizzies</a></li>
             <li><a href="/ProfileServlet">Profile</a></li>
-            <li><a href="/">Logout</a></li>
+            <li><a href="/LogoutServlet">Logout</a></li>
         </ul>
     </div>
 </header>

@@ -32,13 +32,14 @@ body {
 
 
 .container {
-    width: 40%;
+    width: 100%;
     margin: 0 auto;
-    background-color: #EEEDE5; /* Container background color */
+    /* background-color: #EEEDE5; Container background color */
     padding: 20px;
     border-radius: 8px;
-    color: #1B1616; /* Adjusted text color */
+    /* color: #1B1616; Adjusted text color */
     text-align: center;
+    color: #17A6E8;
 }
 
 

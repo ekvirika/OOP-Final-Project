@@ -3,6 +3,7 @@ package Controllers;
 import Models.Account;
 import Models.Managers.AccountManager;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -31,9 +32,9 @@ public class ProfileServlet extends HttpServlet {
         request.setAttribute("account", account);
         request.setAttribute("isSelf", username.equals(loggedInUsername));
 
-        request.getRequestDispatcher("/Profile.jsp").forward(request, response);
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("Profile.jsp");
+        requestDispatcher.forward(request, response);
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

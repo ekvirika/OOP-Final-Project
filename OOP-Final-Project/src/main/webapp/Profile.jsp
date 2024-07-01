@@ -8,11 +8,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/Profile.css">
+    <link rel="stylesheet" href="./css/ProfilePage.css">
     <link rel="stylesheet" href="./css/NavBar.css">
     <title>User Profile</title>
     <link rel="icon" href="./assets/Logo.png">
-    <link rel="stylesheet" href="./css/StartPage.css">
+<%--    <link rel="stylesheet" href="./css/StartPage.css">--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
@@ -31,7 +31,7 @@
         <ul>
             <li><a href="/HomePageServlet">Quizzies</a></li>
             <li><a href="/ProfileServlet">Profile</a></li>
-            <li><a href="/">Logout</a></li>
+            <li><a href="/LogoutServlet">Logout</a></li>
         </ul>
     </div>
 </header>
@@ -39,13 +39,16 @@
 <div class="container">
     <div class="top">
         <div class="profile-picture-container">
-            <img src="<%= ((Account) request.getAttribute("account")).getImageUrl() %>" alt="Profile Picture"
-                 class="profile-picture">
+            <p><%= ((Account) request.getAttribute("account")).getImageUrl() %></p>
+
+            <!-- <img src="<%= ((Account) request.getAttribute("account")).getImageUrl() %>" alt="Profile Picture"
+                 class="profile-picture"> -->
         </div>
         <div class="profile-info selected">
             <h2>User Profile</h2>
             <p>
-                <strong>Name:</strong> <%= ((Account) request.getAttribute("account")).getFirstName() %> <%= ((Account) request.getAttribute("account")).getLastName() %>
+                <strong>Name:</strong> <%= ((Account) request.getAttribute("account")).getFirstName() %> %>
+                <strong>Last name:</strong><%= ((Account) request.getAttribute("account")).getLastName() %>
             </p>
             <p><strong>Username:</strong> <%= ((Account) request.getAttribute("account")).getUserName() %>
             </p>
@@ -76,7 +79,7 @@
             <%--        </ul>--%>
         </div>
     </div>
-    <c:if test="${isSelf}">
+    <c:if test="${request.getAttribute('isSelf')}">
         <button onclick="window.location.href='EditProfile.jsp'">Edit Profile</button>
     </c:if>
 </div>

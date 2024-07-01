@@ -40,7 +40,8 @@ public class RegistrationServlet extends HttpServlet {
         if (!accountManager.accountExists(username)) {
             accountManager.createNewUser(account);
             httpRequest.getSession().setAttribute("username", username);
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/HomePageServlet");
+            httpRequest.getSession().setAttribute("loggedInAccount", account);
+            httpResponse.sendRedirect("/HomePageServlet");
         } else {
             RequestDispatcher requestDispatcher = httpRequest.getRequestDispatcher("RegisterTryAgain.jsp");
             requestDispatcher.forward(httpRequest, httpResponse);

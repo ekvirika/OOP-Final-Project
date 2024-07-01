@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Account;
 import Models.Managers.AccountManager;
 
 import javax.servlet.RequestDispatcher;
@@ -22,8 +23,10 @@ public class AuthorisationServlet extends HttpServlet {
         request.setAttribute("username", username);
         try {
             if (accountManager.successfulLogin(username, password)) {
+                Account account = accountManager.getAccount(username);
                 request.getSession().setAttribute("username", username);
-                response.sendRedirect(request.getContextPath() + "/HomePageServlet");
+                request.getSession().setAttribute("loggedInAccount", account);
+                response.sendRedirect("/HomePageServlet");
             } else {
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("AuthorisationTryAgain.jsp");
                 requestDispatcher.forward(request, response);
