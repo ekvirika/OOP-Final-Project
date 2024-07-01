@@ -4,6 +4,7 @@ CREATE TABLE Quiz (
     quizName VARCHAR(255) NOT NULL,
     quizDescription TEXT,
     quizScore INT DEFAULT 0,
+    questionIds TEXT,
     isSinglePage BOOLEAN DEFAULT FALSE,
     randomizeQuestions BOOLEAN DEFAULT FALSE,
     immediateFeedback BOOLEAN DEFAULT FALSE,

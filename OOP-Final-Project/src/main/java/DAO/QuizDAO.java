@@ -1,18 +1,20 @@
 package DAO;
 
 import Models.Quiz;
+import com.google.gson.Gson;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * DAO class for managing Quiz entities in the database.
  */
-public class QuizDao {
+public class QuizDAO {
 
     private BasicDataSource dataSource;
 
-    public QuizDao(BasicDataSource dataSource) {
+    public QuizDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -23,13 +25,13 @@ public class QuizDao {
      * @throws SQLException if any SQL error occurs
      */
     public void createQuiz(Quiz quiz) throws SQLException {
-        String query = "INSERT INTO Quiz (username, quizName, quizDescription, quizScore, isSinglePage, " +
-                "randomizeQuestions, immediateFeedback, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Quiz (username, quizName, quizDescription, quizScore, quiestionIds ,isSinglePage, " +
+                "randomizeQuestions, immediateFeedback, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             setStatement(quiz, statement);
-            statement.setTimestamp(8, quiz.getCreateTime());
+            statement.setTimestamp(9, quiz.getCreateTime());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,9 +43,10 @@ public class QuizDao {
         statement.setString(2, quiz.getQuizName());
         statement.setString(3, quiz.getQuizDescription());
         statement.setInt(4, quiz.getQuizScore());
-        statement.setBoolean(5, quiz.isSinglePage());
-        statement.setBoolean(6, quiz.isRandomizeQuestions());
-        statement.setBoolean(7, quiz.isImmediateFeedback());
+        statement.setString(5, new Gson().toJson(quiz.getQuestionIds()));
+        statement.setBoolean(6, quiz.isSinglePage());
+        statement.setBoolean(7, quiz.isRandomizeQuestions());
+        statement.setBoolean(8, quiz.isImmediateFeedback());
     }
 
     /**
@@ -68,7 +71,7 @@ public class QuizDao {
                             rs.getString("quizName"),
                             rs.getString("quizDescription"),
                             rs.getInt("quizScore"),
-                            null, // questionIds should be handled separately
+                            new Gson().fromJson(rs.getString("questionIds"), ArrayList.class), // questionIds should be handled separately
                             rs.getBoolean("isSinglePage"),
                             rs.getBoolean("randomizeQuestions"),
                             rs.getBoolean("immediateFeedback"),
@@ -88,7 +91,7 @@ public class QuizDao {
      */
     public void updateQuiz(Quiz quiz) throws SQLException {
         String query = "UPDATE Quiz SET username = ?, quizName = ?, quizDescription = ?, quizScore = ?, " +
-                "isSinglePage = ?, randomizeQuestions = ?, immediateFeedback = ? WHERE quizID = ?";
+                "quiestionIds = ?, isSinglePage = ?, randomizeQuestions = ?, immediateFeedback = ? WHERE quizID = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(quiz, statement);
