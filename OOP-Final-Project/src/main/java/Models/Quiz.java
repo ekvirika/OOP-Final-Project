@@ -22,14 +22,73 @@ public class Quiz {
     private Timestamp createTime;
 
     /**
-     * Constructs a new Quiz instance with the specified quiz ID.
+     * Default constructor that initializes a new Quiz instance with default values.
      *
      * @param quizID the unique ID of the quiz
      */
     public Quiz(int quizID) {
         this.quizID = quizID;
+        this.username = "";
+        this.quizName = "New Quiz";
+        this.quizDescription = "";
+        this.quizScore = 0;
         this.questionIds = new ArrayList<>();
+        this.isSinglePage = false;
+        this.randomizeQuestions = false;
+        this.immediateFeedback = false;
+        this.createTime = new Timestamp(System.currentTimeMillis());
     }
+
+    /**
+     * Constructs a new Quiz instance with the specified quiz ID and basic details.
+     *
+     * @param quizID          the unique ID of the quiz
+     * @param username        the username of the creator
+     * @param quizName        the name of the quiz
+     * @param quizDescription the description of the quiz
+     */
+    public Quiz(int quizID, String username, String quizName, String quizDescription) {
+        this.quizID = quizID;
+        this.username = username;
+        this.quizName = quizName;
+        this.quizDescription = quizDescription;
+        this.quizScore = 0;
+        this.questionIds = new ArrayList<>();
+        this.isSinglePage = false;
+        this.randomizeQuestions = false;
+        this.immediateFeedback = false;
+        this.createTime = new Timestamp(System.currentTimeMillis());
+    }
+
+    /**
+     * Constructs a new Quiz instance with the specified details.
+     *
+     * @param quizID             the unique ID of the quiz
+     * @param username           the username of the creator
+     * @param quizName           the name of the quiz
+     * @param quizDescription    the description of the quiz
+     * @param quizScore          the score of the quiz
+     * @param questionIds        the list of question IDs associated with the quiz
+     * @param isSinglePage       whether the quiz is displayed on a single page
+     * @param randomizeQuestions whether questions in the quiz are randomized
+     * @param immediateFeedback  whether immediate feedback is enabled for the quiz
+     * @param createTime         the creation time of the quiz
+     */
+    public Quiz(int quizID, String username, String quizName, String quizDescription, int quizScore,
+                ArrayList<Integer> questionIds, boolean isSinglePage, boolean randomizeQuestions,
+                boolean immediateFeedback, Timestamp createTime) {
+        this.quizID = quizID;
+        this.username = username;
+        this.quizName = quizName;
+        this.quizDescription = quizDescription;
+        this.quizScore = quizScore;
+        this.questionIds = questionIds != null ? new ArrayList<>(questionIds) : new ArrayList<>();
+        this.isSinglePage = isSinglePage;
+        this.randomizeQuestions = randomizeQuestions;
+        this.immediateFeedback = immediateFeedback;
+        this.createTime = createTime != null ? createTime : new Timestamp(System.currentTimeMillis());
+    }
+
 
     /**
      * Retrieves the unique ID of the quiz.

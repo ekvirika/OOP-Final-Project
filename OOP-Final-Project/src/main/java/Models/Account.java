@@ -19,30 +19,6 @@ public class Account {
     private String imageUrl;
     private List<String> friends;
 
-    /**
-     * Constructs a new Account object with the specified user details.
-     *
-     * @param userId    the unique identifier for the user
-     * @param userName  the username chosen by the user
-     * @param firstName the user's first name
-     * @param lastName  the user's last name
-     * @param password  the user's password
-     * @param email     the user's email address
-     * @param imageUrl  the URL of the user's profile image
-     * @param salt      the salt used for password hashing
-     */
-    public Account(int userId, String userName, String firstName, String lastName,
-                   String password, String email, String imageUrl, String salt) {
-        this.userId = userId;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.email = email;
-        this.imageUrl = imageUrl;
-        this.friends = new ArrayList<>();
-        this.salt = salt;
-    }
 
     /**
      * Constructs a new Account object with the specified user details.
