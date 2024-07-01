@@ -37,9 +37,17 @@ body {
     background-color: #EEEDE5; /* Container background color */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: #1B1616; /* Adjusted text color */
     text-align: center;
+}
+
+
+.top{
+    display: flex;
+}
+
+.bottom{
+    display: flex;
 }
 
 .profile-picture {
@@ -48,6 +56,8 @@ body {
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 20px;
+    border: 2px solid #17A6E8;
+    /*border-radius: 100%;*/
 }
 .profile-info {
     margin-bottom: 20px;

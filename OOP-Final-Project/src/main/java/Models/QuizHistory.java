@@ -1,7 +1,6 @@
 package Models;
 
 import java.sql.Time;
-import java.util.HashMap;
 
 /**
  * Represents the history of a quiz attempt by a user, including details such as quiz ID, user ID,

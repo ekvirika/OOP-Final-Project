@@ -1,10 +1,8 @@
 package DAO;
 
 import Models.Account;
-import Models.PasswordHasher;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -4,8 +4,6 @@ import Models.Quiz;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * DAO class for managing Quiz entities in the database.

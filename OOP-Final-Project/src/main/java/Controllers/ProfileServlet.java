@@ -20,12 +20,20 @@ public class ProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
-        String username = (String) request.getSession().getAttribute("username");
+        String loggedInUsername = (String) request.getSession().getAttribute("username");
+        String username = request.getParameter("username");
+
+        if (username == null) {
+            username = loggedInUsername;
+        }
+
         Account account = accountManager.getAccount(username);
         request.setAttribute("account", account);
+        request.setAttribute("isSelf", username.equals(loggedInUsername));
 
         request.getRequestDispatcher("/Profile.jsp").forward(request, response);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -33,11 +41,14 @@ public class ProfileServlet extends HttpServlet {
         AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
         String username = (String) request.getSession().getAttribute("username");
         Account account = accountManager.getAccount(username);
+        String loggedInUser = (String) request.getSession().getAttribute("username");
 
         // Update basic profile details
         account.setFirstName(request.getParameter("firstName"));
         account.setLastName(request.getParameter("lastName"));
         account.setEmail(request.getParameter("email"));
+        request.setAttribute("account", account);
+        request.setAttribute("isSelf", username.equals(loggedInUser));
 
         // Handle image upload
         Part filePart = request.getPart("image");
@@ -53,7 +64,7 @@ public class ProfileServlet extends HttpServlet {
         }
 
         accountManager.updateAccount(account);
-        response.sendRedirect(request.getContextPath() + "/ProfileServlet");
+        response.sendRedirect(request.getContextPath() + "/ProfileServlet?username=" + username);
     }
 
     private String getSubmittedFileName(Part part) {

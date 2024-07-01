@@ -69,7 +69,7 @@
             <% List<Quiz> newQuizzes = (List<Quiz>) request.getAttribute("newQuizzes");
                 for (Quiz quiz : newQuizzes) { %>
             <li>
-                <a href="quiz.jsp?id=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %></a>
+                <a href="QuizDescription.jsp?id=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %></a>
             </li>
             <% } %>
         </ul>
