@@ -2,8 +2,11 @@ package DAO;
 
 import Models.Quiz;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,38 +16,39 @@ import java.util.List;
  */
 public class QuizDAO {
 
-    private BasicDataSource dataSource;
+    private final BasicDataSource dataSource;
+    private final Gson gson;
 
     public QuizDAO(BasicDataSource dataSource) {
         this.dataSource = dataSource;
+        this.gson = new Gson();
     }
 
     /**
      * Creates a new quiz record in the database.
      *
      * @param quiz the Quiz object to be created
-     * @throws SQLException if any SQL error occurs
      */
-    public void createQuiz(Quiz quiz) throws SQLException {
-        String query = "INSERT INTO Quiz (username, quizName, quizDescription, quizScore, quiestionIds ,isSinglePage, " +
+    public void createQuiz(Quiz quiz) {
+        String query = "INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, " +
                 "randomizeQuestions, immediateFeedback, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            setStatement(quiz, statement);
+            setStatementParams(quiz, statement);
             statement.setTimestamp(9, quiz.getCreateTime());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error creating quiz: " + e.getMessage(), e);
         }
     }
 
-    private void setStatement(Quiz quiz, PreparedStatement statement) throws SQLException {
+    private void setStatementParams(Quiz quiz, PreparedStatement statement) throws SQLException {
         statement.setString(1, quiz.getCreatorUsername());
         statement.setString(2, quiz.getQuizName());
         statement.setString(3, quiz.getQuizDescription());
         statement.setInt(4, quiz.getQuizScore());
-        statement.setString(5, new Gson().toJson(quiz.getQuestionIds()));
+        statement.setString(5, gson.toJson(quiz.getQuestionIds()));
         statement.setBoolean(6, quiz.isSinglePage());
         statement.setBoolean(7, quiz.isRandomizeQuestions());
         statement.setBoolean(8, quiz.isImmediateFeedback());
@@ -55,9 +59,8 @@ public class QuizDAO {
      *
      * @param quizID the ID of the quiz to be retrieved
      * @return the Quiz object, or null if not found
-     * @throws SQLException if any SQL error occurs
      */
-    public Quiz readQuiz(int quizID) throws SQLException {
+    public Quiz readQuiz(int quizID) {
         String query = "SELECT * FROM Quiz WHERE quizID = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -66,38 +69,55 @@ public class QuizDAO {
 
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
-                    return new Quiz(
-                            rs.getInt("quizID"),
-                            rs.getString("username"),
-                            rs.getString("quizName"),
-                            rs.getString("quizDescription"),
-                            rs.getInt("quizScore"),
-                            new Gson().fromJson(rs.getString("questionIds"), ArrayList.class), // questionIds should be handled separately
-                            rs.getBoolean("isSinglePage"),
-                            rs.getBoolean("randomizeQuestions"),
-                            rs.getBoolean("immediateFeedback"),
-                            rs.getTimestamp("createTime")
-                    );
+                    return extractQuizFromResultSet(rs);
                 }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error reading quiz: " + e.getMessage(), e);
         }
         return null;
+    }
+
+    private Quiz extractQuizFromResultSet(ResultSet rs) throws SQLException {
+        String questionIdsJson = rs.getString("questionIds");
+        List<Integer> questionIds = new ArrayList<>();
+        try {
+            Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
+            questionIds = gson.fromJson(questionIdsJson, listType);
+        } catch (JsonSyntaxException e) {
+            throw new RuntimeException("Error parsing questionIds JSON: " + e.getMessage(), e);
+        }
+
+        return new Quiz(
+                rs.getInt("quizID"),
+                rs.getString("username"),
+                rs.getString("quizName"),
+                rs.getString("quizDescription"),
+                rs.getInt("quizScore"),
+                (ArrayList<Integer>) questionIds,
+                rs.getBoolean("isSinglePage"),
+                rs.getBoolean("randomizeQuestions"),
+                rs.getBoolean("immediateFeedback"),
+                rs.getTimestamp("createTime")
+        );
     }
 
     /**
      * Updates an existing quiz record in the database.
      *
      * @param quiz the Quiz object with updated values
-     * @throws SQLException if any SQL error occurs
      */
-    public void updateQuiz(Quiz quiz) throws SQLException {
+    public void updateQuiz(Quiz quiz) {
         String query = "UPDATE Quiz SET username = ?, quizName = ?, quizDescription = ?, quizScore = ?, " +
-                "quiestionIds = ?, isSinglePage = ?, randomizeQuestions = ?, immediateFeedback = ? WHERE quizID = ?";
+                "questionIds = ?, isSinglePage = ?, randomizeQuestions = ?, immediateFeedback = ? WHERE quizID = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
-            setStatement(quiz, statement);
-            statement.setInt(8, quiz.getQuizID());
+
+            setStatementParams(quiz, statement);
+            statement.setInt(9, quiz.getQuizID());
             statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating quiz: " + e.getMessage(), e);
         }
     }
 
@@ -105,15 +125,16 @@ public class QuizDAO {
      * Deletes a quiz by its ID.
      *
      * @param quizID the ID of the quiz to be deleted
-     * @throws SQLException if any SQL error occurs
      */
-    public void deleteQuiz(int quizID) throws SQLException {
-        String sql = "DELETE FROM Quiz WHERE quizID = ?";
+    public void deleteQuiz(int quizID) {
+        String query = "DELETE FROM Quiz WHERE quizID = ?";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setInt(1, quizID);
             statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting quiz: " + e.getMessage(), e);
         }
     }
 
@@ -121,9 +142,8 @@ public class QuizDAO {
      * Retrieves all quizzes from the database.
      *
      * @return a list of all Quiz objects
-     * @throws SQLException if any SQL error occurs
      */
-    public List<Quiz> getAllQuizzes() throws SQLException {
+    public List<Quiz> getAllQuizzes() {
         List<Quiz> quizzes = new ArrayList<>();
         String query = "SELECT * FROM Quiz";
         try (Connection connection = dataSource.getConnection();
@@ -131,22 +151,12 @@ public class QuizDAO {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                Quiz quiz = new Quiz(
-                        resultSet.getInt("quizID"),
-                        resultSet.getString("username"),
-                        resultSet.getString("quizName"),
-                        resultSet.getString("quizDescription"),
-                        resultSet.getInt("quizScore"),
-                        new Gson().fromJson(resultSet.getString("questionIds"), ArrayList.class),
-                        resultSet.getBoolean("isSinglePage"),
-                        resultSet.getBoolean("randomizeQuestions"),
-                        resultSet.getBoolean("immediateFeedback"),
-                        resultSet.getTimestamp("createTime")
-                );
+                Quiz quiz = extractQuizFromResultSet(resultSet);
                 quizzes.add(quiz);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving all quizzes: " + e.getMessage(), e);
         }
         return quizzes;
     }
-
 }

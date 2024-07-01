@@ -1,20 +1,7 @@
-CREATE TABLE Question (
-    questionId INT NOT NULL AUTO_INCREMENT,
-    quizId INT NOT NULL,
-    questionType INT NOT NULL,
-    questionText TEXT NOT NULL,
-    singleQuestionAnswer TEXT,
-    alternativeAnswers TEXT,
-    multipleChoiceAnswers TEXT,
-    multipleChoiceCorrectIndexes TEXT,
-    questionImage TEXT,
-    multipleAnswerFields TEXT,
-    matchingPairs TEXT,
-    PRIMARY KEY (questionId),
-    FOREIGN KEY (quizId) REFERENCES Quiz(quizID)
-);
-
 use oop_quiz;
+
+drop table question;
+drop table quiz;
 
 -- Create Quiz table
 CREATE TABLE Quiz (
@@ -48,20 +35,20 @@ CREATE TABLE Question (
                           FOREIGN KEY (quizId) REFERENCES Quiz(quizID)
 );
 
--- Insert a new quiz
-INSERT INTO Quiz (username, quizName, quizDescription, questionIds)
-VALUES ('john_doe', 'Sample Quiz', 'This is a sample quiz description.', '');
+# ------------------------------------------------
+-- Insert a quiz
+INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
+VALUES ('testUser', 'Sample Quiz', 'This is a sample quiz description.', 0, '[1, 2, 3, 4]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
 
--- Retrieve the quizID of the inserted quiz
-SET @quizID = LAST_INSERT_ID();
+-- Insert questions for the quiz
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (1, 1, 'What is the capital of France?', 'Paris', NULL, NULL, NULL, NULL, NULL, NULL);
 
--- Insert Question 1
-INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer)
-VALUES (@quizID, 1, 'What is the capital of France?', 'Paris');
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (1, 2, 'Which of the following are programming languages?', NULL, NULL, '[\"Java\", \"Python\", \"HTML\"]', '[0, 1]', NULL, NULL, NULL);
 
--- Retrieve question IDs and concatenate them into a single string
-SET @questionIDs = (SELECT GROUP_CONCAT(questionId) FROM Question WHERE quizId = @quizID);
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (1, 3, 'Match the following pairs.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Red\",\"value\":\"Color\"},{\"key\":\"Car\",\"value\":\"Vehicle\"}]');
 
--- Update the quiz with the concatenated question IDs
-UPDATE Quiz SET questionIds = @questionIDs WHERE quizID = @quizID;
-
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (1, 4, 'Select all that apply.', NULL, NULL, '[\"Option 1\", \"Option 2\", \"Option 3\"]', '[0, 2]', NULL, NULL, NULL);
