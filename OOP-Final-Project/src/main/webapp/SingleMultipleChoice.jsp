@@ -17,6 +17,7 @@
             <button class="answer-btn" value="C">C. Paris</button>
             <button class="answer-btn" value="D">D. Madrid</button>
         </ul>
+        <button class="btn">Submit</button>
     </div>
 </body>
 </html>

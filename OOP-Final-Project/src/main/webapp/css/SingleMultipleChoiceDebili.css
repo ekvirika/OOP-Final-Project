@@ -18,6 +18,9 @@ body {
     border-radius: 8px;
     width: 1000px;
     height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
 }
 
 .question {
@@ -65,4 +68,22 @@ body {
 
 .answer-btn[value="D"] {
     background-color: #f5eaec;
+}
+
+.btn {
+    width: 10%;
+    padding: 10px;
+    background-color: #fe9ce3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Raleway', Arial, sans-serif;
+    margin-top: 40px;
+    align-self: center;
+}
+
+.btn:hover {
+    background-color: #17A6E8;
 }
