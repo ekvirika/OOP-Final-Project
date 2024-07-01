@@ -27,103 +27,91 @@ CREATE TABLE IF NOT EXISTS Friends (
                                        FOREIGN KEY (userName2) REFERENCES Accounts(userName) ON DELETE CASCADE,
                                        UNIQUE (userName1, userName2)
 );
-#
-# -- Create the Achievements table
-# CREATE TABLE IF NOT EXISTS Achievements (
-#     achievementId INT AUTO_INCREMENT PRIMARY KEY,
-#     achievementName VARCHAR(255) NOT NULL,
-#     achievementUrl VARCHAR(255),
-#     achievementDescription TEXT
-# );
-#
-# -- Create the Quizzes table
-# CREATE TABLE IF NOT EXISTS Quizzes (
-#     quizId INT AUTO_INCREMENT PRIMARY KEY,
-#     quizName VARCHAR(255) NOT NULL,
-#     description TEXT,
-#     createdBy INT,
-#     FOREIGN KEY (createdBy) REFERENCES Accounts(userId) ON DELETE SET NULL
-# );
-#
-# -- Create the Questions table
-# CREATE TABLE IF NOT EXISTS Questions (
-#     questionId INT AUTO_INCREMENT PRIMARY KEY,
-#     quizId INT,
-#     questionType ENUM('Question-Response', 'Fill in the Blank', 'Multiple Choice', 'Picture-Response') NOT NULL,
-#     questionText TEXT NOT NULL,
-#     questionImageUrl VARCHAR(255),
-#     FOREIGN KEY (quizId) REFERENCES Quizzes(quizId) ON DELETE CASCADE
-# );
-#
-# -- Create the UserAchievements table
-# CREATE TABLE IF NOT EXISTS UserAchievements (
-#     userId INT,
-#     achievementId INT,
-#     PRIMARY KEY (userId, achievementId),
-#     FOREIGN KEY (userId) REFERENCES Accounts(userId) ON DELETE CASCADE,
-#     FOREIGN KEY (achievementId) REFERENCES Achievements(achievementId) ON DELETE CASCADE
-# );
-#
-# -- Create the UserQuizzes table
-# CREATE TABLE IF NOT EXISTS UserQuizzes (
-#     userId INT,
-#     quizId INT,
-#     score INT,
-#     PRIMARY KEY (userId, quizId),
-#     FOREIGN KEY (userId) REFERENCES Accounts(userId) ON DELETE CASCADE,
-#     FOREIGN KEY (quizId) REFERENCES Quizzes(quizId) ON DELETE CASCADE
-# );
-#
 
 
-#     ___________________________________________________________
-#      -------------------- FIll Tables ------------------------
-#     _____________________________________________________________
-# -- Insert sample data into Accounts table
-# INSERT INTO Accounts (userName, firstName, lastName, password, email, imageUrl, salt) VALUES
-# ('john_doe', 'John', 'Doe', 'password123', 'john.doe@example.com', NULL, 'salt123'),
-# ('jane_smith', 'Jane', 'Smith', 'password123', 'jane.smith@example.com', NULL, 'salt123');
-#
-# -- Insert sample data into the Accounts table
-# INSERT INTO Accounts (userName, firstName, lastName, password, email, imageUrl, salt)
-# VALUES
-#     ('johndoe', 'John', 'Doe', 'password123!', 'johndoe@example.com', 'https://example.com/johndoe.jpg', 'abcd1234'),
-#     ('janesmith', 'Jane', 'Smith', 'strongpassword4', 'janesmith@example.com', 'https://example.com/janesmith.jpg', 'efgh5678'),
-#     ('bobmiller', 'Bob', 'Miller', 'mypassword123', 'bobmiller@example.com', 'https://example.com/bobmiller.jpg', 'ijkl9012'),
-#     ('sarahlee', 'Sarah', 'Lee', 'ilovecats7!', 'sarahlee@example.com', 'https://example.com/sarahlee.jpg', 'mnop3456'),
-#     ('davidkim', 'David', 'Kim', 'password456$', 'davidkim@example.com', 'https://example.com/davidkim.jpg', 'qrst7890');
-#
-# -- Insert sample data into the Friends table
-# INSERT INTO Friends (userName1, userName2, status)
-# VALUES
-#     ('johndoe', 'janesmith', 'accepted'),
-#     ('johndoe', 'bobmiller', 'pending'),
-#     ('janesmith', 'sarahlee', 'accepted'),
-#     ('bobmiller', 'davidkim', 'rejected');
-#
-# -- Insert sample data into Achievements table
-# INSERT INTO Achievements (achievementName, achievementUrl, achievementDescription) VALUES
-# ('Quiz Master', 'http://example.com/quiz-master', 'Complete 20 quizzes'),
-# ('Speed Demon', 'http://example.com/speed-demon', 'Complete a quiz in under 5 minutes');
-#
-# -- Insert sample data into Quizzes table
-# INSERT INTO Quizzes (quizName, description, createdBy) VALUES
-# ('History Quiz', 'A quiz about historical events', 1),
-# ('Science Quiz', 'A quiz about scientific facts', 2);
-#
-# -- Insert sample data into Questions table
-# INSERT INTO Questions (quizId, questionType, questionText, questionImageUrl) VALUES
-# (1, 'Question-Response', 'Who was the first President of the United States?', NULL),
-# (1, 'Multiple Choice', 'Which year did the WW1 start?', NULL),
-# (2, 'Fill in the Blank', 'The chemical symbol for water is ___.', NULL),
-# (2, 'Picture-Response', 'Identify the structure in the image.', 'http://example.com/image.jpg');
-#
-# -- Insert sample data into UserAchievements table
-# INSERT INTO UserAchievements (userId, achievementId) VALUES
-# (1, 1),
-# (2, 2);
-#
-# -- Insert sample data into UserQuizzes table
-# INSERT INTO UserQuizzes (userId, quizId, score) VALUES
-# (1, 1, 90),
-# (2, 2, 85);
+CREATE TABLE Quiz (
+                      quizID INT NOT NULL AUTO_INCREMENT,
+                      username VARCHAR(255) NOT NULL,
+                      quizName VARCHAR(255) NOT NULL,
+                      quizDescription TEXT,
+                      quizScore INT DEFAULT 0,
+                      questionIds TEXT,
+                      isSinglePage BOOLEAN DEFAULT FALSE,
+                      randomizeQuestions BOOLEAN DEFAULT FALSE,
+                      immediateFeedback BOOLEAN DEFAULT FALSE,
+                      createTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                      PRIMARY KEY (quizID)
+);
+
+-- Create Question table
+CREATE TABLE Question (
+                          questionId INT NOT NULL AUTO_INCREMENT,
+                          quizId INT NOT NULL,
+                          questionType INT NOT NULL,
+                          questionText TEXT NOT NULL,
+                          singleQuestionAnswer TEXT,
+                          alternativeAnswers TEXT,
+                          multipleChoiceAnswers TEXT,
+                          multipleChoiceCorrectIndexes TEXT,
+                          questionImage TEXT,
+                          multipleAnswerFields TEXT,
+                          matchingPairs TEXT,
+                          PRIMARY KEY (questionId),
+                          FOREIGN KEY (quizId) REFERENCES Quiz(quizID)
+);
+
+
+-- Insert a quiz
+INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
+VALUES ('testUser', 'History Quiz', 'This quiz covers basic history questions.', 0, '[5, 6, 7, 8]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
+
+-- Insert questions for the quiz
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (2, 1, 'Who was the first President of the United States?', 'George Washington', NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (2, 2, 'Which of the following events happened during World War II?', NULL, NULL, '[\"The moon landing\", \"Pearl Harbor attack\", \"Fall of the Berlin Wall\"]', '[1]', NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (2, 3, 'Match the following historical figures with their achievements.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Albert Einstein\",\"value\":\"Theory of Relativity\"},{\"key\":\"Isaac Newton\",\"value\":\"Laws of Motion\"}]');
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (2, 4, 'Select all that apply: Which of the following were ancient civilizations?', NULL, NULL, '[\"Maya\", \"Vikings\", \"Mesopotamia\"]', '[0, 2]', NULL, NULL, NULL);
+
+
+
+-- Insert a quiz
+INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
+VALUES ('testUser', 'Science Quiz', 'This quiz tests your knowledge on various science topics.', 0, '[9, 10, 11, 12]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
+
+-- Insert questions for the quiz
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (3, 1, 'What is the chemical symbol for water?', 'H2O', NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (3, 2, 'Which of the following are elements on the periodic table?', NULL, NULL, '[\"Hydrogen\", \"Oxygen\", \"Water\"]', '[0, 1]', NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (3, 3, 'Match the following scientists with their discoveries.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Marie Curie\",\"value\":\"Radioactivity\"},{\"key\":\"Charles Darwin\",\"value\":\"Theory of Evolution\"}]');
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (3, 4, 'Select all that apply: Which of the following are planets in our solar system?', NULL, NULL, '[\"Earth\", \"Pluto\", \"Sirius\"]', '[0, 1]', NULL, NULL, NULL);
+
+
+-- Insert a quiz
+INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
+VALUES ('testUser', 'Literature Quiz', 'Test your knowledge on famous literature and authors.', 0, '[13, 14, 15, 16]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
+
+-- Insert questions for the quiz
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (4, 1, 'Who wrote "1984"?', 'George Orwell', NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (4, 2, 'Which of the following are plays by William Shakespeare?', NULL, NULL, '[\"Hamlet\", \"Macbeth\", \"War and Peace\"]', '[0, 1]', NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (4, 3, 'Match the following authors with their works.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Mark Twain\",\"value\":\"The Adventures of Tom Sawyer\"},{\"key\":\"J.K. Rowling\",\"value\":\"Harry Potter\"}]');
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (4, 4, 'Select all that apply: Which of the following are novels?', NULL, NULL, '[\"Moby Dick\", \"The Great Gatsby\", \"Leaves of Grass\"]', '[0, 1]', NULL, NULL, NULL);
+
