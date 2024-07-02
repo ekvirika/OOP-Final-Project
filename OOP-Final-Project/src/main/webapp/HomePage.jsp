@@ -72,15 +72,10 @@
             %>
             <li class="quiz-item">
                 <h2><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %></a></h2>
-                <!-- <button onclick="window.location.href='QuizServlet?quizId=<%= quiz.getQuizID() %>'">Start Quiz</button> -->
             </li>
             <% } %>
         </ul>
     </section>
 </div>
-
-<footer>
-    <p>&copy; 2024 Quiz Website. All rights reserved.</p>
-</footer>
 </body>
 </html>

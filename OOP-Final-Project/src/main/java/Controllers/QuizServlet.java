@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 
 @WebServlet(name = "QuizServlet", urlPatterns = {"/QuizServlet"})
 public class QuizServlet extends HttpServlet {
@@ -22,5 +23,10 @@ public class QuizServlet extends HttpServlet {
         request.setAttribute("currentQuiz", quiz);
 
         request.getRequestDispatcher("/QuizDescription.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+
     }
 }

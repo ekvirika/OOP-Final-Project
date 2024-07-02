@@ -2,10 +2,9 @@ package Models.Managers;
 
 import DAO.QuizDAO;
 import Models.Quiz;
-import DAO.QuizDAO;
+import utils.SQLConnector;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class QuizManager {
@@ -23,7 +22,9 @@ public class QuizManager {
      * @return the quiz with the specified ID
      */
     public Quiz getQuiz(int quizId)  {
-        return quizDao.readQuiz(quizId);
+        Quiz quiz = quizDao.readQuiz(quizId);
+        if(quiz.isRandomizeQuestions()) Collections.shuffle(quiz.getQuestionIds());
+        return quiz;
     }
 
     /**

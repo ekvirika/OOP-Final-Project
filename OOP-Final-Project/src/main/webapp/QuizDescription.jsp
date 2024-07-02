@@ -11,6 +11,8 @@
     <link rel="icon" href="https://cdn.dribbble.com/users/3975278/screenshots/17581195/media/2bd56e0a2606bfdf3c11edb74875658c.png?resize=800x600&vertical=center">
     <title>Quiz Description</title>
     <link rel="stylesheet" href="./css/QuizDescription.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
@@ -19,12 +21,12 @@
 </head>
 <body>
 <% Quiz quiz = (Quiz) request.getAttribute("currentQuiz"); %>
-<header>
+<header class="animate__animated animate__fadeInDown">
     <h1><%= quiz.getQuizName() %></h1>
 </header>
 
 <div class="container">
-    <div class="description">
+    <div class="description animate__animated animate__fadeInUp">
         <h2>Quiz Description</h2>
         <p><span>Description:</span> <%= quiz.getQuizDescription() %></p>
         <p><span>Score:</span> <%= quiz.getQuizScore() %></p>
@@ -40,8 +42,9 @@
     </div>
 </div>
 
-<form action="QuizServlet" method="post">
+<form id="startQuizForm" action="QuizServlet" method="post">
     <input type="hidden" name="quizId" value="<%= quiz.getQuizID() %>">
+    <input type="hidden" name="userId" value="<%= request.getSession().getAttribute("userId") %>">
     <button type="submit" class="start-btn">Start Quiz</button>
 </form>
 

@@ -24,6 +24,7 @@ public class ProfileServlet extends HttpServlet {
         String loggedInUsername = (String) request.getSession().getAttribute("username");
         String username = request.getParameter("username");
 
+        if(username == null) username = loggedInUsername;
         Account account = accountManager.getAccount(username);
         request.setAttribute("account", account);
         request.setAttribute("isSelf", username.equals(loggedInUsername));

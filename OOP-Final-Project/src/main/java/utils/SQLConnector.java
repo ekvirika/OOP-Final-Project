@@ -1,4 +1,4 @@
-package Models.Managers;
+package utils;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 

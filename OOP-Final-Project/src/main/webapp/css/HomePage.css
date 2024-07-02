@@ -3,6 +3,8 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f5eaec;
+    height: 100% !important;
+    overflow: scroll !important;
 }
 
 nav ul {

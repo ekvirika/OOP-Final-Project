@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS Friends (
 );
 
 
-CREATE TABLE Quiz (
+CREATE TABLE IF NOT EXISTS Quiz (
                       quizID INT NOT NULL AUTO_INCREMENT,
                       username VARCHAR(255) NOT NULL,
                       quizName VARCHAR(255) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE Quiz (
 );
 
 -- Create Question table
-CREATE TABLE Question (
+CREATE TABLE IF NOT EXISTS Question (
                           questionId INT NOT NULL AUTO_INCREMENT,
                           quizId INT NOT NULL,
                           questionType INT NOT NULL,
@@ -59,6 +59,26 @@ CREATE TABLE Question (
                           PRIMARY KEY (questionId),
                           FOREIGN KEY (quizId) REFERENCES Quiz(quizID)
 );
+
+# ----------------------------------------------------------------------------
+-- Insert a quiz
+INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
+VALUES ('testUser', 'Sample Quiz', 'This is a sample quiz description.', 0, '[1, 2, 3, 4]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
+
+-- Insert questions for the quiz
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (1, 1, 'What is the capital of France?', 'Paris', NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (1, 2, 'Which of the following are programming languages?', NULL, NULL, '[\"Java\", \"Python\", \"HTML\"]', '[0, 1]', NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (1, 3, 'Match the following pairs.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Red\",\"value\":\"Color\"},{\"key\":\"Car\",\"value\":\"Vehicle\"}]');
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (1, 4, 'Select all that apply.', NULL, NULL, '[\"Option 1\", \"Option 2\", \"Option 3\"]', '[0, 2]', NULL, NULL, NULL);
+
+
 
 
 -- Insert a quiz
@@ -80,6 +100,8 @@ VALUES (2, 4, 'Select all that apply: Which of the following were ancient civili
 
 
 
+
+
 -- Insert a quiz
 INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
 VALUES ('testUser', 'Science Quiz', 'This quiz tests your knowledge on various science topics.', 0, '[9, 10, 11, 12]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
@@ -98,6 +120,8 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
 VALUES (3, 4, 'Select all that apply: Which of the following are planets in our solar system?', NULL, NULL, '[\"Earth\", \"Pluto\", \"Sirius\"]', '[0, 1]', NULL, NULL, NULL);
 
 
+
+
 -- Insert a quiz
 INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
 VALUES ('testUser', 'Literature Quiz', 'Test your knowledge on famous literature and authors.', 0, '[13, 14, 15, 16]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
@@ -114,4 +138,3 @@ VALUES (4, 3, 'Match the following authors with their works.', NULL, NULL, NULL,
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
 VALUES (4, 4, 'Select all that apply: Which of the following are novels?', NULL, NULL, '[\"Moby Dick\", \"The Great Gatsby\", \"Leaves of Grass\"]', '[0, 1]', NULL, NULL, NULL);
-

@@ -5,6 +5,7 @@ import Models.Account;
 import Models.LeaderboardEntry;
 import Models.PasswordHasher;
 import Models.Quiz;
+import utils.SQLConnector;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
