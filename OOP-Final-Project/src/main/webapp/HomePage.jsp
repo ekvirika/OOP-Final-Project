@@ -24,7 +24,9 @@
 <!-- Navigation Bar -->
 <header class="animate__animated animate__fadeInDown">
     <div class="logo-area">
-        <img src="./assets/Logo.png" alt="Logo">
+        <a href="/HomePageServlet">
+            <img src="./assets/Logo.png" alt="Logo">
+        </a>
         <span class="website-name">Q<span class="u">u</span><span class="i">i</span>zzz</span>
     </div>
     <div class="nav-bar">

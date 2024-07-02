@@ -25,7 +25,9 @@
 <body>
 <header class="animate__animated">
     <div class="logo-area">
-        <img src="./assets/Logo.png" alt="Logo">
+        <a href="/HomePageServlet">
+            <img src="./assets/Logo.png" alt="Logo">
+        </a>
         <span class="website-name">Q<span class="u">u</span><span class="i">i</span>zzz</span>
     </div>
     <div class="nav-bar">
@@ -39,30 +41,44 @@
 
 <div class="container">
     <div class="top">
-        <div class="profile-picture-container">
+        <div class="profile-picture-container animate__animated animate__jackInTheBox">
             <img src="<%= ((Account) request.getAttribute("account")).getImageUrl() %>" alt="Profile Picture"
                  class="profile-picture">
         </div>
-        <div class="profile-info selected">
+        <div class="profile-info selected animate__animated animate__fadeIn">
             <h2>User Profile</h2>
             <p>
-                <strong>Name:</strong> <%= ((Account) request.getAttribute("account")).getFirstName() %> 
+                <strong>Name:</strong> <span class="val"><%= ((Account) request.getAttribute("account")).getFirstName() %></span>
             </p>
             <p>
-                <strong>Last name:</strong><%= ((Account) request.getAttribute("account")).getLastName() %>
+                <strong>Last name:</strong> <span class="val"><%= ((Account) request.getAttribute("account")).getLastName() %></span>
             </p>
-            <p><strong>Username:</strong> <%= ((Account) request.getAttribute("account")).getUserName() %>
+            <p>
+                <strong>Username:</strong> <span class="val"><%= ((Account) request.getAttribute("account")).getUserName() %></span>
             </p>
-            <p><strong>Email:</strong> <%= ((Account) request.getAttribute("account")).getEmail() %>
+            <p>
+                <strong>Email:</strong> <span class="val"><%= ((Account) request.getAttribute("account")).getEmail() %></span>
             </p>
+            <%
+                Boolean isSelf = (Boolean) request.getAttribute("isSelf");
+                if (isSelf != null && isSelf) {
+            %>
+            <form action="ProfileServlet" method="post">
+                <button type="submit"  class="submit">Edit Profile</button>
+                <%--    <input type="submit" value="edit profile">--%>
+            </form>
+            <%
+                }
+            %>
         </div>
 
-        <div class="achievements">
+
+        <div class="achievements animate__animated animate__fadeInRight">
             <h3>Achievements</h3>
             <p>No achievements yet.</p> <!-- Replace with actual achievements if available -->
         </div>
     </div>
-    <div class="bottom">
+    <div class="bottom animate__animated animate__fadeInUp">
         <div class="quizzes">
             <h3>Quizzes Created</h3>
             <p>No quizzes created yet.</p> <!-- Replace with actual list of quizzes created -->
@@ -70,27 +86,17 @@
 
         <div class="friends">
             <h3>Friends</h3>
-            <%--        <ul>--%>
-            <%--            <% ArrayList<String> friends = (ArrayList<String>) ((Account) request.getAttribute("account")).getFriends();--%>
-            <%--                if (friends != null) {--%>
-            <%--                    for (String friend : friends) { %>--%>
-            <%--            <li><%= friend %></li>--%>
-            <%--            <% }--%>
-            <%--            } %>--%>
-            <%--        </ul>--%>
+<%--            <ul>--%>
+<%--                <% ArrayList<String> friends = (ArrayList<String>) ((Account) request.getAttribute("account")).getFriends();--%>
+<%--                    if (friends != null) {--%>
+<%--                        for (String friend : friends) { %>--%>
+<%--                <li><%= friend %>--%>
+<%--                </li>--%>
+<%--                <% }--%>
+<%--                } %>--%>
+<%--            </ul>--%>
         </div>
     </div>
-    <%
-        Boolean isSelf = (Boolean) request.getAttribute("isSelf");
-        if (isSelf != null && isSelf) {
-    %>
-    <form action="ProfileServlet" method="post">
-        <button type="submit">Edit Profile</button>
-<%--    <input type="submit" value="edit profile">--%>
-    </form>
-    <%
-        }
-    %>
 </div>
 
 </body>
