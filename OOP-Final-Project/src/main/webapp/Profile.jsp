@@ -80,9 +80,17 @@
             <%--        </ul>--%>
         </div>
     </div>
-    <% if (request.getAttribute("isSelf") != null && (Boolean) request.getAttribute("isSelf")) { %>
-        <button type="button" onclick="window.location.href='EditProfile.jsp'">Edit Profile</button>
-    <% } %>    
+    <%
+        Boolean isSelf = (Boolean) request.getAttribute("isSelf");
+        if (isSelf != null && isSelf) {
+    %>
+    <form action="ProfileServlet" method="post">
+        <button type="submit">Edit Profile</button>
+<%--    <input type="submit" value="edit profile">--%>
+    </form>
+    <%
+        }
+    %>
 </div>
 
 </body>

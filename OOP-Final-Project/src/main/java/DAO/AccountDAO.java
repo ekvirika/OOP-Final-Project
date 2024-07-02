@@ -106,7 +106,8 @@ public class AccountDAO {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(account, statement);
-            statement.setString(7, account.getUserName());
+            statement.setString(8, account.getUserName());
+            statement.setString(7, account.getSalt());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
