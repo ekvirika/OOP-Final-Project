@@ -12,42 +12,45 @@
 <body>
 <div class="container">
     <h1>Quiz Statistics</h1>
-    <div class="user-stats">
-        <h2>Your Results</h2>
-        <p>Quiz ID: <%= request.getAttribute("quizId") %></p>
-        <p>Username: <%= request.getSession().getAttribute("username") %></p>
-        <p>Score: <%= request.getAttribute("quizScore") %></p>
-        <p>Time Taken: <%= request.getAttribute("elapsedTime") %> seconds</p>
-    </div>
 
-    <div class="leaderboard">
-        <h2>Leaderboard</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Username</th>
-                <th>Score</th>
-                <th>Time Taken</th>
-            </tr>
-            </thead>
-            <tbody>
-            <%
-                List<Map<String, Object>> leaderboard = (List<Map<String, Object>>) request.getAttribute("leaderboard");
-                for (Map<String, Object> entry : leaderboard) {
-            %>
-            <tr>
-                <td><%= entry.get("rank") %></td>
-                <td><%= entry.get("username") %></td>
-                <td><%= entry.get("score") %></td>
-                <td><%= entry.get("timeTaken") %> seconds</td>
-            </tr>
-            <%
-                }
-            %>
-            </tbody>
-        </table>
-    </div>
+    <h2>Your Results</h2>
+    <ul>
+        <li>Quiz : <%= request.getAttribute("quizName") %></li>
+        <li>User: <%= request.getAttribute("username") %></li>
+        <li>Score: <%= request.getAttribute("score") %></li>
+        <li>Time Taken: <%= request.getAttribute("timeTakenSeconds") %> seconds</li>
+    </ul>
+
+<%--    <h2>Leaderboard</h2>--%>
+<%--    <table>--%>
+<%--        <thead>--%>
+<%--        <tr>--%>
+<%--            <th>Rank</th>--%>
+<%--            <th>Username</th>--%>
+<%--            <th>Score</th>--%>
+<%--            <th>Time Taken</th>--%>
+<%--        </tr>--%>
+<%--        </thead>--%>
+<%--        <tbody>--%>
+<%--        <% List<Map<String, Object>> leaderboard = (List<Map<String, Object>>) request.getAttribute("leaderboard");--%>
+<%--            if (leaderboard != null) {--%>
+<%--                for (Map<String, Object> entry : leaderboard) {--%>
+<%--        %>--%>
+<%--        <tr>--%>
+<%--&lt;%&ndash;            <td><%= entry.get("rank") %></td>&ndash;%&gt;--%>
+<%--            <td><%= entry.get("username") %></td>--%>
+<%--            <td><%= entry.get("score") %></td>--%>
+<%--            <td><%= entry.get("timeTaken") %> seconds</td>--%>
+<%--        </tr>--%>
+<%--        <%     }--%>
+<%--        }--%>
+<%--        // Handle case where leaderboard is null or empty--%>
+<%--        else {--%>
+<%--            // Display a message or handle it gracefully--%>
+<%--        }--%>
+<%--        %>--%>
+<%--        </tbody>--%>
+<%--    </table>--%>
 
     <div class="actions">
         <a href="/HomePageServlet">Go to Home</a>
