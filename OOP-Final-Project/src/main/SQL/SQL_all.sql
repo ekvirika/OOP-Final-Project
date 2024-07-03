@@ -138,3 +138,21 @@ VALUES (4, 3, 'Match the following authors with their works.', NULL, NULL, NULL,
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
 VALUES (4, 4, 'Select all that apply: Which of the following are novels?', NULL, NULL, '[\"Moby Dick\", \"The Great Gatsby\", \"Leaves of Grass\"]', '[0, 1]', NULL, NULL, NULL);
+
+
+-- Insert a quiz
+INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
+VALUES ('FIFA', 'Sports Quiz', 'Test your knowledge on famous sports and athletes.', 0, '[13, 14, 15, 16]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
+
+-- Insert questions for the quiz
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (5, 1, 'Who won the FIFA World Cup in 2018?', 'France', NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (5, 1, 'Who holds the record for the most home runs in a single MLB season?', 'Barry Bonds', NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (5, 1, 'Who has won the most Grand Slam titles in tennis?', 'Margaret Court', NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (5, 1, 'Which country has won the most Olympic gold medals in the history of the Summer Games?', 'United States', NULL, NULL, NULL, NULL, NULL, NULL);

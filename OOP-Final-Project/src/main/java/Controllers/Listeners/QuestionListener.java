@@ -1,6 +1,5 @@
 package Controllers.Listeners;
 import Models.Managers.QuestionManager;
-import Models.Managers.QuizManager;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;

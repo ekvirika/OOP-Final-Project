@@ -2,8 +2,10 @@ package DAO;
 
 import Models.Quiz;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,19 +76,25 @@ public class QuizDAO {
     }
 
     private Quiz extractQuizFromResultSet(ResultSet rs) throws SQLException {
+        Gson gson = new Gson();
+        Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
+
+        ArrayList<Integer> questionIds = gson.fromJson(rs.getString("questionIds"), listType);
+
         return new Quiz(
                 rs.getInt("quizID"),
                 rs.getString("username"),
                 rs.getString("quizName"),
                 rs.getString("quizDescription"),
                 rs.getInt("quizScore"),
-                new Gson().fromJson(rs.getString("questionIds"), ArrayList.class),
+                questionIds,
                 rs.getBoolean("isSinglePage"),
                 rs.getBoolean("randomizeQuestions"),
                 rs.getBoolean("immediateFeedback"),
                 rs.getTimestamp("createTime")
         );
     }
+
 
     /**
      * Updates an existing quiz record in the database.

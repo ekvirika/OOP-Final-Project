@@ -23,7 +23,7 @@ public class QuizManager {
      */
     public Quiz getQuiz(int quizId)  {
         Quiz quiz = quizDao.readQuiz(quizId);
-        if(quiz.isRandomizeQuestions()) Collections.shuffle(quiz.getQuestionIds());
+//        if(quiz.isRandomizeQuestions()) Collections.shuffle(quiz.getQuestionIds());
         return quiz;
     }
 

@@ -193,7 +193,7 @@ public class Quiz {
      * @return the list of question IDs
      */
     public ArrayList<Integer> getQuestionIds() {
-        return questionIds;
+        return (ArrayList<Integer>) questionIds;
     }
 
     /**
