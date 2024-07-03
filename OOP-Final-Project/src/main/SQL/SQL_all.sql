@@ -142,7 +142,7 @@ VALUES (4, 4, 'Select all that apply: Which of the following are novels?', NULL,
 
 -- Insert a quiz
 INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
-VALUES ('FIFA', 'Sports Quiz', 'Test your knowledge on famous sports and athletes.', 0, '[13, 14, 15, 16]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
+VALUES ('FIFA', 'Sports Quiz', 'Test your knowledge on famous sports and athletes.', 0, '[17, 18, 19, 20]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
 
 -- Insert questions for the quiz
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)

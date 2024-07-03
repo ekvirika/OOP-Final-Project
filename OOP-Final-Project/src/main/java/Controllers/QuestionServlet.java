@@ -31,7 +31,7 @@ public class QuestionServlet extends HttpServlet {
         int questionIndex = (int) request.getSession().getAttribute("questionIndex");
 
         if (questionIndex >= questionIds.size()) {
-            response.sendRedirect("/QuizStatsServlet");
+            doPost(request, response);
             return;
         }
 
@@ -61,8 +61,14 @@ public class QuestionServlet extends HttpServlet {
         Integer questionIndex = (Integer) request.getSession().getAttribute("questionIndex");
         Quiz quiz = quizManager.getQuiz(quizId);
         List<Integer> questionIds = quiz.getQuestionIds();
+        QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
+        request.getSession().setAttribute("quizHistory", quizHistory);
 
         if (questionIndex >= questionIds.size()) {
+            response.sendRedirect("/QuizStatsServlet");
+            quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
+            request.getSession().setAttribute("quizHistory", quizHistory);
+            request.getSession().setAttribute("username", quizHistory.getUsermame());
             response.sendRedirect("/QuizStatsServlet");
             return;
         }
@@ -71,7 +77,6 @@ public class QuestionServlet extends HttpServlet {
         Question question = questionManager.getQuestion(questionId);
 
         String userAnswer = request.getParameter("userAnswer");
-        QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
         if (quizHistory != null) {
             if (isAnswerCorrect(question, userAnswer)) {
                 quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
@@ -80,6 +85,10 @@ public class QuestionServlet extends HttpServlet {
 
         request.getSession().setAttribute("questionIndex", questionIndex + 1);
         if (questionIndex + 1 >= questionIds.size()) {
+            assert quizHistory != null;
+            quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
+            request.getSession().setAttribute("quizHistory", quizHistory);
+            request.getSession().setAttribute("username", quizHistory.getUsermame());
             response.sendRedirect("/QuizStatsServlet");
         } else {
             response.sendRedirect("/QuestionServlet?quizId=" + quizId);

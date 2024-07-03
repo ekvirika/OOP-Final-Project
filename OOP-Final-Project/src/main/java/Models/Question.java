@@ -174,4 +174,21 @@ public class Question {
     public void addMatchingPair(String key, String value) {
         this.matchingPairs.put(key, value);
     }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "questionId=" + questionId +
+                ", quizId=" + quizId +
+                ", questionType=" + questionType +
+                ", questionText='" + questionText + '\'' +
+                ", singleQuestionAnswer='" + singleQuestionAnswer + '\'' +
+                ", alternativeAnswers=" + alternativeAnswers +
+                ", multipleChoiceAnswers=" + multipleChoiceAnswers +
+                ", multipleChoiceCorrectIndexes=" + multipleChoiceCorrectIndexes +
+                ", questionImage='" + questionImage + '\'' +
+                ", multipleAnswerFields=" + multipleAnswerFields +
+                ", matchingPairs=" + matchingPairs +
+                '}';
+    }
 }

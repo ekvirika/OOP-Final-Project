@@ -20,7 +20,7 @@ public class QuizHistory {
      * for quiz score, start time, end time, and elapsed time.
      *
      * @param quizId the ID of the quiz
-     * @param userId the ID of the user who attempted the quiz
+     * @param username the ID of the user who attempted the quiz
      */
     public QuizHistory(int quizId, String username) {
         this.quizId = quizId;
@@ -137,5 +137,18 @@ public class QuizHistory {
      */
     public void setElapsedTime(long elapsedTime) {
         this.elapsedTime = elapsedTime;
+    }
+
+
+    @Override
+    public String toString() {
+        return "QuizHistory{" +
+                "quizId=" + quizId +
+                ", username='" + username + '\'' +
+                ", quizScore=" + quizScore +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", elapsedTime=" + elapsedTime +
+                '}';
     }
 }
