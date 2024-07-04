@@ -1,6 +1,7 @@
 package DAO;
 
 import Models.Account;
+import Models.Quiz;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -97,9 +98,12 @@ public class AccountDAO {
                 account.setFriends(friends);
 
                 Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
+                Type listType = new TypeToken<ArrayList<Integer>>() {
+                }.getType();
                 ArrayList<Integer> achievementIds = gson.fromJson(resultSet.getString("questionIds"), listType);
-                account.setAchievements(achievementIds);
+                ArrayList<Integer> quizIds = gson.fromJson(resultSet.getString("quizIds"), listType);
+                account.setAchievementIds(achievementIds);
+                account.setQuizIds(quizIds);
 
             }
         } catch (SQLException e) {
@@ -110,11 +114,12 @@ public class AccountDAO {
 
 
     public void updateAccount(Account account) {
-        String query = "UPDATE Accounts SET userName = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ?, achievementIds = ? WHERE userName = ?";
+        String query = "UPDATE Accounts SET userName = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ?, achievementIds = ?, QuizIds = ? WHERE userName = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(account, statement);
-            statement.setString(9, new Gson().toJson(account.getAchievements()));
+            statement.setString(10, new Gson().toJson(account.getQuizIds()));
+            statement.setString(9, new Gson().toJson(account.getAchievementIds()));
             statement.setString(8, account.getUserName());
             statement.setString(7, account.getSalt());
             statement.executeUpdate();
@@ -132,5 +137,15 @@ public class AccountDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Quiz> getAllQuizzes(String username){
+        ArrayList<Quiz> quizzes = new ArrayList<>();
+        ArrayList<Integer> quizIds = (ArrayList<Integer>) readAccount(username).getQuizIds();
+        QuizDAO quizDAO = new QuizDAO(dataSource);
+        for (Integer quizId : quizIds) {
+            quizzes.add(quizDAO.readQuiz(quizId));
+        }
+        return quizzes;
     }
 }
