@@ -94,8 +94,4 @@ public class QuestionServlet extends HttpServlet {
             response.sendRedirect("/QuestionServlet?quizId=" + quizId);
         }
     }
-
-    private boolean isAnswerCorrect(Question question, String userAnswer) {
-        return question.getSingleQuestionAnswer().equalsIgnoreCase(userAnswer.trim());
-    }
 }
