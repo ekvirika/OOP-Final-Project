@@ -31,6 +31,15 @@ public class QuizHistory {
         this.elapsedTime = 0;
     }
 
+    public QuizHistory(int quizId, String username, int quizScore, Time startTime, Time endTime, long elapsedTime) {
+        this.quizId = quizId;
+        this.username = username;
+        this.quizScore = quizScore;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.elapsedTime = elapsedTime;
+    }
+
     /**
      * Retrieves the ID of the quiz.
      *
@@ -54,7 +63,7 @@ public class QuizHistory {
      *
      * @return the ID of the user
      */
-    public String getUsermame() {
+    public String getUsername() {
         return username;
     }
 
