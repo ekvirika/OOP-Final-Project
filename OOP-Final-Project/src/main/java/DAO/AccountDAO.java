@@ -1,8 +1,11 @@
 package DAO;
 
 import Models.Account;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -60,7 +63,6 @@ public class AccountDAO {
         String query = "SELECT * FROM Accounts WHERE userName = ?";
         String queryFriends = "SELECT userName1, userName2 FROM Friends WHERE userName1 = ? OR userName2 = ?";
         Account account = null;
-
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              PreparedStatement statementFriends = connection.prepareStatement(queryFriends)) {
@@ -93,6 +95,12 @@ public class AccountDAO {
                     }
                 }
                 account.setFriends(friends);
+
+                Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
+                ArrayList<Integer> achievementIds = gson.fromJson(resultSet.getString("questionIds"), listType);
+                account.setAchievements(achievementIds);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,10 +110,11 @@ public class AccountDAO {
 
 
     public void updateAccount(Account account) {
-        String query = "UPDATE Accounts SET userName = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ? WHERE userName = ?";
+        String query = "UPDATE Accounts SET userName = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ?, achievementIds = ? WHERE userName = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(account, statement);
+            statement.setString(9, new Gson().toJson(account.getAchievements()));
             statement.setString(8, account.getUserName());
             statement.setString(7, account.getSalt());
             statement.executeUpdate();

@@ -17,6 +17,7 @@ public class Account {
     private String email;
     private String imageUrl;
     private List<String> friends;
+    private List<Integer> achievementIds;
 
 
     /**
@@ -39,6 +40,7 @@ public class Account {
         this.email = email;
         this.imageUrl = imageUrl;
         this.friends = new ArrayList<>();
+        this.achievementIds = new ArrayList<>();
         this.salt = salt;
     }
 
@@ -184,6 +186,13 @@ public class Account {
      */
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public List<Integer> getAchievements() {
+        return Collections.unmodifiableList(achievementIds);
+    }
+    public void setAchievements(List<Integer> achievements) {
+        this.achievementIds = achievements;
     }
 
     /**
