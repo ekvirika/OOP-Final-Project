@@ -4,11 +4,13 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Models.LeaderboardEntry" %>
 <%@ page import="Models.Quiz" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
+    <link rel="icon" href="./assets/Logo.png">
     <link rel="stylesheet" type="text/css" href="./css/HomePage.css">
     <link rel="stylesheet" href="./css/StartPage.css">
     <link rel="stylesheet" href="./css/NavBar.css">
@@ -19,6 +21,57 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
+
+    <style>
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 50px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .search-input {
+            height: 40px;
+            width: 200px;
+            border: none;
+            padding: 0 15px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            width: 300px;
+            padding: 0 20px;
+            border: 2px solid #007bff;
+        }
+
+        /*.search-button {*/
+        /*    height: 40px;*/
+        /*    width: 40px;*/
+        /*    background: #007bff;*/
+        /*    border: none;*/
+        /*    border-radius: 50%;*/
+        /*    color: #fff;*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    justify-content: center;*/
+        /*    cursor: pointer;*/
+        /*    transition: background 0.3s ease;*/
+        /*}*/
+
+        .search-button:hover {
+            background: #0056b3;
+        }
+
+        .search-button:focus {
+            outline: none;
+        }
+
+
+    </style>
 </head>
 <body>
 <!-- Navigation Bar -->
@@ -38,6 +91,18 @@
     </div>
 </header>
 
+<div class="search-container">
+    <form id="search-form" action="Search.jsp" method="get">
+        <label>
+            <input id="search-input" class="search-input" type="text" name="query" placeholder="Search Quiz Or A Friend...">
+        </label>
+        <button class="search-button" type="submit">
+            <i class="fa fa-search"></i>
+        </button>
+        <div id="suggestions" class="suggestions-container"></div>
+    </form>
+</div>
+
 <div class="container">
     <h1>Welcome to the Quizzz.com, <%= request.getAttribute("username") %>!</h1>
     <!-- Leaderboard -->
@@ -55,7 +120,7 @@
             <% List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) request.getAttribute("leaderboard");
                 for (LeaderboardEntry user : leaderboard) { %>
             <tr>
-                <td><%= user.getRank() %></td>
+<%--                <td><%= user.getRank() %></td>--%>
                 <td><%= user.getUsername() %></td>
                 <td><%= user.getScore() %></td>
             </tr>
@@ -79,5 +144,6 @@
         </ul>
     </section>
 </div>
+    <script src="javascript/SearchBar.js" defer></script>
 </body>
 </html>
