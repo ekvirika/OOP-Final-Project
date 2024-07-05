@@ -1,5 +1,6 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.List" %>
+<%@ page import="Models.LeaderboardEntry" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -10,6 +11,9 @@
     <link rel="stylesheet" href="./css/QuizStats.css">
 </head>
 <body>
+<%
+    List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) request.getAttribute("leaderboard");
+%>
 <div class="container">
     <h1>Quiz Statistics</h1>
 
@@ -21,36 +25,36 @@
         <li>Time Taken: <%= request.getAttribute("timeTakenSeconds") %> seconds</li>
     </ul>
 
-<%--    <h2>Leaderboard</h2>--%>
-<%--    <table>--%>
-<%--        <thead>--%>
-<%--        <tr>--%>
-<%--            <th>Rank</th>--%>
-<%--            <th>Username</th>--%>
-<%--            <th>Score</th>--%>
-<%--            <th>Time Taken</th>--%>
-<%--        </tr>--%>
-<%--        </thead>--%>
-<%--        <tbody>--%>
-<%--        <% List<Map<String, Object>> leaderboard = (List<Map<String, Object>>) request.getAttribute("leaderboard");--%>
-<%--            if (leaderboard != null) {--%>
-<%--                for (Map<String, Object> entry : leaderboard) {--%>
-<%--        %>--%>
-<%--        <tr>--%>
-<%--&lt;%&ndash;            <td><%= entry.get("rank") %></td>&ndash;%&gt;--%>
-<%--            <td><%= entry.get("username") %></td>--%>
-<%--            <td><%= entry.get("score") %></td>--%>
-<%--            <td><%= entry.get("timeTaken") %> seconds</td>--%>
-<%--        </tr>--%>
-<%--        <%     }--%>
-<%--        }--%>
-<%--        // Handle case where leaderboard is null or empty--%>
-<%--        else {--%>
-<%--            // Display a message or handle it gracefully--%>
-<%--        }--%>
-<%--        %>--%>
-<%--        </tbody>--%>
-<%--    </table>--%>
+
+    <h2>Leaderboard</h2>
+    <div class="leaderboard">
+        <h2>Leaderboard</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Score</th>
+                <th>Time Taken</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+                int rank = 1;
+                for (LeaderboardEntry entry : leaderboard) {
+            %>
+            <tr>
+                <td><%= rank %></td>
+                <td><%= entry.getUsername() %></td>
+                <td><%= entry.getScore() %></td>
+                <td><%= entry.getElapsedTime() %> seconds</td>
+            </tr>
+            <%
+                    rank++;
+                }
+            %>
+            </tbody>
+        </table>
 
     <div class="actions">
         <a href="/HomePageServlet">Go to Home</a>

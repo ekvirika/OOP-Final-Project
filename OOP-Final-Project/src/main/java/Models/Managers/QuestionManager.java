@@ -5,10 +5,7 @@ import Models.Enums.QuestionType;
 import Models.Question;
 import utils.SQLConnector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Manages operations related to Question objects, including retrieval, creation, update, and deletion.
@@ -68,24 +65,39 @@ public class QuestionManager {
     public boolean isAnswerCorrect(Question question, String answer, ArrayList<String> answers,
                                    HashMap<String, String> matchingAnswers) {
         QuestionType questionType = question.getQuestionType();
-        if(questionType.equals(QuestionType.MATCHING)){
+        if (questionType.equals(QuestionType.MATCHING)) {
             HashMap<String, String> correctAnswers = question.getMatchingPairs();
             return matchingAnswers.equals(correctAnswers);
-        } else if(questionType.equals(QuestionType.QUESTION_RESPONSE) || questionType.equals(QuestionType.FILL_IN_THE_BLANK) ||
-                    questionType.equals(QuestionType.PICTURE_RESPONSE)){
-            return question.getQuestionText().equals(answer);
-        } else if(questionType.equals(QuestionType.MULTI_ANSWER)){
-            // TODO
-            return answers.containsAll(question.getMultipleAnswerFields());
-        } else if(questionType.equals(QuestionType.MULTIPLE_CHOICE) || questionType.equals(QuestionType.MULTIPLE_CHOICE_WITH_ANSWERS)){
+        } else if (questionType.equals(QuestionType.QUESTION_RESPONSE) ||
+                questionType.equals(QuestionType.FILL_IN_THE_BLANK) ||
+                questionType.equals(QuestionType.PICTURE_RESPONSE)) {
+            return question.getSingleQuestionAnswer().equalsIgnoreCase(answer.trim());
+        } else if (questionType.equals(QuestionType.MULTI_ANSWER)) {
+            // Case-insensitive comparison for multi-answer
+            List<String> correctAnswers = new ArrayList<>();
+            for (String correctAnswer : question.getMultipleAnswerFields()) {
+                correctAnswers.add(correctAnswer.toLowerCase().trim());
+            }
+            List<String> userAnswers = new ArrayList<>();
+            for (String userAnswer : answers) {
+                userAnswers.add(userAnswer.toLowerCase());
+            }
+            return new HashSet<>(userAnswers).containsAll(correctAnswers);
+        } else if (questionType.equals(QuestionType.MULTIPLE_CHOICE) ||
+                questionType.equals(QuestionType.MULTIPLE_CHOICE_WITH_ANSWERS)) {
             ArrayList<String> correctAnswers = new ArrayList<>();
             ArrayList<String> allAnswers = question.getMultipleChoiceAnswers();
             ArrayList<Integer> indices = question.getMultipleChoiceCorrectIndexes();
-            for(int i = 0; i < indices.size(); i++){
-                correctAnswers.add(allAnswers.get(indices.get(i)));
+            for (int index : indices) {
+                correctAnswers.add(allAnswers.get(index).toLowerCase());
             }
-            return answers.containsAll(correctAnswers);
+            ArrayList<String> userAnswers = new ArrayList<>();
+            for (String userAnswer : answers) {
+                userAnswers.add(userAnswer.toLowerCase());
+            }
+            return userAnswers.containsAll(correctAnswers);
         }
         return false;
     }
+
 }

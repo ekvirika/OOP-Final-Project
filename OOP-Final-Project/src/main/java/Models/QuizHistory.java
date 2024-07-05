@@ -70,7 +70,7 @@ public class QuizHistory {
     /**
      * Sets the ID of the user who attempted the quiz.
      *
-     * @param userId the ID of the user
+     * @param username the ID of the user
      */
     public void setUserId(String username) {
         this.username = username;

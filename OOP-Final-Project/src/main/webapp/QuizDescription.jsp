@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="Models.Quiz" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="Models.LeaderboardEntry" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +22,9 @@
     <link rel="icon" href="./assets/Logo.png">
 </head>
 <body>
-<% Quiz quiz = (Quiz) request.getAttribute("currentQuiz"); %>
+<% Quiz quiz = (Quiz) request.getAttribute("currentQuiz");
+    List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) request.getAttribute("leaderboard");
+%>
 <header class="animate__animated animate__fadeInDown">
     <h1><%= quiz.getQuizName() %></h1>
 </header>
@@ -39,6 +43,32 @@
     </div>
     <div class="leaderboard">
         <h2>Leaderboard</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Score</th>
+                <th>Time Taken</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%
+                int rank = 1;
+                for (LeaderboardEntry entry : leaderboard) {
+            %>
+            <tr>
+                <td><%= rank %></td>
+                <td><%= entry.getUsername() %></td>
+                <td><%= entry.getScore() %></td>
+                <td><%= entry.getElapsedTime() %> seconds</td>
+            </tr>
+            <%
+                    rank++;
+                }
+            %>
+            </tbody>
+        </table>
     </div>
 </div>
 

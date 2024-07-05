@@ -1,5 +1,7 @@
 package Controllers;
 
+import Models.LeaderboardEntry;
+import Models.Managers.LeaderboardManager;
 import Models.Managers.QuizManager;
 import Models.QuizHistory;
 
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "QuizStatsServlet", urlPatterns = {"/QuizStatsServlet"})
 public class QuizStatsServlet extends HttpServlet {
@@ -27,9 +31,14 @@ public class QuizStatsServlet extends HttpServlet {
         String username = quizHistory.getUsername();
 
 
-//        List<Map<String, Object>> leaderboard = quizHistory.getLeaderboard(); // Adjust as per your QuizHistory implementation
-//        request.setAttribute("leaderboard", leaderboard);
-
+        LeaderboardManager leaderboardManager = (LeaderboardManager) request.getServletContext().getAttribute(LeaderboardManager.ATTRIBUTE_NAME);
+        try {
+            List<LeaderboardEntry> leaderboard = leaderboardManager.getLeaderboard(quizId);
+            request.setAttribute("leaderboard", leaderboard);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ServletException("Unable to retrieve leaderboard data", e);
+        }
 
         // Set attributes for JSP
         request.setAttribute("quizName", quizName);

@@ -1,5 +1,7 @@
 package Controllers;
 
+import Models.LeaderboardEntry;
+import Models.Managers.LeaderboardManager;
 import Models.Quiz;
 import Models.Managers.QuizManager;
 import Models.QuizHistory;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "QuizServlet", urlPatterns = {"/QuizServlet"})
 public class QuizServlet extends HttpServlet {
@@ -21,6 +25,14 @@ public class QuizServlet extends HttpServlet {
 
         Quiz quiz = quizManager.getQuiz(quizId);
         request.setAttribute("currentQuiz", quiz);
+        LeaderboardManager leaderboardManager = (LeaderboardManager) request.getServletContext().getAttribute(LeaderboardManager.ATTRIBUTE_NAME);
+        try {
+            List<LeaderboardEntry> leaderboard = leaderboardManager.getLeaderboard(quizId);
+            request.setAttribute("leaderboard", leaderboard);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ServletException("Unable to retrieve leaderboard data", e);
+        }
 
         request.getRequestDispatcher("/QuizDescription.jsp").forward(request, response);
     }
@@ -33,7 +45,7 @@ public class QuizServlet extends HttpServlet {
         QuizHistory quizHistory = new QuizHistory(quizId, username);
         quizHistory.setStartTime(new java.sql.Time(System.currentTimeMillis()));
 
-        int questionIndex=0;
+        int questionIndex = 0;
         request.getSession().setAttribute("quizHistory", quizHistory);
         request.getSession().setAttribute("questionIndex", questionIndex);
         response.sendRedirect(request.getContextPath() + "/QuestionServlet?quizId=" + quizId + "&questionIndex=0");
