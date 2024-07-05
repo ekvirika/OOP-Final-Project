@@ -26,8 +26,8 @@ public class TakeQuiz {
             case 5:
                 return generateMultiAns(question);
 //            break;
-//            case 6:
-//                return generateMultiChoiceAns(question);
+            case 6:
+                return generateMultiChoiceAns(question);
 //            break;
 //            case 7:
 //                return generateMatching(question);
@@ -112,27 +112,30 @@ public class TakeQuiz {
     }
 
 
-//    private String generateMultiChoiceAns(Question question){
-//        return  "<form action=\"QuestionServlet\" method=\"post\">" +
-//                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" +
-//                <div class="question"><h3>Please mark each statement below which is true:</h3></div>
-//                <ul class="answers">
-//                <li>
-//                <input type="checkbox" id="answerA" name="answers" value="A">
-//                <label for="answerA">Stanford was established in 1891.</label>
-//                </li>
-//                <li>
-//                <input type="checkbox" id="answerB" name="answers" value="B">
-//                <label for="answerB">Stanford has the best computer science department in the world.</label>
-//                </li>
-//                <li>
-//                <input type="checkbox" id="answerC" name="answers" value="C">
-//                <label for="answerC">Stanford will be going to a bowl game this year.</label>
-//                </li>
-//                </ul>
-//                "<button class=\"btn\" type=\"submit\">Submit</button>" +
-//                "</form>";
-//    }
+    private String generateMultiChoiceAns(Question question) {
+        StringBuilder formBuilder = new StringBuilder();
+
+        formBuilder.append("<form action=\"QuestionServlet\" method=\"post\">")
+                .append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
+                .append("<div class=\"question\"><h3>").append(question.getQuestionText()).append("</h3></div>")
+                .append("<ul class=\"answers\">");
+
+        List<String> answers = question.getMultipleChoiceAnswers();
+        for (int i = 0; i < answers.size(); i++) {
+            char answerId = (char) ('A' + i);
+            formBuilder.append("<li>")
+                    .append("<input type=\"checkbox\" id=\"answer").append(answerId).append("\" name=\"answers\" value=\"").append(answerId).append("\">")
+                    .append("<label for=\"answer").append(answerId).append("\">").append(answers.get(i)).append("</label>")
+                    .append("</li>");
+        }
+
+        formBuilder.append("</ul>")
+                .append("<button class=\"btn\" type=\"submit\">Submit</button>")
+                .append("</form>");
+
+        return formBuilder.toString();
+    }
+
 
 //    private String generateMatching(Question question){
 //         return  "<form action=\"QuestionServlet\" method=\"post\">" +
