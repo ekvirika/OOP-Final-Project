@@ -6,15 +6,16 @@ USE OOP_QUIZ;
 
 -- Create the Accounts table
 CREATE TABLE IF NOT EXISTS Accounts (
-    userId INT AUTO_INCREMENT PRIMARY KEY,
-    userName VARCHAR(50) NOT NULL UNIQUE,
-    firstName VARCHAR(50),
-    lastName VARCHAR(50),
-    password VARCHAR(255),
-    email VARCHAR(100) UNIQUE,
-    imageUrl VARCHAR(255),
-    salt VARCHAR(16),
-    CONSTRAINT chk_password_length CHECK (CHAR_LENGTH(password) >= 8)
+                                        userId INT AUTO_INCREMENT PRIMARY KEY,
+                                        userName VARCHAR(50) NOT NULL UNIQUE,
+                                        firstName VARCHAR(50),
+                                        lastName VARCHAR(50),
+                                        password VARCHAR(255),
+                                        email VARCHAR(100) UNIQUE,
+                                        imageUrl VARCHAR(255),
+                                        salt VARCHAR(16),
+                                        achievementIds TEXT,
+                                        CONSTRAINT chk_password_length CHECK (CHAR_LENGTH(password) >= 8)
 );
 
 # create friends table
@@ -29,7 +30,7 @@ CREATE TABLE IF NOT EXISTS Friends (
 );
 
 
-CREATE TABLE IF NOT EXISTS Quiz (
+CREATE TABLE Quiz (
                       quizID INT NOT NULL AUTO_INCREMENT,
                       username VARCHAR(255) NOT NULL,
                       quizName VARCHAR(255) NOT NULL,
@@ -44,7 +45,7 @@ CREATE TABLE IF NOT EXISTS Quiz (
 );
 
 -- Create Question table
-CREATE TABLE IF NOT EXISTS Question (
+CREATE TABLE Question (
                           questionId INT NOT NULL AUTO_INCREMENT,
                           quizId INT NOT NULL,
                           questionType INT NOT NULL,
@@ -59,6 +60,29 @@ CREATE TABLE IF NOT EXISTS Question (
                           PRIMARY KEY (questionId),
                           FOREIGN KEY (quizId) REFERENCES Quiz(quizID)
 );
+
+
+CREATE TABLE Achievement (
+                             achievementId INT NOT NULL AUTO_INCREMENT,
+                             achievementName VARCHAR(255) NOT NULL,
+                             achievementUrl VARCHAR(255),
+                             achievementDescription TEXT,
+                             PRIMARY KEY (achievementId)
+);
+
+
+CREATE TABLE QuizHistory (
+                             quizId INT NOT NULL,
+                             username VARCHAR(255) NOT NULL,
+                             quizScore INT DEFAULT 0,
+                             startTime TIME,
+                             endTime TIME,
+                             elapsedTime BIGINT DEFAULT 0,
+                             PRIMARY KEY (quizId, username),
+                             FOREIGN KEY (quizId) REFERENCES Quiz(quizId),
+                             FOREIGN KEY (username) REFERENCES User(username)
+);
+
 
 # ----------------------------------------------------------------------------
 -- Insert a quiz
