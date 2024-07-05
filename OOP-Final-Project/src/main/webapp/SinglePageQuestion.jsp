@@ -19,12 +19,6 @@
     <div class="question-html">
         <%= (String) request.getAttribute("questionHtml") %>
     </div>
-
-    <form action="QuestionServlet" method="post">
-        <input type="hidden" name="quizId" value="<%= ((Integer) request.getAttribute("quizId")) %>">
-        <input type="text" name="userAnswer" placeholder="Your Answer">
-        <button type="submit">Submit Answer</button>
-    </form>
     <% } else { %>
     <h1>Quiz Not Found</h1>
     <!-- Handle the case where currentQuiz is null -->
