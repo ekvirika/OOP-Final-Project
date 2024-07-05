@@ -80,7 +80,7 @@ CREATE TABLE QuizHistory (
                              elapsedTime BIGINT DEFAULT 0,
                              PRIMARY KEY (quizId, username),
                              FOREIGN KEY (quizId) REFERENCES Quiz(quizId),
-                             FOREIGN KEY (username) REFERENCES User(username)
+                             FOREIGN KEY (username) REFERENCES Accounts(username)
 );
 
 
