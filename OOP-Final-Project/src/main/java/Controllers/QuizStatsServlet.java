@@ -3,6 +3,7 @@ package Controllers;
 import Models.LeaderboardEntry;
 import Models.Managers.LeaderboardManager;
 import Models.Managers.QuizManager;
+import Models.Managers.QuizHistoryManager;
 import Models.QuizHistory;
 
 import javax.servlet.RequestDispatcher;
@@ -17,11 +18,20 @@ import java.util.List;
 
 @WebServlet(name = "QuizStatsServlet", urlPatterns = {"/QuizStatsServlet"})
 public class QuizStatsServlet extends HttpServlet {
+
+    private QuizHistoryManager quizHistoryManager;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        quizHistoryManager = (QuizHistoryManager) getServletContext().getAttribute(QuizHistoryManager.ATTRIBUTE_NAME);
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
-        QuizManager quizManager = (QuizManager) request.getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
+        QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         int quizId = quizHistory.getQuizId();
         String quizName = quizManager.getQuiz(quizId).getQuizName();
         int score = quizHistory.getQuizScore();
@@ -30,8 +40,15 @@ public class QuizStatsServlet extends HttpServlet {
         long timeTakenSeconds = (endTime - startTime) / 1000;
         String username = quizHistory.getUsername();
 
+        // Store quiz history in database
+        try {
+            quizHistoryManager.createQuizHistory(quizHistory);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ServletException("Failed to store quiz history in database", e);
+        }
 
-        LeaderboardManager leaderboardManager = (LeaderboardManager) request.getServletContext().getAttribute(LeaderboardManager.ATTRIBUTE_NAME);
+        LeaderboardManager leaderboardManager = (LeaderboardManager) getServletContext().getAttribute(LeaderboardManager.ATTRIBUTE_NAME);
         try {
             List<LeaderboardEntry> leaderboard = leaderboardManager.getLeaderboard(quizId);
             request.setAttribute("leaderboard", leaderboard);

@@ -1,8 +1,8 @@
 package Controllers.Listeners;
 
-import Models.LeaderboardEntry;
-import Models.Managers.LeaderboardManager;
-import Models.Managers.QuizManager;
+
+
+import Models.Managers.QuizHistoryManager;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -10,16 +10,18 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 @WebListener
-public class LeaderboardListener implements ServletContextListener {
+public class QuizHistoryListener implements ServletContextListener {
+
+
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        LeaderboardManager manager = new LeaderboardManager();
+        QuizHistoryManager manager = new QuizHistoryManager();
         ServletContext servletContext = servletContextEvent.getServletContext();
-        servletContext.setAttribute(LeaderboardManager.ATTRIBUTE_NAME, manager);
+        servletContext.setAttribute(QuizHistoryManager.ATTRIBUTE_NAME, manager);
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        servletContextEvent.getServletContext().removeAttribute(LeaderboardManager.ATTRIBUTE_NAME);
+        servletContextEvent.getServletContext().removeAttribute(QuizHistoryManager.ATTRIBUTE_NAME);
     }
 }
