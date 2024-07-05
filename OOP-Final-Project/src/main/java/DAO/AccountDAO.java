@@ -97,13 +97,7 @@ public class AccountDAO {
                 }
                 account.setFriends(friends);
 
-                Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<Integer>>() {
-                }.getType();
-                ArrayList<Integer> achievementIds = gson.fromJson(resultSet.getString("achievementIds"), listType);
-                ArrayList<Integer> quizIds = gson.fromJson(resultSet.getString("quizIds"), listType);
-                account.setAchievementIds(achievementIds);
-                account.setQuizIds(quizIds);
+                setGson(resultSet, account);
 
             }
         } catch (SQLException e) {
@@ -139,7 +133,7 @@ public class AccountDAO {
         }
     }
 
-    public List<Quiz> getAllQuizzes(String username){
+    public List<Quiz> getAllQuizzes(String username) {
         ArrayList<Quiz> quizzes = new ArrayList<>();
         ArrayList<Integer> quizIds = (ArrayList<Integer>) readAccount(username).getQuizIds();
         QuizDAO quizDAO = new QuizDAO(dataSource);
@@ -148,4 +142,44 @@ public class AccountDAO {
         }
         return quizzes;
     }
+
+
+    public List<Account> getAllAccounts() throws SQLException {
+        List<Account> accounts = new ArrayList<>();
+        String query = "SELECT * FROM Accounts";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Account account = new Account(
+                        resultSet.getString("userName"),
+                        resultSet.getString("firstName"),
+                        resultSet.getString("lastName"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("imageUrl"),
+                        resultSet.getString("salt")
+                );
+
+                // Deserialize JSON strings to ArrayLists
+                setGson(resultSet, account);
+
+                accounts.add(account);
+            }
+        }
+        return accounts;
+    }
+
+    private void setGson(ResultSet resultSet, Account account) throws SQLException {
+        Gson gson = new Gson();
+        Type listType = new TypeToken<ArrayList<Integer>>() {
+        }.getType();
+        ArrayList<Integer> achievementIds = gson.fromJson(resultSet.getString("achievementIds"), listType);
+        ArrayList<Integer> quizIds = gson.fromJson(resultSet.getString("quizIds"), listType);
+        account.setAchievementIds(achievementIds);
+        account.setQuizIds(quizIds);
+    }
+
 }
