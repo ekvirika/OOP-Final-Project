@@ -72,9 +72,9 @@ public class TakeQuiz {
         return  "<form action=\"QuestionServlet\" method=\"post\">" +
                 "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" +
                 "<div class=\"image-question\">" +
-                "<img src=\"https://physics.itmo.ru/sites/default/files/styles/seminar_speaker_full/public/speaker-photo/12244.jpg?itok=_XsYjE4D\" alt=\"Question Image\">" +
+                "<img src=\"" + question.getQuestionImage() + "\" alt=\"Question Image\">" +
                 "</div>" +
-                "<div class=\"question\">\"Who is on the photo?\"</div>" +
+                "<div class=\"question\">\"" + question.getQuestionText() + "\"</div>" +
                 "<div class=\"response\">" +
                 "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" +
                 "</div>" +
@@ -88,6 +88,7 @@ public class TakeQuiz {
 
         formBuilder.append("<form action=\"QuestionServlet\" method=\"post\">")
                 .append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
+                .append("<div class=\"question\">").append(question.getQuestionText()).append("</div>")
                 .append("<div class=\"response\">");
 
         for (int i = 0; i < correctAnswers.size(); i++) {
@@ -96,7 +97,7 @@ public class TakeQuiz {
             }
 
             formBuilder.append("<input type=\"text\" id=\"userAnswer").append(i + 1).append("\" name=\"userAnswer").append(i + 1)
-                    .append("\" placeholder=\"#").append(correctAnswers.get(i)).append("\">");
+                    .append("\" placeholder=\"Answer Here\">");
 
             if ((i + 1) % 4 == 0 || i == correctAnswers.size() - 1) {
                 formBuilder.append("</div>");
@@ -109,6 +110,7 @@ public class TakeQuiz {
 
         return formBuilder.toString();
     }
+
 
 //    private String generateMultiChoiceAns(Question question){
 //        return  "<form action=\"QuestionServlet\" method=\"post\">" +

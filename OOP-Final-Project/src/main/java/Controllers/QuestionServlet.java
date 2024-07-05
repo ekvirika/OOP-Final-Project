@@ -86,9 +86,9 @@ public class QuestionServlet extends HttpServlet {
         Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<String>>() {}.getType();
         List<String> userAnswers = gson.fromJson(userAnswersList, listType);
-        if(questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, null)){
-            quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
-        }
+//        if(questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, null)){
+//            quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
+//        }
         System.out.println("Score: "+ quizHistory.getQuizScore());
 
         request.getSession().setAttribute("questionIndex", questionIndex + 1);

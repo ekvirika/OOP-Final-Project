@@ -186,7 +186,7 @@ VALUES (5, 0, 'Which country has won the most Olympic gold medals in the history
 
 
 INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
-VALUES ('KIKNA', 'ISE', 'GATESTE', 0, '[21, 22, 23]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
+VALUES ('KIKNA', 'ISE', 'GATESTE', 0, '[21, 22, 23, 24]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
 
 -- Insert questions for the quiz
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
