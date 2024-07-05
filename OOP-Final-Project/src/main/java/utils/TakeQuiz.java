@@ -20,11 +20,11 @@ public class TakeQuiz {
             case 3:
                 return generateMultiChoice(question);
 //            break;
-//            case 4:
-//                return generatePictRes(question);
+            case 4:
+                return generatePictRes(question);
 //            break;
-//            case 5:
-//                return generateMultiAns(question);
+            case 5:
+                return generateMultiAns(question);
 //            break;
 //            case 6:
 //                return generateMultiChoiceAns(question);
@@ -68,43 +68,47 @@ public class TakeQuiz {
     }
 
 
-//    private String generatePictRes(Question question){
-//        return  "<form action=\"QuestionServlet\" method=\"post\">" +
-//                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" +
-//                "<div class=\"image-question\">" +
-//                "<img src=\"https://physics.itmo.ru/sites/default/files/styles/seminar_speaker_full/public/speaker-photo/12244.jpg?itok=_XsYjE4D\" alt=\"Question Image\">" +
-//                "</div>" +
-//                "<div class=\"question\">\"Who is on the photo?\"</div>" +
-//                "<div class=\"response\">" +
-//                "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" +
-//                "</div>" +
-//                "<button class=\"btn\" type=\"submit\">Submit</button>" +
-//                "</form>";
-//    }
+    private String generatePictRes(Question question){
+        return  "<form action=\"QuestionServlet\" method=\"post\">" +
+                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" +
+                "<div class=\"image-question\">" +
+                "<img src=\"https://physics.itmo.ru/sites/default/files/styles/seminar_speaker_full/public/speaker-photo/12244.jpg?itok=_XsYjE4D\" alt=\"Question Image\">" +
+                "</div>" +
+                "<div class=\"question\">\"Who is on the photo?\"</div>" +
+                "<div class=\"response\">" +
+                "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" +
+                "</div>" +
+                "<button class=\"btn\" type=\"submit\">Submit</button>" +
+                "</form>";
+    }
 
-//    private String generateMultiAns(Question question){
-//         return  "<form action=\"QuestionServlet\" method=\"post\">" +
-//                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" +
-//                "<div class=\"response\">" +
-//                "<div class=\"row\">" +
-//                "<input type=\"text\" id=\"userAnswer1\" name=\"userAnswer1\" placeholder=\"#7\">" +
-//                "<input type=\"text\" id=\"userAnswer2\" name=\"userAnswer2\" placeholder=\"#22\">" +
-//                "</div>" +
-//                "<div class=\"row\">" +
-//                "<input type=\"text\" id=\"userAnswer3\" name=\"userAnswer3\" placeholder=\"#6\">" +
-//                "<input type=\"text\" id=\"userAnswer4\" name=\"userAnswer4\" placeholder=\"#17\">" +
-//                 "<input type=\"text\" id=\"userAnswer10\" name=\"userAnswer10\" placeholder=\"#10\">" +
-//                "</div>" +
-//                "<div class=\"row\">" +
-//                 "<input type=\"text\" id=\"userAnswer18\" name=\"userAnswer18\" placeholder=\"#18\">" +
-//                 "<input type=\"text\" id=\"userAnswer16\" name=\"userAnswer16\" placeholder=\"#16\">" +
-//                 "<input type=\"text\" id=\"userAnswer15\" name=\"userAnswer15\" placeholder=\"#15\">" +
-//                 "<input type=\"text\" id=\"userAnswer2\" name=\"userAnswer2\" placeholder=\"#2\">" +
-//                "</div>" +
-//                "</div>" +
-//                "<button class=\"btn\" type=\"submit\">Submit</button>" +
-//                "</form>";
-//    }
+    private String generateMultiAns(Question question) {
+        List<String> correctAnswers = question.getMultipleAnswerFields();
+        StringBuilder formBuilder = new StringBuilder();
+
+        formBuilder.append("<form action=\"QuestionServlet\" method=\"post\">")
+                .append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
+                .append("<div class=\"response\">");
+
+        for (int i = 0; i < correctAnswers.size(); i++) {
+            if (i % 4 == 0) {
+                formBuilder.append("<div class=\"row\">");
+            }
+
+            formBuilder.append("<input type=\"text\" id=\"userAnswer").append(i + 1).append("\" name=\"userAnswer").append(i + 1)
+                    .append("\" placeholder=\"#").append(correctAnswers.get(i)).append("\">");
+
+            if ((i + 1) % 4 == 0 || i == correctAnswers.size() - 1) {
+                formBuilder.append("</div>");
+            }
+        }
+
+        formBuilder.append("</div>")
+                .append("<button class=\"btn\" type=\"submit\">Submit</button>")
+                .append("</form>");
+
+        return formBuilder.toString();
+    }
 
 //    private String generateMultiChoiceAns(Question question){
 //        return  "<form action=\"QuestionServlet\" method=\"post\">" +

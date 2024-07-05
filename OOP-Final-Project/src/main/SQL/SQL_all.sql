@@ -95,13 +95,13 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
 VALUES (1, 1, 'What is the capital of France?', 'Paris', NULL, NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (1, 2, 'Which of the following are programming languages?', NULL, NULL, '[\"Java\", \"Python\", \"HTML\"]', '[0, 1]', NULL, NULL, NULL);
+VALUES (1, 6, 'Which of the following are programming languages?', NULL, NULL, '[\"Java\", \"Python\", \"HTML\"]', '[0, 1]', NULL, NULL, NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (1, 3, 'Match the following pairs.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Red\",\"value\":\"Color\"},{\"key\":\"Car\",\"value\":\"Vehicle\"}]');
+VALUES (1, 7, 'Match the following pairs.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Red\",\"value\":\"Color\"},{\"key\":\"Car\",\"value\":\"Vehicle\"}]');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (1, 4, 'Select all that apply.', NULL, NULL, '[\"Option 1\", \"Option 2\", \"Option 3\"]', '[0, 2]', NULL, NULL, NULL);
+VALUES (1, 6, 'Select all that apply.', NULL, NULL, '[\"Option 1\", \"Option 2\", \"Option 3\"]', '[0, 2]', NULL, NULL, NULL);
 
 
 
@@ -115,13 +115,13 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
 VALUES (2, 1, 'Who was the first President of the United States?', 'George Washington', NULL, NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (2, 2, 'Which of the following events happened during World War II?', NULL, NULL, '[\"The moon landing\", \"Pearl Harbor attack\", \"Fall of the Berlin Wall\"]', '[1]', NULL, NULL, NULL);
+VALUES (2, 3, 'Which of the following events happened during World War II?', NULL, NULL, '[\"The moon landing\", \"Pearl Harbor attack\", \"Fall of the Berlin Wall\"]', '[1]', NULL, NULL, NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (2, 3, 'Match the following historical figures with their achievements.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Albert Einstein\",\"value\":\"Theory of Relativity\"},{\"key\":\"Isaac Newton\",\"value\":\"Laws of Motion\"}]');
+VALUES (2, 7, 'Match the following historical figures with their achievements.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Albert Einstein\",\"value\":\"Theory of Relativity\"},{\"key\":\"Isaac Newton\",\"value\":\"Laws of Motion\"}]');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (2, 4, 'Select all that apply: Which of the following were ancient civilizations?', NULL, NULL, '[\"Maya\", \"Vikings\", \"Mesopotamia\"]', '[0, 2]', NULL, NULL, NULL);
+VALUES (2, 6, 'Select all that apply: Which of the following were ancient civilizations?', NULL, NULL, '[\"Maya\", \"Vikings\", \"Mesopotamia\"]', '[0, 2]', NULL, NULL, NULL);
 
 
 
@@ -136,13 +136,13 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
 VALUES (3, 1, 'What is the chemical symbol for water?', 'H2O', NULL, NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (3, 2, 'Which of the following are elements on the periodic table?', NULL, NULL, '[\"Hydrogen\", \"Oxygen\", \"Water\"]', '[0, 1]', NULL, NULL, NULL);
+VALUES (3, 6, 'Which of the following are elements on the periodic table?', NULL, NULL, '[\"Hydrogen\", \"Oxygen\", \"Water\"]', '[0, 1]', NULL, NULL, NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (3, 3, 'Match the following scientists with their discoveries.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Marie Curie\",\"value\":\"Radioactivity\"},{\"key\":\"Charles Darwin\",\"value\":\"Theory of Evolution\"}]');
+VALUES (3, 7, 'Match the following scientists with their discoveries.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Marie Curie\",\"value\":\"Radioactivity\"},{\"key\":\"Charles Darwin\",\"value\":\"Theory of Evolution\"}]');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (3, 4, 'Select all that apply: Which of the following are planets in our solar system?', NULL, NULL, '[\"Earth\", \"Pluto\", \"Sirius\"]', '[0, 1]', NULL, NULL, NULL);
+VALUES (3, 6, 'Select all that apply: Which of the following are planets in our solar system?', NULL, NULL, '[\"Earth\", \"Pluto\", \"Sirius\"]', '[0, 1]', NULL, NULL, NULL);
 
 
 
@@ -156,13 +156,13 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
 VALUES (4, 1, 'Who wrote "1984"?', 'George Orwell', NULL, NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (4, 2, 'Which of the following are plays by William Shakespeare?', NULL, NULL, '[\"Hamlet\", \"Macbeth\", \"War and Peace\"]', '[0, 1]', NULL, NULL, NULL);
+VALUES (4, 6, 'Which of the following are plays by William Shakespeare?', NULL, NULL, '[\"Hamlet\", \"Macbeth\", \"War and Peace\"]', '[0, 1]', NULL, NULL, NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (4, 3, 'Match the following authors with their works.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Mark Twain\",\"value\":\"The Adventures of Tom Sawyer\"},{\"key\":\"J.K. Rowling\",\"value\":\"Harry Potter\"}]');
+VALUES (4, 7, 'Match the following authors with their works.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Mark Twain\",\"value\":\"The Adventures of Tom Sawyer\"},{\"key\":\"J.K. Rowling\",\"value\":\"Harry Potter\"}]');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (4, 4, 'Select all that apply: Which of the following are novels?', NULL, NULL, '[\"Moby Dick\", \"The Great Gatsby\", \"Leaves of Grass\"]', '[0, 1]', NULL, NULL, NULL);
+VALUES (4, 6, 'Select all that apply: Which of the following are novels?', NULL, NULL, '[\"Moby Dick\", \"The Great Gatsby\", \"Leaves of Grass\"]', '[0, 1]', NULL, NULL, NULL);
 
 
 -- Insert a quiz
@@ -182,4 +182,18 @@ VALUES (5, 1, 'Who has won the most Grand Slam titles in tennis?', 'Margaret Cou
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
 VALUES (5, 1, 'Which country has won the most Olympic gold medals in the history of the Summer Games?', 'United States', NULL, NULL, NULL, NULL, NULL, NULL);
 
+
+
+INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
+VALUES ('KIKNA', 'ISE', 'GATESTE', 0, '[21, 22, 23]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
+
+-- Insert questions for the quiz
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (6, 2, 'Football G.O.A.T. is ______', 'Messi', NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (6, 3, 'Georgia-Portugal', NULL, NULL, ' [\" 2:0 \", \"  0:2 \", \"  3:1 \"] ', ' [0] ' , NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (6, 4, 'Who is on the photo', 'Jondo', NULL, NULL, NULL, 'https://physics.itmo.ru/sites/default/files/styles/seminar_speaker_full/public/speaker-photo/12244.jpg?itok=_XsYjE4D', NULL, NULL);
 
