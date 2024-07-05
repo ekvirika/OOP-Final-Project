@@ -8,6 +8,7 @@ import Models.Quiz;
 import utils.SQLConnector;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,5 +90,9 @@ public class AccountManager {
 
     public List<Quiz> getNewQuizzes() {
         return new ArrayList<>();
+    }
+
+    public List<Account> getAccounts() throws SQLException {
+        return accountDAO.getAllAccounts();
     }
 }
