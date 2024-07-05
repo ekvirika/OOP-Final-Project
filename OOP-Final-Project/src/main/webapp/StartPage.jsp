@@ -28,7 +28,7 @@
     <div class="logo-area">
         <a href="/">
             <img src="./assets/Logo.png" alt="Logo">
-        </a>        <span class="website-name">Q<span class="u">u</span><span class="i">i</span>zzz</span>
+        </a><span class="website-name">Q<span class="u">u</span><span class="i">i</span>zzz</span>
     </div>
     <div class="nav-bar">
         <ul>

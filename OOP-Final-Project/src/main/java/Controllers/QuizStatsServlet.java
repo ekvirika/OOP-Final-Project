@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 @WebServlet(name = "QuizStatsServlet", urlPatterns = {"/QuizStatsServlet"})
 public class QuizStatsServlet extends HttpServlet {
@@ -26,7 +24,7 @@ public class QuizStatsServlet extends HttpServlet {
         long startTime = quizHistory.getStartTime().getTime();
         long endTime = quizHistory.getEndTime().getTime();
         long timeTakenSeconds = (endTime - startTime) / 1000;
-        String username = quizHistory.getUsermame();
+        String username = quizHistory.getUsername();
 
 
 //        List<Map<String, Object>> leaderboard = quizHistory.getLeaderboard(); // Adjust as per your QuizHistory implementation

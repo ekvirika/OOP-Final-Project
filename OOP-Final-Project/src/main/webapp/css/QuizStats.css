@@ -6,6 +6,10 @@ body {
     height: 100vh;
     margin: 0;
     background-color: #1B1616;
+    background-image: url("data:image/svg+xml,%0A%3Csvg id='visual' viewBox='0 0 1920 1080' width='1920' height='1080' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1'%3E%3Crect x='0' y='0' width='1920' height='1080' fill='%231B1616'%3E%3C/rect%3E%3Cpath d='M1634 1080L1667 1044C1700 1008 1766 936 1760.3 864C1754.7 792 1677.3 720 1663.5 648C1649.7 576 1699.3 504 1730.5 432C1761.7 360 1774.3 288 1751.2 216C1728 144 1669 72 1639.5 36L1610 0L1920 0L1920 36C1920 72 1920 144 1920 216C1920 288 1920 360 1920 432C1920 504 1920 576 1920 648C1920 720 1920 792 1920 864C1920 936 1920 1008 1920 1044L1920 1080Z' fill='%23fc6916' stroke-linecap='round' stroke-linejoin='miter'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat no-repeat;
+    background-position: center center;
+    background-size: cover;
 }
 
 * {

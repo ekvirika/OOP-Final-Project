@@ -1,5 +1,6 @@
 package utils;
 
+import Models.Enums.QuestionType;
 import Models.Question;
 
 import java.util.List;
@@ -37,61 +38,34 @@ public class TakeQuiz {
         }
     }
 
-    private String generateQuesRes(Question question){
-        return  "<form action=\"QuestionServlet\" method=\"post\">" +
-                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" +
-                "<div class=\"question\">" + question.getQuestionText() + "</div>" +
-                "<div class=\"response\">" +
-                "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" +
-                "</div>" +
-                "<button class=\"btn\" type=\"submit\">Submit</button>" +
-                "</form>";
+    private String generateQuesRes(Question question) {
+        return "<form action=\"QuestionServlet\" method=\"post\">" + "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" + "<div class=\"question\">" + question.getQuestionText() + "</div>" + "<div class=\"response\">" + "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" + "</div>" + "<button class=\"btn\" type=\"submit\">Submit</button>" + "</form>";
     }
 
-    private String generateFillBlank(Question question){
-        return  "<form action=\"QuestionServlet\" method=\"post\">" +
-                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" +
-                "<div class=\"question\">" + question.getQuestionText() + "</div>" +
-                "<div class=\"response\">" +
-                "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" +
-                "</div>" +
-                "<button class=\"btn\" type=\"submit\">Submit</button>" +
-                "</form>";
+    private String generateFillBlank(Question question) {
+        return "<form action=\"QuestionServlet\" method=\"post\">" + "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" + "<div class=\"question\">" + question.getQuestionText() + "</div>" + "<div class=\"response\">" + "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" + "</div>" + "<button class=\"btn\" type=\"submit\">Submit</button>" + "</form>";
     }
-
 
     private String generateMultiChoice(Question question) {
         StringBuilder html = new StringBuilder();
-        html.append("<form action=\"QuestionServlet\" method=\"post\">")
-                .append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
-                .append("<div class=\"question\">").append(question.getQuestionText()).append("</div>")
-                .append("<ul class=\"answers\">");
+        html.append("<form action=\"QuestionServlet\" method=\"post\" onsubmit=\"collectAnswers(event)\">").append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">").append("<input type=\"hidden\" name=\"userAnswers\" id=\"userAnswers\">").append("<div class=\"question\">").append(question.getQuestionText()).append("</div>").append("<ul class=\"answers\">");
 
         List<String> answers = question.getMultipleChoiceAnswers();
-        if (answers.size() > 0) {
-            html.append("<li><input type=\"radio\" id=\"answerA\" name=\"userAnswer\" value=\"A\">")
-                    .append("<label for=\"answerA\">A. ").append(answers.get(0)).append("</label></li>");
-        }
-        if (answers.size() > 1) {
-            html.append("<li><input type=\"radio\" id=\"answerB\" name=\"userAnswer\" value=\"B\">")
-                    .append("<label for=\"answerB\">B. ").append(answers.get(1)).append("</label></li>");
-        }
-        if (answers.size() > 2) {
-            html.append("<li><input type=\"radio\" id=\"answerC\" name=\"userAnswer\" value=\"C\">")
-                    .append("<label for=\"answerC\">C. ").append(answers.get(2)).append("</label></li>");
-        }
-        if (answers.size() > 3) {
-            html.append("<li><input type=\"radio\" id=\"answerD\" name=\"userAnswer\" value=\"D\">")
-                    .append("<label for=\"answerD\">D. ").append(answers.get(3)).append("</label></li>");
+        boolean isMultipleAnswers = question.getQuestionType() == QuestionType.MULTIPLE_CHOICE_WITH_ANSWERS;
+
+        for (int i = 0; i < answers.size(); i++) {
+            String answerId = "answer" + (char) ('A' + i);
+            String answerLabel = (char) ('A' + i) + ". " + answers.get(i);
+            if (isMultipleAnswers) {
+                html.append("<li><input type=\"checkbox\" id=\"").append(answerId).append("\" name=\"userAnswer\" value=\"").append(answerLabel).append("\">").append("<label for=\"").append(answerId).append("\">").append(answerLabel).append("</label></li>");
+            } else {
+                html.append("<li><input type=\"radio\" id=\"").append(answerId).append("\" name=\"userAnswer\" value=\"").append(answerLabel).append("\">").append("<label for=\"").append(answerId).append("\">").append(answerLabel).append("</label></li>");
+            }
         }
 
-        html.append("</ul>")
-                .append("<button class=\"btn\" type=\"submit\">Submit</button>")
-                .append("</form>");
-
+        html.append("</ul>").append("<button class=\"btn\" type=\"submit\">Submit</button>").append("</form>").append("<script>").append("function collectAnswers(event) {").append("event.preventDefault();").append("const selectedAnswers = [];").append("const checkboxes = document.querySelectorAll('input[name=\"userAnswer\"]:checked');").append("checkboxes.forEach((checkbox) => { selectedAnswers.push(checkbox.value); });").append("document.getElementById('userAnswers').value = JSON.stringify(selectedAnswers);").append("event.target.submit();").append("}").append("</script>");
         return html.toString();
     }
-
 
 
 //    private String generatePictRes(Question question){

@@ -1,14 +1,20 @@
 package Models.Managers;
 
 import DAO.QuestionDAO;
+import Models.Enums.QuestionType;
 import Models.Question;
 import utils.SQLConnector;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * Manages operations related to Question objects, including retrieval, creation, update, and deletion.
  */
 public class QuestionManager {
-    public static  final String ATTRIBUTE_NAME = "QuestionManager";
+    public static final String ATTRIBUTE_NAME = "QuestionManager";
     private QuestionDAO questionDAO;
 
     /**
@@ -56,5 +62,30 @@ public class QuestionManager {
      */
     public void deleteQuestion(int questionId) {
         questionDAO.deleteQuestion(questionId);
+    }
+
+
+    public boolean isAnswerCorrect(Question question, String answer, ArrayList<String> answers,
+                                   HashMap<String, String> matchingAnswers) {
+        QuestionType questionType = question.getQuestionType();
+        if(questionType.equals(QuestionType.MATCHING)){
+            HashMap<String, String> correctAnswers = question.getMatchingPairs();
+            return matchingAnswers.equals(correctAnswers);
+        } else if(questionType.equals(QuestionType.QUESTION_RESPONSE) || questionType.equals(QuestionType.FILL_IN_THE_BLANK) ||
+                    questionType.equals(QuestionType.PICTURE_RESPONSE)){
+            return question.getQuestionText().equals(answer);
+        } else if(questionType.equals(QuestionType.MULTI_ANSWER)){
+            // TODO
+            return answers.containsAll(question.getMultipleAnswerFields());
+        } else if(questionType.equals(QuestionType.MULTIPLE_CHOICE) || questionType.equals(QuestionType.MULTIPLE_CHOICE_WITH_ANSWERS)){
+            ArrayList<String> correctAnswers = new ArrayList<>();
+            ArrayList<String> allAnswers = question.getMultipleChoiceAnswers();
+            ArrayList<Integer> indices = question.getMultipleChoiceCorrectIndexes();
+            for(int i = 0; i < indices.size(); i++){
+                correctAnswers.add(allAnswers.get(indices.get(i)));
+            }
+            return answers.containsAll(correctAnswers);
+        }
+        return false;
     }
 }

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS Accounts (
                                         imageUrl VARCHAR(255),
                                         salt VARCHAR(16),
                                         achievementIds TEXT,
+                                        quizIds TEXT,
                                         CONSTRAINT chk_password_length CHECK (CHAR_LENGTH(password) >= 8)
 );
 
@@ -180,3 +181,5 @@ VALUES (5, 1, 'Who has won the most Grand Slam titles in tennis?', 'Margaret Cou
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
 VALUES (5, 1, 'Which country has won the most Olympic gold medals in the history of the Summer Games?', 'United States', NULL, NULL, NULL, NULL, NULL, NULL);
+
+

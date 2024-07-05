@@ -100,7 +100,7 @@ public class AccountDAO {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<Integer>>() {
                 }.getType();
-                ArrayList<Integer> achievementIds = gson.fromJson(resultSet.getString("questionIds"), listType);
+                ArrayList<Integer> achievementIds = gson.fromJson(resultSet.getString("achievementIds"), listType);
                 ArrayList<Integer> quizIds = gson.fromJson(resultSet.getString("quizIds"), listType);
                 account.setAchievementIds(achievementIds);
                 account.setQuizIds(quizIds);

@@ -191,4 +191,8 @@ public class Question {
                 ", matchingPairs=" + matchingPairs +
                 '}';
     }
+
+    public boolean isMultipleChoice() {
+        return questionType.equals(QuestionType.MULTIPLE_CHOICE);
+    }
 }
