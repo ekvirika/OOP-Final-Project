@@ -80,21 +80,24 @@ public class QuestionManager {
             }
             List<String> userAnswers = new ArrayList<>();
             for (String userAnswer : answers) {
-                userAnswers.add(userAnswer.toLowerCase());
+                userAnswers.add(userAnswer.toLowerCase().trim());
             }
             return new HashSet<>(userAnswers).containsAll(correctAnswers);
         } else if (questionType.equals(QuestionType.MULTIPLE_CHOICE) ||
                 questionType.equals(QuestionType.MULTIPLE_CHOICE_WITH_ANSWERS)) {
             ArrayList<String> correctAnswers = new ArrayList<>();
             ArrayList<String> allAnswers = question.getMultipleChoiceAnswers();
+            System.out.println("All answers: " + allAnswers);
             ArrayList<Integer> indices = question.getMultipleChoiceCorrectIndexes();
             for (int index : indices) {
-                correctAnswers.add(allAnswers.get(index).toLowerCase());
+                correctAnswers.add(allAnswers.get(index).toLowerCase().trim());
             }
             ArrayList<String> userAnswers = new ArrayList<>();
             for (String userAnswer : answers) {
-                userAnswers.add(userAnswer.toLowerCase());
+                userAnswers.add(userAnswer.toLowerCase().trim());
             }
+            System.out.println("Correst: " + correctAnswers);
+            System.out.println("User: " + userAnswers);
             return userAnswers.containsAll(correctAnswers);
         }
         return false;
