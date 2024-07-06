@@ -84,7 +84,7 @@
 
     <div class="actions">
         <a href="/HomePageServlet">Go Home</a>
-        <a href="/QuizServlet">Retake Quiz</a>
+<%--        <a href="/QuizServlet">Retake Quiz</a>--%>
     </div>
 </div>
 </body>
