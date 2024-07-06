@@ -3,10 +3,7 @@ package utils;
 import Models.Enums.QuestionType;
 import Models.Question;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 public class TakeQuiz {
@@ -178,6 +175,9 @@ public class TakeQuiz {
 
         List<String> questions = new ArrayList<>(matchingPairs.keySet());
         List<String> answers = new ArrayList<>(matchingPairs.values());
+
+        Collections.shuffle(questions);
+        Collections.shuffle(answers);
 
         StringBuilder formBuilder = new StringBuilder();
 
