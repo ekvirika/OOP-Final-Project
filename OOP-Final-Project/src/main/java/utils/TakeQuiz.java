@@ -37,6 +37,7 @@ public class TakeQuiz {
     private String generateQuesRes(Question question) {
         return "<form action=\"QuestionServlet\" method=\"post\">" +
                 "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">"
+                +"<input type=\"hidden\" name=\"questionId\" value=\"" + question.getQuestionId() + "\">"
                 + "<div class=\"question\">" + question.getQuestionText() + "</div>"
                 + "<div class=\"response\">" + "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" + "</div>"
                 + "<button class=\"btn\" type=\"submit\">Submit</button>" + "</form>";
@@ -45,6 +46,7 @@ public class TakeQuiz {
     private String generateFillBlank(Question question) {
         return "<form action=\"QuestionServlet\" method=\"post\">" +
                 "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" +
+                "<input type=\"hidden\" name=\"questionId\" value=\"" + question.getQuestionId() + "\">" +
                 "<div class=\"question\">" + question.getQuestionText() + "</div>" +
                 "<div class=\"response\">" + "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" + "</div>"
                 + "<button class=\"btn\" type=\"submit\">Submit</button>" + "</form>";
@@ -52,7 +54,8 @@ public class TakeQuiz {
 
     private String generateMultiChoice(Question question) {
         StringBuilder html = new StringBuilder();
-        html.append("<form action=\"QuestionServlet\" method=\"post\" onsubmit=\"collectAnswers(event)\">").append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">").append("<input type=\"hidden\" name=\"userAnswers\" id=\"userAnswers\">").append("<div class=\"question\">").append(question.getQuestionText()).append("</div>").append("<ul class=\"answers\">");
+        html.append("<form action=\"QuestionServlet\" method=\"post\" onsubmit=\"collectAnswers(event)\">").append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
+                .append("<input type=\"hidden\" name=\"questionId\" value=\"").append(question.getQuestionId()).append("\">").append("<input type=\"hidden\" name=\"userAnswers\" id=\"userAnswers\">").append("<div class=\"question\">").append(question.getQuestionText()).append("</div>").append("<ul class=\"answers\">");
 
         List<String> answers = question.getMultipleChoiceAnswers();
         boolean isMultipleAnswers = question.getQuestionType() == QuestionType.MULTIPLE_CHOICE_WITH_ANSWERS;
@@ -83,7 +86,8 @@ public class TakeQuiz {
 
     private String generatePictRes(Question question) {
         return "<form action=\"QuestionServlet\" method=\"post\">" +
-                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">"
+                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" +
+                "<input type=\"hidden\" name=\"questionId\" value=\"" + question.getQuestionId() + "\">"
                 + "<div class=\"image-question\">" + "<img src=\"" + question.getQuestionImage() + "\" alt=\"Question Image\">" + "</div>"
                 + "<div class=\"question\">\"" + question.getQuestionText() + "\"</div>"
                 + "<div class=\"response\">" + "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" + "</div>"
@@ -96,6 +100,7 @@ public class TakeQuiz {
 
         formBuilder.append("<form id=\"multiAnsForm\" action=\"QuestionServlet\" method=\"post\">")
                 .append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
+                .append("<input type=\"hidden\" name=\"questionId\" value=\"").append(question.getQuestionId()).append("\">")
                 .append("<input type=\"hidden\" name=\"userAnswers\" id=\"userAnswers\">")
                 .append("<div class=\"question\">").append(question.getQuestionText()).append("</div>")
                 .append("<div class=\"response\">");
@@ -135,6 +140,7 @@ public class TakeQuiz {
 
         formBuilder.append("<form id=\"multiChoiceForm\" action=\"QuestionServlet\" method=\"post\" onsubmit=\"collectAnswers(event)\">")
                 .append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
+                .append("<input type=\"hidden\" name=\"questionId\" value=\"").append(question.getQuestionId()).append("\">")
                 .append("<input type=\"hidden\" name=\"userAnswers\" id=\"userAnswers\">")
                 .append("<div class=\"question\"><h3>").append(question.getQuestionText()).append("</h3></div>")
                 .append("<ul class=\"answers\">");
@@ -175,7 +181,9 @@ public class TakeQuiz {
 
         StringBuilder formBuilder = new StringBuilder();
 
-        formBuilder.append("<form action=\"QuestionServlet\" method=\"post\">").append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">").append("<h1> \"" + question.getQuestionText() + "\"</h1>").append("<div class=\"quiz\">").append("<div class=\"questions\">");
+        formBuilder.append("<form action=\"QuestionServlet\" method=\"post\">").append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
+                .append("<input type=\"hidden\" name=\"questionId\" value=\"").append(question.getQuestionId()).append("\">")
+                .append("<h1> \"" + question.getQuestionText() + "\"</h1>").append("<div class=\"quiz\">").append("<div class=\"questions\">");
 
         for (int i = 0; i < questions.size(); i++) {
             formBuilder.append("<div class=\"marcxena\" id=\"question").append(i + 1).append("\" onclick=\"selectQuestion('question").append(i + 1).append("')\">").append(questions.get(i)).append("</div>");
