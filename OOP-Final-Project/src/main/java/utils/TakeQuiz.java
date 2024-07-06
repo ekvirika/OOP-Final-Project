@@ -3,34 +3,38 @@ package utils;
 import Models.Enums.QuestionType;
 import Models.Question;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+
 
 
 public class TakeQuiz {
 
-    public String generateUI(int questionType, Question question) {
+    public String generateUI(QuestionType questionType, Question question) {
 
         switch (questionType) {
-            case 1:
+            case QUESTION_RESPONSE:
                 return generateQuesRes(question);
 //            break;
-            case 2:
+            case FILL_IN_THE_BLANK:
                 return generateFillBlank(question);
 //            break;
-            case 3:
+            case MULTIPLE_CHOICE:
                 return generateMultiChoice(question);
 //            break;
-            case 4:
+            case PICTURE_RESPONSE:
                 return generatePictRes(question);
 //            break;
-            case 5:
+            case MULTI_ANSWER:
                 return generateMultiAns(question);
 //            break;
-            case 6:
+            case MULTIPLE_CHOICE_WITH_ANSWERS:
                 return generateMultiChoiceAns(question);
 //            break;
-//            case 7:
-//                return generateMatching(question);
+            case MATCHING:
+                return generateMatching(question);
 //            break;
             default:
                 System.out.println("Invalid question type");
@@ -137,15 +141,43 @@ public class TakeQuiz {
     }
 
 
-//    private String generateMatching(Question question){
-//         return  "<form action=\"QuestionServlet\" method=\"post\">" +
-//                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" +
-//                "<div class=\"question\">" + question.getQuestionText() + "</div>" +
-//                "<div class=\"response\">" +
-//                "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" +
-//                "</div>" +
-//                "<button class=\"btn\" type=\"submit\">Submit</button>" +
-//                "</form>";
-//    }
+    private String generateMatching(Question question) {
+        HashMap<String, String> matchingPairs = question.getMatchingPairs();
+
+        List<String> questions = new ArrayList<>(matchingPairs.keySet());
+        List<String> answers = new ArrayList<>(matchingPairs.values());
+
+        StringBuilder formBuilder = new StringBuilder();
+
+        formBuilder.append("<form action=\"QuestionServlet\" method=\"post\">")
+                .append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
+                .append("<h1> \"" + question.getQuestionText() + "\"</h1>")
+                .append("<div class=\"quiz\">")
+                .append("<div class=\"questions\">");
+
+        for (int i = 0; i < questions.size(); i++) {
+            formBuilder.append("<div class=\"question\" id=\"question").append(i + 1).append("\" onclick=\"selectQuestion('question").append(i + 1).append("')\">")
+                    .append(questions.get(i))
+                    .append("</div>");
+        }
+
+        formBuilder.append("</div>")
+                .append("<div class=\"answers\">");
+
+        for (int i = 0; i < answers.size(); i++) {
+            formBuilder.append("<div class=\"answer\" id=\"answer").append(i + 1).append("\" onclick=\"selectAnswer('answer").append(i + 1).append("')\">")
+                    .append(answers.get(i))
+                    .append("</div>");
+        }
+
+        formBuilder.append("</div>")
+                .append("</div>")
+                .append("<button class=\"btn\" type=\"submit\">Submit</button>")
+                .append("</form>");
+
+        return formBuilder.toString();
+    }
+
+
 
 }

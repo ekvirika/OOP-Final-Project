@@ -8,27 +8,27 @@ USE OOP_QUIZ;
 CREATE TABLE IF NOT EXISTS Accounts (
                                         userId INT AUTO_INCREMENT PRIMARY KEY,
                                         userName VARCHAR(50) NOT NULL UNIQUE,
-                                        firstName VARCHAR(50),
-                                        lastName VARCHAR(50),
-                                        password VARCHAR(255),
-                                        email VARCHAR(100) UNIQUE,
-                                        imageUrl VARCHAR(255),
-                                        salt VARCHAR(16),
-                                        achievementIds TEXT,
-                                        quizIds TEXT,
-                                        CONSTRAINT chk_password_length CHECK (CHAR_LENGTH(password) >= 8)
-);
+    firstName VARCHAR(50),
+    lastName VARCHAR(50),
+    password VARCHAR(255),
+    email VARCHAR(100) UNIQUE,
+    imageUrl VARCHAR(255),
+    salt VARCHAR(16),
+    achievementIds TEXT,
+    quizIds TEXT,
+    CONSTRAINT chk_password_length CHECK (CHAR_LENGTH(password) >= 8)
+    );
 
 # create friends table
 CREATE TABLE IF NOT EXISTS Friends (
                                        userName1 VARCHAR(255) NOT NULL,
-                                       userName2 VARCHAR(255) NOT NULL,
-                                       status ENUM('pending', 'accepted', 'rejected') NOT NULL DEFAULT 'pending',
-                                       PRIMARY KEY (userName1, userName2),
-                                       FOREIGN KEY (userName1) REFERENCES Accounts(userName) ON DELETE CASCADE,
-                                       FOREIGN KEY (userName2) REFERENCES Accounts(userName) ON DELETE CASCADE,
-                                       UNIQUE (userName1, userName2)
-);
+    userName2 VARCHAR(255) NOT NULL,
+    status ENUM('pending', 'accepted', 'rejected') NOT NULL DEFAULT 'pending',
+    PRIMARY KEY (userName1, userName2),
+    FOREIGN KEY (userName1) REFERENCES Accounts(userName) ON DELETE CASCADE,
+    FOREIGN KEY (userName2) REFERENCES Accounts(userName) ON DELETE CASCADE,
+    UNIQUE (userName1, userName2)
+    );
 
 
 CREATE TABLE Quiz (
@@ -160,7 +160,7 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
 VALUES (4, 5, 'Which of the following are plays by William Shakespeare?', NULL, NULL, '[\"Hamlet\", \"Macbeth\", \"War and Peace\"]', '[0, 1]', NULL, NULL, NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (4, 6, 'Match the following authors with their works.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Mark Twain\",\"value\":\"The Adventures of Tom Sawyer\"},{\"key\":\"J.K. Rowling\",\"value\":\"Harry Potter\"}]');
+VALUES (4, 6, 'Match the followings with their works.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Mark Twain\",\"value\":\"The Adventures of Tom Sawyer\"},{\"key\":\"J.K. Rowling\",\"value\":\"Harry Potter\"}]');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
 VALUES (4, 5, 'Select all that apply: Which of the following are novels?', NULL, NULL, '[\"Moby Dick\", \"The Great Gatsby\", \"Leaves of Grass\"]', '[0, 1]', NULL, NULL, NULL);
@@ -172,7 +172,7 @@ VALUES ('FIFA', 'Sports Quiz', 'Test your knowledge on famous sports and athlete
 
 -- Insert questions for the quiz
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (5, 0, 'Who won the FIFA World Cup in 2018?', 'France', NULL, NULL, NULL, NULL, NULL, NULL);
+VALUES (5, 0, 'Who won the FIFA World Cup in 2022?', 'France', NULL, NULL, NULL, NULL, NULL, NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
 VALUES (5, 0, 'Who holds the record for the most home runs in a single MLB season?', 'Barry Bonds', NULL, NULL, NULL, NULL, NULL, NULL);
@@ -186,7 +186,10 @@ VALUES (5, 0, 'Which country has won the most Olympic gold medals in the history
 
 
 INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions, immediateFeedback, createTime)
-VALUES ('KIKNA', 'ISE', 'GATESTE', 0, '[21, 22, 23]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
+VALUES ('KIKNA', 'ISE', 'GATESTE', 0, '[21, 22, 23, 24, 25, 26, 27]', FALSE, FALSE, FALSE, CURRENT_TIMESTAMP);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (6, 0, 'Who won the FIFA World Cup in 2018?', 'France', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Insert questions for the quiz
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
@@ -199,4 +202,12 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
 VALUES (6, 3, 'Who is on the photo', 'Jondo', NULL, NULL, NULL, 'https://physics.itmo.ru/sites/default/files/styles/seminar_speaker_full/public/speaker-photo/12244.jpg?itok=_XsYjE4D', NULL, NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
-VALUES (6, 4, 'CHAMOTVALE 11-is JERADEBI ZRDADOBIT', NULL, NULL, NULL, NULL, NULL, ' [11, 22, 33, 44, 55] ', NULL);
+VALUES (6, 4, 'CHAMOTVALE 11-is JERADEBI ZRDADOBIT', NULL, NULL, NULL, NULL, NULL, ' [\" 11 \",\" 22 \", \" 33 \", \" 44 \", \" 55 \"] ', NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (6, 5, 'Please mark each statement below which is true', NULL, NULL, ' [\" a \", \" b \", \" c \"] ', ' [0, 2] ', NULL, NULL, NULL);
+
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, matchingPairs)
+VALUES (6, 6, 'Match the following authors with their works.', NULL, NULL, NULL, NULL, NULL, NULL, '[{\"key\":\"Mark Twain\",\"value\":\"The Adventures of Tom Sawyer\"},{\"key\":\"J.K. Rowling\",\"value\":\"Harry Potter\"}]');
+
+
