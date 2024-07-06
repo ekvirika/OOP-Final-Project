@@ -40,4 +40,8 @@ public class QuizHistoryManager {
     public List<QuizHistory> getAllQuizHistories() throws SQLException {
         return quizHistoryDAO.getAllQuizHistories();
     }
+
+    public List<QuizHistory> getAllQuizHistoryByUsername(String username) throws SQLException {
+        return quizHistoryDAO.getAllQuizHistoryByUsername(username);
+    }
 }

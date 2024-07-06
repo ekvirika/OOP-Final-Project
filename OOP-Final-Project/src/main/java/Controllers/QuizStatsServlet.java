@@ -4,6 +4,7 @@ import Models.LeaderboardEntry;
 import Models.Managers.LeaderboardManager;
 import Models.Managers.QuizManager;
 import Models.Managers.QuizHistoryManager;
+import Models.Quiz;
 import Models.QuizHistory;
 
 import javax.servlet.RequestDispatcher;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "QuizStatsServlet", urlPatterns = {"/QuizStatsServlet"})
@@ -31,6 +33,7 @@ public class QuizStatsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
+        String loggedIn = (String) request.getSession().getAttribute("username");
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         int quizId = quizHistory.getQuizId();
         String quizName = quizManager.getQuiz(quizId).getQuizName();
@@ -40,10 +43,11 @@ public class QuizStatsServlet extends HttpServlet {
         long timeTakenSeconds = (endTime - startTime) / 1000;
         quizHistory.setElapsedTime(timeTakenSeconds);
         String username = quizHistory.getUsername();
-
+        List<QuizHistory> personalHistory = new ArrayList<>();
         // Store quiz history in database
         try {
             quizHistoryManager.createQuizHistory(quizHistory);
+            personalHistory = quizHistoryManager.getAllQuizHistoryByUsername(loggedIn);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to store quiz history in database", e);
@@ -58,7 +62,8 @@ public class QuizStatsServlet extends HttpServlet {
             throw new ServletException("Unable to retrieve leaderboard data", e);
         }
 
-        // Set attributes for JSP
+        quizStatsCounter(personalHistory, request);
+        request.setAttribute("personalHistory", personalHistory);
         request.setAttribute("quizName", quizName);
         request.setAttribute("username", username);
         request.setAttribute("score", score);
@@ -68,4 +73,23 @@ public class QuizStatsServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+
+    private void quizStatsCounter(List<QuizHistory> personalHistory, HttpServletRequest request){
+        double totalScore = 0;
+        double totalTimeTaken = 0;
+        int count = 0;
+
+        for (QuizHistory history : personalHistory) {
+            totalScore += history.getQuizScore();
+            totalTimeTaken += history.getElapsedTime();
+            count++;
+        }
+
+        double averageScore = count > 0 ? totalScore / count : 0;
+        double averageTimeTaken = count > 0 ? totalTimeTaken / count : 0;
+
+        request.setAttribute("averageScore", averageScore);
+        request.setAttribute("averageTimeTaken", averageTimeTaken);
+
+    }
 }

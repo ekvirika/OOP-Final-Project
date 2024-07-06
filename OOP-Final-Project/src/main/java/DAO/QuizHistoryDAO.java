@@ -52,6 +52,35 @@ public class QuizHistoryDAO {
         return null;
     }
 
+    public List<QuizHistory> getAllQuizHistoryByUsername(String username) throws SQLException {
+        String query = "SELECT * FROM QuizHistory WHERE username = ?";
+        List<QuizHistory> quizHistories = new ArrayList<>();
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, username);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    QuizHistory quizHistory = new QuizHistory(
+                            resultSet.getInt("quizId"),
+                            resultSet.getString("username"),
+                            resultSet.getInt("quizScore"),
+                            resultSet.getTime("startTime"),
+                            resultSet.getTime("endTime"),
+                            resultSet.getLong("elapsedTime")
+                    );
+                    quizHistories.add(quizHistory);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return quizHistories;
+    }
+
+
     public QuizHistory getQuizHistoryByUsername(String username) throws SQLException {
         String query = "SELECT * FROM QuizHistory WHERE username = ?";
         try (Connection connection = dataSource.getConnection();

@@ -7,5 +7,5 @@ CREATE TABLE QuizHistory (
                              endTime TIME,
                              elapsedTime BIGINT DEFAULT 0,
                              FOREIGN KEY (quizId) REFERENCES Quiz(quizId),
-                             FOREIGN KEY (username) REFERENCES Account(username)
+                             FOREIGN KEY (username) REFERENCES Accounts(username)
 );

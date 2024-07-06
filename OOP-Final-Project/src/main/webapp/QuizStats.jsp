@@ -1,6 +1,6 @@
-<%@ page import="java.util.Map" %>
 <%@ page import="java.util.List" %>
 <%@ page import="Models.LeaderboardEntry" %>
+<%@ page import="Models.QuizHistory" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="./css/QuizStats.css">
 </head>
 <body>
-<%
-    List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) request.getAttribute("leaderboard");
-%>
 <div class="container">
     <h1>Quiz Statistics</h1>
 
@@ -25,10 +22,37 @@
         <li>Time Taken: <%= request.getAttribute("timeTakenSeconds") %> seconds</li>
     </ul>
 
+    <h2>Personal Quiz History</h2>
+    <div class="quiz-history">
+        <table>
+            <thead>
+            <tr>
+                <th>Score</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Elapsed Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% List<QuizHistory> quizHistory = (List<QuizHistory>) request.getAttribute("personalHistory");
+                if (quizHistory != null) {
+                    for (QuizHistory history : quizHistory) { %>
+            <tr>
+                <td><%= history.getQuizScore() %></td>
+                <td><%= history.getStartTime() %></td>
+                <td><%= history.getEndTime() %></td>
+                <td><%= history.getElapsedTime() %></td>
+            </tr>
+            <% }
+            } else { %>
+            <tr><td colspan="5">No quiz history available.</td></tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
 
     <h2>Leaderboard</h2>
     <div class="leaderboard">
-        <h2>Leaderboard</h2>
         <table>
             <thead>
             <tr>
@@ -39,25 +63,28 @@
             </tr>
             </thead>
             <tbody>
-            <%
-                int rank = 1;
-                for (LeaderboardEntry entry : leaderboard) {
-            %>
+            <% List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) request.getAttribute("leaderboard");
+                if (leaderboard != null) {
+                    int rank = 1;
+                    for (LeaderboardEntry entry : leaderboard) { %>
             <tr>
                 <td><%= rank %></td>
                 <td><%= entry.getUsername() %></td>
                 <td><%= entry.getScore() %></td>
                 <td><%= entry.getElapsedTime() %> seconds</td>
             </tr>
-            <%
-                    rank++;
-                }
-            %>
+            <% rank++;
+            }
+            } else { %>
+            <tr><td colspan="4">No leaderboard data available.</td></tr>
+            <% } %>
             </tbody>
         </table>
+    </div>
 
     <div class="actions">
-        <a href="/HomePageServlet">Go to Home</a>
+        <a href="/HomePageServlet">Go Home</a>
+        <a href="/QuizServlet">Retake Quiz</a>
     </div>
 </div>
 </body>

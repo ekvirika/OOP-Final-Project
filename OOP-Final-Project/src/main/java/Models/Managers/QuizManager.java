@@ -1,6 +1,7 @@
 package Models.Managers;
 
 import DAO.QuizDAO;
+import Models.Question;
 import Models.Quiz;
 import utils.SQLConnector;
 
@@ -61,5 +62,10 @@ public class QuizManager {
      */
     public void deleteQuiz(int quizId) {
         quizDao.deleteQuiz(quizId);
+    }
+
+
+    public List<Question> getAllQuestionsByQuiz(int quizId) {
+        return quizDao.getAllQuestionsByQuizId(quizId);
     }
 }

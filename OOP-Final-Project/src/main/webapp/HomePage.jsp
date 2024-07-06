@@ -105,7 +105,7 @@
 
 <div class="container">
     <h1>Welcome to the Quizzz.com, <%= request.getAttribute("username") %>!</h1>
-    <form action="CreateQuizServlet" method="dialog">
+    <form action="CreateQuizServlet" method="get">
         <button type="submit">Create Quiz</button>
     </form>
 
