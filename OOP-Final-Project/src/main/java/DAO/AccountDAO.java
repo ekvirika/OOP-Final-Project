@@ -164,8 +164,7 @@ public class AccountDAO {
                 );
 
                 // Deserialize JSON strings to ArrayLists
-                setGson(resultSet, account);
-
+//                setGson(resultSet, account);
                 accounts.add(account);
             }
         }

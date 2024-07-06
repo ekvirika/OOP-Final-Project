@@ -92,7 +92,7 @@
 </header>
 
 <div class="search-container">
-    <form id="search-form" action="Search.jsp" method="get">
+    <form id="search-form" action="SearchResult.jsp" method="get">
         <label>
             <input id="search-input" class="search-input" type="text" name="query" placeholder="Search Quiz Or A Friend...">
         </label>

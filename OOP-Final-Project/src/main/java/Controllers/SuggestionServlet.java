@@ -23,36 +23,22 @@ public class SuggestionServlet extends HttpServlet {
         String query = request.getParameter("query");
         System.out.println(query);
         List<Account> suggestions = new ArrayList<>();
-        System.out.println("SHEMOVEDI");
-
         try {
             AccountManager accountManager = new AccountManager();
             List<Account> allAccounts = accountManager.getAccounts();
-            System.out.println("SHEMOVEDI123");
             for (Account account : allAccounts) {
                 if(account.getFirstName().contains(query) || account.getLastName().contains(query) || account.getUserName().contains(query)){
                     suggestions.add(account);
                 }
             }
-            System.out.println("SHEMOVEDI");
+
             request.setAttribute("results", suggestions);
-            // Forward to the JSP page to display results
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/Search.jsp");
-            dispatcher.forward(request, response);
             System.out.println(suggestions);
+            // Forward to the JSP page to display results
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/webapp/SearchResult.jsp");
+            dispatcher.forward(request, response);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        // Convert the list of suggestions to JSON
-        Gson gson = new Gson();
-        String jsonSuggestions = gson.toJson(suggestions);
-
-        // Set the response content type and write the JSON to the response
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
-        out.print(jsonSuggestions);
-        out.flush();
     }
 }
