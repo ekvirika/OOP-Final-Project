@@ -1,5 +1,14 @@
 *{
     user-select: none;
+    z-index: -10 !important;
+    position: relative;
+}
+button {
+    z-index: 10 !important;
+}
+
+.modal *{
+    z-index: 1005 !important;
 }
 
 .submit{
