@@ -11,8 +11,8 @@ public class LeaderboardEntry {
     /**
      * Constructs a new LeaderboardEntry.
      *
-     * @param username   the username of the player
-     * @param score      the score achieved by the player
+     * @param username    the username of the player
+     * @param score       the score achieved by the player
      * @param elapsedTime the elapsed time in milliseconds
      */
     public LeaderboardEntry(String username, int score, long elapsedTime) {
@@ -30,6 +30,10 @@ public class LeaderboardEntry {
         return this.username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     /**
      * Returns the score achieved by the player.
      *
@@ -39,6 +43,10 @@ public class LeaderboardEntry {
         return this.score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     /**
      * Returns the elapsed time in milliseconds.
      *
@@ -46,6 +54,10 @@ public class LeaderboardEntry {
      */
     public long getElapsedTime() {
         return this.elapsedTime;
+    }
+
+    public void setElapsedTime(long elapsedTime) {
+        this.elapsedTime = elapsedTime;
     }
 
     /**

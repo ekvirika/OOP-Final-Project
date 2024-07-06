@@ -58,6 +58,10 @@ public class QuizHistory {
         this.quizId = quizId;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     /**
      * Retrieves the ID of the user who attempted the quiz.
      *
