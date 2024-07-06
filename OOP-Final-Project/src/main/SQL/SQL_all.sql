@@ -21,16 +21,17 @@ CREATE TABLE IF NOT EXISTS Accounts
 );
 
 # create friends table
-CREATE TABLE IF NOT EXISTS Friends
-(
-    userName1 VARCHAR(255)                             NOT NULL,
-    userName2 VARCHAR(255)                             NOT NULL,
-    status    ENUM ('pending', 'accepted', 'rejected') NOT NULL DEFAULT 'pending',
-    PRIMARY KEY (userName1, userName2),
-    FOREIGN KEY (userName1) REFERENCES Accounts (userName) ON DELETE CASCADE,
-    FOREIGN KEY (userName2) REFERENCES Accounts (userName) ON DELETE CASCADE,
-    UNIQUE (userName1, userName2)
-);
+CREATE TABLE IF NOT EXISTS Friends (
+    friendRequestId INT NOT NULL AUTO_INCREMENT,
+    usernameFrom VARCHAR(255) NOT NULL,
+    usernameTo VARCHAR(255) NOT NULL,
+    isAccepted BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (friendRequestId),
+    FOREIGN KEY (usernameFrom) REFERENCES Accounts(userName) ON DELETE CASCADE,
+    FOREIGN KEY (usernameTo) REFERENCES Accounts(userName) ON DELETE CASCADE,
+    UNIQUE (usernameFrom, usernameTo)
+    );
+
 
 
 CREATE TABLE Quiz
