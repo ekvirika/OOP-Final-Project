@@ -105,29 +105,10 @@
 
 <div class="container">
     <h1>Welcome to the Quizzz.com, <%= request.getAttribute("username") %>!</h1>
-    <!-- Leaderboard -->
-    <section>
-        <h2>Leaderboard</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>User</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-            <% List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) request.getAttribute("leaderboard");
-                for (LeaderboardEntry user : leaderboard) { %>
-            <tr>
-<%--                <td><%= user.getRank() %></td>--%>
-                <td><%= user.getUsername() %></td>
-                <td><%= user.getScore() %></td>
-            </tr>
-            <% } %>
-            </tbody>
-        </table>
-    </section>
+    <form action="CreateQuizServlet" method="dialog">
+        <button type="submit">Create Quiz</button>
+    </form>
+
 
     <!-- New Quizzes -->
     <section>
