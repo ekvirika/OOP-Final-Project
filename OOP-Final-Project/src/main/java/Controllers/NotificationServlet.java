@@ -18,24 +18,49 @@ public class NotificationServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        StringBuilder sb = new StringBuilder();
         BufferedReader reader = request.getReader();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line);
-        }
-
-        String requestData = sb.toString();
-
-        // Use Gson to parse the JSON
+        System.out.println("shemovedi");
         Gson gson = new Gson();
-        JsonObject jsonObject = gson.fromJson(requestData, JsonObject.class);
-        String message = jsonObject.get("message").getAsString();
+        RequestData requestData = gson.fromJson(reader, RequestData.class);
+        System.out.println(requestData);
+        String type = requestData.type;
+        ResponseData responseData = new ResponseData();
+        System.out.println(type);
 
-        System.out.println("Received message: " + message);
+        if ("quiz".equals(type)) {
+            String quizLink = requestData.quizLink;
+            String bestScore = requestData.bestScore;
+            System.out.println("quizi: " + quizLink);
+            System.out.println("score: " + bestScore);
+            // Process the quiz link and best score here
+            responseData.status = "success";
+            responseData.message = "Quiz data received.";
+
+        } else if ("note".equals(type)) {
+            String message = requestData.message;
+            // Process the message here
+            System.out.println("message: "+ message);
+            responseData.status = "success";
+            responseData.message = "Note received.";
+        } else {
+            responseData.status = "error";
+            responseData.message = "Invalid request type.";
+        }
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("{\"status\": \"success\"}");
+        response.getWriter().write(gson.toJson(responseData));
+    }
+
+    private class RequestData {
+        String type;
+        String quizLink;
+        String bestScore;
+        String message;
+    }
+
+    private class ResponseData {
+        String status;
+        String message;
     }
 }

@@ -198,10 +198,29 @@
         let score = bestScore.value.trim();
         if (quiz !== "" && score !== "") {
             console.log("quiz link:", quiz);
-            console.log("high score:", score)
-            challengeModal.style.display = "none"; // Close the modal after sending message
-            quizLink.value = ""; // Clear the input field
-            bestScore.value = "";
+            console.log("high score:", score);
+
+            fetch('notificationServlet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    type: "quiz",
+                    quizLink: quiz,
+                    bestScore: score
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    challengeModal.style.display = "none";
+                    quizLink.value = "";
+                    bestScore.value = "";
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
     }
 
@@ -212,22 +231,26 @@
     sendNoteBtn.onclick = function() {
         let message = messageInp.value.trim();
         if (message !== "") {
-            // Send the message to the server
+            console.log("Message sent:", message);
+
             fetch('notificationServlet', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({
+                    type: "note",
+                    message: message
+                })
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("Message sent:", data);
-                    noteModal.style.display = "none"; // Close the modal after sending message
-                    messageInp.value = ""; // Clear the input field
+                    console.log('Success:', data);
+                    noteModal.style.display = "none";
+                    messageInp.value = "";
                 })
-                .catch(error => {
-                    console.error("Error sending message:", error);
+                .catch((error) => {
+                    console.error('Error:', error);
                 });
         }
     }
