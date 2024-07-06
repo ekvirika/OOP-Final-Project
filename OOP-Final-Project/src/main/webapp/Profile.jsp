@@ -19,6 +19,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #444444;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 <body>
 <header class="animate__animated">
@@ -63,9 +101,30 @@
                 <button type="submit" name="action" value="editProfile" class="submit">Edit Profile</button>
             </form>
             <% } else { %>
-            <button type="button" class="submit" >Send Note</button>
-            <button type="button" class="submit" >Challenge</button>
+            <button type="button" class="submit" id="sendNote">Send Note</button>
+            <button type="button" class="submit" id="challenge" >Challenge</button>
             <button type="submit" class="submit">Add Friend</button>
+
+            <div id="challengeModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <label for="quizInput">Quiz Link</label><textarea id="quizInput" rows="2" cols="50" ></textarea>
+                    <div></div>
+                    <label for="scoreInput">High Score</label><textarea id="scoreInput" rows="2" cols="50"></textarea>
+                    <div></div>
+                    <button type="submit" id="sendQuizBtn" >Send</button>
+                </div>
+            </div>
+
+            <div id="noteModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <label for="messageInput">Write your message: </label><textarea id="messageInput" rows="4" cols="50" ></textarea>
+                    <div></div>
+                    <button type="submit" id="sendNoteBtn">Send</button>
+                </div>
+            </div>
+
             <% } %>
         </div>
 
@@ -89,5 +148,77 @@
     </div>
 </div>
 
+
+
+<script>
+    // Get the modal
+    let challengeModal = document.getElementById("challengeModal");
+    let noteModal = document.getElementById("noteModal");
+
+    // Get the button that opens the modal
+    let btnSendNote = document.getElementById("sendNote");
+    let btnChallenge = document.getElementById("challenge");
+
+    // Get the <span> element that closes the modal
+    let span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on the button, open the modal
+    btnSendNote.onclick = function() {
+        noteModal.style.display = "block";
+    }
+
+    btnChallenge.onclick = function() {
+        challengeModal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        challengeModal.style.display = "none";
+        noteModal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside the modal, close it
+    window.onclick = function(event) {
+        if (event.target === challengeModal) {
+            challengeModal.style.display = "none";
+        }
+
+        if (event.target === noteModal) {
+            noteModal.style.display = "none";
+        }
+    }
+
+    // Handle challenge
+    let sendQuizBtn = document.getElementById("sendQuizBtn");
+    let quizLink = document.getElementById("quizInput");
+    let bestScore = document.getElementById("scoreInput")
+
+    sendQuizBtn.onclick = function() {
+        let quiz = quizLink.value.trim();
+        let score = bestScore.value.trim();
+        if (quiz !== "" && score !== "") {
+            console.log("quiz link:", quiz);
+            console.log("high score:", score)
+            challengeModal.style.display = "none"; // Close the modal after sending message
+            quizLink.value = ""; // Clear the input field
+            bestScore.value = "";
+        }
+    }
+
+    //Handle send message
+    let sendNoteBtn = document.getElementById("sendNoteBtn");
+    let messageInp = document.getElementById("messageInput");
+
+    sendNoteBtn.onclick = function() {
+        let message = messageInp.value.trim();
+        if (message !== "") {
+            console.log("Message sent:", message);
+            noteModal.style.display = "none"; // Close the modal after sending message
+            messageInp.value = ""; // Clear the input field
+        }
+    }
+
+
+</script>
 </body>
 </html>

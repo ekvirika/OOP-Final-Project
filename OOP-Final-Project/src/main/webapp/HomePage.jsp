@@ -94,7 +94,7 @@
 <div class="search-container">
     <form id="search-form" action="SuggestionServlet" method="get">
         <label>
-            <input id="search-input" class="search-input" type="text" name="query" placeholder="Search Quiz Or A Friend...">
+            <input id="search-input" class="search-input" type="text" name="query" placeholder="Search A Friend...">
         </label>
         <button class="search-button" type="submit">
             <i class="fa fa-search"></i>
