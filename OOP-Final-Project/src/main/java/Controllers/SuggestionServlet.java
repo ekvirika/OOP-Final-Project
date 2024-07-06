@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet ("/suggestion")
+@WebServlet(name = "SuggestionServlet", urlPatterns = {"/SuggestionServlet"})
 public class SuggestionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -35,7 +35,7 @@ public class SuggestionServlet extends HttpServlet {
             request.setAttribute("results", suggestions);
             System.out.println(suggestions);
             // Forward to the JSP page to display results
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/webapp/SearchResult.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/SearchResult.jsp");
             dispatcher.forward(request, response);
         } catch (SQLException e) {
             throw new RuntimeException(e);
