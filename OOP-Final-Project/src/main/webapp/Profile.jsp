@@ -137,12 +137,12 @@
         <div class="quizzes">
             <h3>Quizzes Created</h3>
             <p>No quizzes created yet.</p>
-<%--             TODO--%>
+            <%--             TODO--%>
         </div>
 
         <div class="friends">
             <h3>Friends</h3>
-<%--            TODO --%>
+            <%--            TODO --%>
             <%-- Display list of friends if needed --%>
         </div>
     </div>
@@ -212,12 +212,25 @@
     sendNoteBtn.onclick = function() {
         let message = messageInp.value.trim();
         if (message !== "") {
-            console.log("Message sent:", message);
-            noteModal.style.display = "none"; // Close the modal after sending message
-            messageInp.value = ""; // Clear the input field
+            // Send the message to the server
+            fetch('notificationServlet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Message sent:", data);
+                    noteModal.style.display = "none"; // Close the modal after sending message
+                    messageInp.value = ""; // Clear the input field
+                })
+                .catch(error => {
+                    console.error("Error sending message:", error);
+                });
         }
     }
-
 
 </script>
 </body>

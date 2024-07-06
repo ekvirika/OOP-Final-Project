@@ -45,13 +45,13 @@ body {
 
 
 .top{
-    display: flex;  
+    display: flex;
     justify-content: center;
 }
 
 .bottom{
-    display: flex;  
-    justify-content: space-around; 
+    display: flex;
+    justify-content: space-around;
 }
 
 .profile-picture {
@@ -66,34 +66,34 @@ body {
 }
 
 button{
-  background-color: #17A6E8;
-  border-radius: 8px;
-  border-style: none;
-  box-sizing: border-box;
-  color: #FFFFFF;
-  cursor: pointer;
-  display: inline-block;
+    background-color: #17A6E8;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
     font-family: "Raleway", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  height: 40px;
-  line-height: 20px;
-  outline: none;
-  padding: 10px 16px;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  transition: color 100ms;
-  vertical-align: baseline;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
     margin-top: 10px;
 }
 
 button:hover,
 button:focus {
-  background-color: #17a6e882;
+    background-color: #17a6e882;
 }
 
 .profile-info {
