@@ -46,9 +46,10 @@ public class QuestionServlet extends HttpServlet {
 
         int questionId = questionIds.get(questionIndex);
         Question question = questionManager.getQuestion(questionId);
+        System.out.println(question);
 
         TakeQuiz takeQuiz = new TakeQuiz();
-        String questionHtml = takeQuiz.generateUI(question.getQuestionType().ordinal(), question);
+        String questionHtml = takeQuiz.generateUI(question.getQuestionType(), question);
 
         request.setAttribute("currentQuiz", quiz);
         request.setAttribute("questionHtml", questionHtml);
@@ -81,11 +82,12 @@ public class QuestionServlet extends HttpServlet {
         int questionId = questionIds.get(questionIndex);
         Question question = questionManager.getQuestion(questionId);
         String userAnswer = request.getParameter("userAnswer");
-        System.out.println(userAnswer);
+        System.out.println(question);
         String userAnswersList = request.getParameter("userAnswers");
         Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<String>>() {}.getType();
         List<String> userAnswers = gson.fromJson(userAnswersList, listType);
+        System.out.println("list: " + userAnswers);
         if(questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, null)){
             quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
         }
