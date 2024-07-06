@@ -1,5 +1,6 @@
 package DAO;
 
+import Models.Question;
 import Models.Quiz;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -151,5 +152,16 @@ public class QuizDAO {
             throw new RuntimeException("Error retrieving all quizzes: " + e.getMessage(), e);
         }
         return quizzes;
+    }
+
+    public List<Question> getAllQuestionsByQuizId(int quizID) {
+        List<Question> questions = new ArrayList<>();
+        Quiz quiz = readQuiz(quizID);
+        ArrayList<Integer> questionIds = quiz.getQuestionIds();
+        QuestionDAO questionDAO = new QuestionDAO();
+        for (Integer questionId : questionIds) {
+            questions.add(questionDAO.ReadQuestion(questionId));
+        }
+        return questions;
     }
 }
