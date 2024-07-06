@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class FriendsDAO {
     private BasicDataSource dataSource;
@@ -16,38 +17,63 @@ public class FriendsDAO {
     }
 
     public void addFriendship(FriendRequest friendRequest) throws SQLException {
-        String sql = "INSERT INTO Friends (userName1, userName2, status) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Friends (usernameFrom, usernameTo, isAccepted) VALUES (?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, friendRequest.getFriendIdFrom());
-            stmt.setString(2, friendRequest.getFriendIdTo());
-            stmt.setString(3, "pending");
-            stmt.executeUpdate();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, friendRequest.getUsernameFrom());
+            statement.setString(2, friendRequest.getUsernameTo());
+            statement.setBoolean(3, false);
+            statement.executeUpdate();
         }
     }
 
-    public void updateFriendshipStatus(String userName1, String userName2, String status) throws SQLException {
-        String sql = "UPDATE Friends SET status = ? WHERE userName1 = ? AND userName2 = ?";
+    public void updateFriendshipStatus(String usernameFrom, String usernameTo, Boolean isAccepted) throws SQLException {
+        String sql = "UPDATE Friends SET isAccepted = ? WHERE usernameFrom = ? AND usernameTo = ?";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, status);
-            stmt.setString(2, userName1);
-            stmt.setString(3, userName2);
-            stmt.executeUpdate();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setBoolean(1, isAccepted);
+            statement.setString(2, usernameFrom);
+            statement.setString(3, usernameTo);
+            statement.executeUpdate();
         }
     }
 
-    public FriendRequest getFriendship(String userName1, String userName2) throws SQLException {
-        String sql = "SELECT * FROM Friends WHERE userName1 = ? AND userName2 = ?";
+    public FriendRequest getFriendRequest(String usernameFrom, String usernameTo) throws SQLException {
+        String sql = "SELECT * FROM Friends WHERE usernameFrom = ? AND usernameTo = ?";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, userName1);
-            stmt.setString(2, userName2);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new FriendRequest(rs.getString("userId1"), rs.getString("userId2"));
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, usernameFrom);
+            statement.setString(2, usernameTo);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return new FriendRequest(resultSet.getInt("friendRequestId"), resultSet.getString("usernameFrom"), resultSet.getString("usernameTo"), resultSet.getBoolean("isAccepted"));
             }
             return null;
+        }
+    }
+
+    public ArrayList<FriendRequest> getAllFriendRequestsFrom(String usernameFrom) throws SQLException {
+        ArrayList<FriendRequest> friendRequests = new ArrayList<>();
+        String sql = "SELECT * FROM Friends WHERE usernameFrom = ?";
+        return getFriendRequests(usernameFrom, friendRequests, sql);
+    }
+
+    public ArrayList<FriendRequest> getAllFriendRequestsTo(String usernameTo) throws SQLException {
+        ArrayList<FriendRequest> friendRequests = new ArrayList<>();
+        String sql = "SELECT * FROM Friends WHERE usernameTo = ?";
+        return getFriendRequests(usernameTo, friendRequests, sql);
+    }
+
+    private ArrayList<FriendRequest> getFriendRequests(String username, ArrayList<FriendRequest> friendRequests, String sql) throws SQLException {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                friendRequests.add(new FriendRequest(resultSet.getInt("friendRequestId"), resultSet.getString("usernameFrom"), resultSet.getString("usernameTo"), resultSet.getBoolean("isAccepted")));
+            }
+            return friendRequests;
         }
     }
 }

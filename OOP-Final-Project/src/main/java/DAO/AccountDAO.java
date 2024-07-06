@@ -36,7 +36,7 @@ public class AccountDAO {
      * @param account the Account object containing the account details.
      */
     public void createAccount(Account account) {
-        String query = "INSERT INTO Accounts (userName, firstName, lastName, password, email, imageUrl, salt) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Accounts (username, firstName, lastName, password, email, imageUrl, salt) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
@@ -59,23 +59,23 @@ public class AccountDAO {
     }
 
 
-    public Account readAccount(String userName) {
+    public Account readAccount(String username) {
         List<String> friends = new ArrayList<>();
-        String query = "SELECT * FROM Accounts WHERE userName = ?";
-        String queryFriends = "SELECT userName1, userName2 FROM Friends WHERE userName1 = ? OR userName2 = ?";
+        String query = "SELECT * FROM Accounts WHERE username = ?";
+        String queryFriends = "SELECT usernameFrom, usernameTo FROM Friends WHERE (usernameFrom = ? OR usernameTo = ?) AND isAccepted = TRUE";
         Account account = null;
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              PreparedStatement statementFriends = connection.prepareStatement(queryFriends)) {
 
-            statement.setString(1, userName);
-            statementFriends.setString(1, userName);
-            statementFriends.setString(2, userName);
+            statement.setString(1, username);
+            statementFriends.setString(1, username);
+            statementFriends.setString(2, username);
             try (ResultSet resultSet = statement.executeQuery();
                  ResultSet resultSetFriends = statementFriends.executeQuery()) {
                 if (resultSet.next()) {
                     account = new Account(
-                            resultSet.getString("userName"),
+                            resultSet.getString("username"),
                             resultSet.getString("firstName"),
                             resultSet.getString("lastName"),
                             resultSet.getString("password"),
@@ -86,13 +86,13 @@ public class AccountDAO {
                 } else return null;
 
                 while (resultSetFriends.next()) {
-                    String userName1 = resultSetFriends.getString("userName1");
-                    String userName2 = resultSetFriends.getString("userName2");
+                    String usernameFrom = resultSetFriends.getString("usernameFrom");
+                    String usernameTo = resultSetFriends.getString("usernameTo");
 
-                    if (!userName1.equals(userName)) {
-                        friends.add(userName1);
+                    if (!usernameFrom.equals(username)) {
+                        friends.add(usernameFrom);
                     } else {
-                        friends.add(userName2);
+                        friends.add(usernameTo);
                     }
                 }
                 account.setFriends(friends);
@@ -108,7 +108,7 @@ public class AccountDAO {
 
 
     public void updateAccount(Account account) {
-        String query = "UPDATE Accounts SET userName = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ?, achievementIds = ?, QuizIds = ? WHERE userName = ?";
+        String query = "UPDATE Accounts SET username = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ?, achievementIds = ?, QuizIds = ? WHERE username = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(account, statement);
@@ -123,7 +123,7 @@ public class AccountDAO {
     }
 
     public void deleteAccount(String username) {
-        String query = "DELETE FROM Accounts WHERE userName = ?";
+        String query = "DELETE FROM Accounts WHERE username = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, username);
@@ -154,7 +154,7 @@ public class AccountDAO {
 
             while (resultSet.next()) {
                 Account account = new Account(
-                        resultSet.getString("userName"),
+                        resultSet.getString("username"),
                         resultSet.getString("firstName"),
                         resultSet.getString("lastName"),
                         resultSet.getString("password"),

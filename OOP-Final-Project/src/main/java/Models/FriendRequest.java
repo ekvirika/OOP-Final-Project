@@ -6,32 +6,39 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import java.sql.SQLException;
 
 public class FriendRequest {
-    private String FriendIdFrom;
-    private String FriendIdTo;
-    private boolean FriendToStatus;
+    private int friendRequestId;
+    private final String usernameFrom;
+    private final String usernameTo;
+    private boolean isAccepted;
 
-    public FriendRequest(String friendIdFrom, String friendIdTo) throws SQLException {
-        this.FriendIdFrom = friendIdFrom;
-        this.FriendIdTo = friendIdTo;
-        this.FriendToStatus = false;
+    public FriendRequest(String usernameFrom, String usernameTo) throws SQLException {
+        this.usernameFrom = usernameFrom;
+        this.usernameTo = usernameTo;
+        this.isAccepted = false;
     }
 
-    public String getFriendIdFrom() {
-        return FriendIdFrom;
+    public FriendRequest(int friendRequestId, String usernameFrom, String usernameTo, Boolean isAccepted) throws SQLException {
+        this.friendRequestId = friendRequestId;
+        this.usernameFrom = usernameFrom;
+        this.usernameTo = usernameTo;
+        this.isAccepted = isAccepted;
     }
 
-    public String getFriendIdTo() {
-        return FriendIdTo;
+    public String getUsernameFrom() {
+        return usernameFrom;
     }
 
-    public boolean isFriendToStatus() {
-        return FriendToStatus;
+    public String getUsernameTo() {
+        return usernameTo;
     }
 
-    public void setFriendToStatus(boolean friendToStatus, BasicDataSource dataSource) throws SQLException {
-        FriendToStatus = friendToStatus;
-        String status = friendToStatus ? "accepted" : "pending";
-        updateFriendshipStatus(status, dataSource);
+    public boolean isAccepted() {
+        return isAccepted;
+    }
+
+    public void setFriendRequestStatus(boolean isAccepted, BasicDataSource dataSource) throws SQLException {
+        this.isAccepted = isAccepted;
+        updateFriendshipStatus(isAccepted, dataSource);
     }
 
     public void sendFriendRequest(BasicDataSource dataSource) throws SQLException {
@@ -39,8 +46,12 @@ public class FriendRequest {
         friendsDAO.addFriendship(this);
     }
 
-    private void updateFriendshipStatus(String status, BasicDataSource dataSource) throws SQLException {
+    private void updateFriendshipStatus(Boolean isAccepted, BasicDataSource dataSource) throws SQLException {
         FriendsDAO friendsDAO = new FriendsDAO(dataSource);
-        friendsDAO.updateFriendshipStatus(FriendIdFrom, FriendIdTo, status);
+        friendsDAO.updateFriendshipStatus(usernameFrom, usernameTo, isAccepted);
+    }
+
+    public int getFriendRequestId() {
+        return friendRequestId;
     }
 }
