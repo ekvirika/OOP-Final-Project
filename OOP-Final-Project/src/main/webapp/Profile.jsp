@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="Models.Account" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
@@ -13,7 +12,6 @@
     <link rel="stylesheet" href="./css/NavBar.css">
     <title>User Profile</title>
     <link rel="icon" href="./assets/Logo.png">
-<%--    <link rel="stylesheet" href="./css/StartPage.css">--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
@@ -59,42 +57,34 @@
             <p>
                 <strong>Email:</strong> <span class="val"><%= ((Account) request.getAttribute("account")).getEmail() %></span>
             </p>
-            <%
-                Boolean isSelf = (Boolean) request.getAttribute("isSelf");
-                if (isSelf != null && isSelf) {
-            %>
+            <% Boolean isSelf = (Boolean) request.getAttribute("isSelf"); %>
+            <% if (isSelf != null && isSelf) { %>
             <form action="ProfileServlet" method="post">
-                <button type="submit"  class="submit">Edit Profile</button>
-                <%--    <input type="submit" value="edit profile">--%>
+                <button type="submit" name="action" value="editProfile" class="submit">Edit Profile</button>
             </form>
-            <%
-                }
-            %>
+            <% } else { %>
+            <button type="button" class="submit" >Send Note</button>
+            <button type="button" class="submit" >Challenge</button>
+            <button type="submit" class="submit">Add Friend</button>
+            <% } %>
         </div>
-
 
         <div class="achievements animate__animated animate__fadeInRight">
             <h3>Achievements</h3>
-            <p>No achievements yet.</p> <!-- Replace with actual achievements if available -->
+            <p>No achievements yet.</p>
         </div>
     </div>
     <div class="bottom animate__animated animate__fadeInUp">
         <div class="quizzes">
             <h3>Quizzes Created</h3>
-            <p>No quizzes created yet.</p> <!-- Replace with actual list of quizzes created -->
+            <p>No quizzes created yet.</p>
+<%--             TODO--%>
         </div>
 
         <div class="friends">
             <h3>Friends</h3>
-<%--            <ul>--%>
-<%--                <% ArrayList<String> friends = (ArrayList<String>) ((Account) request.getAttribute("account")).getFriends();--%>
-<%--                    if (friends != null) {--%>
-<%--                        for (String friend : friends) { %>--%>
-<%--                <li><%= friend %>--%>
-<%--                </li>--%>
-<%--                <% }--%>
-<%--                } %>--%>
-<%--            </ul>--%>
+<%--            TODO --%>
+            <%-- Display list of friends if needed --%>
         </div>
     </div>
 </div>
