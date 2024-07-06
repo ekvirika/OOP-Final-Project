@@ -23,11 +23,17 @@ public class SuggestionServlet extends HttpServlet {
         String query = request.getParameter("query");
         System.out.println(query);
         List<Account> suggestions = new ArrayList<>();
+
+        String loggedInUsername = (String) request.getSession().getAttribute("username");
+
         try {
             AccountManager accountManager = new AccountManager();
             List<Account> allAccounts = accountManager.getAccounts();
             for (Account account : allAccounts) {
-                if(account.getFirstName().contains(query) || account.getLastName().contains(query) || account.getUserName().contains(query)){
+                if((account.getFirstName().contains(query) ||
+                    account.getLastName().contains(query) ||
+                    account.getUserName().contains(query)) &&
+                    !account.getUserName().equals(loggedInUsername)){
                     suggestions.add(account);
                 }
             }
