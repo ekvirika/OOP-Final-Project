@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Single Page Quiz</title>
-    <link rel="stylesheet" href="./css/SingleQuestionResponse.css">
-    <!-- Add your CSS links and any other meta tags or scripts -->
+    <link rel="icon" href="./assets/Logo.png">
+    <link rel="stylesheet" href="./css/SinglePageQuestion.css">
 </head>
 <body>
 
@@ -21,7 +21,6 @@
     </div>
     <% } else { %>
     <h1>Quiz Not Found</h1>
-    <!-- Handle the case where currentQuiz is null -->
     <% } %>
 </div>
 

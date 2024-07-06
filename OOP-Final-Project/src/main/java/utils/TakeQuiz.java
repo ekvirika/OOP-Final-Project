@@ -16,25 +16,18 @@ public class TakeQuiz {
         switch (questionType) {
             case QUESTION_RESPONSE:
                 return generateQuesRes(question);
-//            break;
             case FILL_IN_THE_BLANK:
                 return generateFillBlank(question);
-//            break;
             case MULTIPLE_CHOICE:
                 return generateMultiChoice(question);
-//            break;
             case PICTURE_RESPONSE:
                 return generatePictRes(question);
-//            break;
             case MULTI_ANSWER:
                 return generateMultiAns(question);
-//            break;
             case MULTIPLE_CHOICE_WITH_ANSWERS:
                 return generateMultiChoiceAns(question);
-//            break;
             case MATCHING:
                 return generateMatching(question);
-//            break;
             default:
                 System.out.println("Invalid question type");
                 return "";
@@ -42,11 +35,19 @@ public class TakeQuiz {
     }
 
     private String generateQuesRes(Question question) {
-        return "<form action=\"QuestionServlet\" method=\"post\">" + "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" + "<div class=\"question\">" + question.getQuestionText() + "</div>" + "<div class=\"response\">" + "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" + "</div>" + "<button class=\"btn\" type=\"submit\">Submit</button>" + "</form>";
+        return "<form action=\"QuestionServlet\" method=\"post\">" +
+                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">"
+                + "<div class=\"question\">" + question.getQuestionText() + "</div>"
+                + "<div class=\"response\">" + "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" + "</div>"
+                + "<button class=\"btn\" type=\"submit\">Submit</button>" + "</form>";
     }
 
     private String generateFillBlank(Question question) {
-        return "<form action=\"QuestionServlet\" method=\"post\">" + "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" + "<div class=\"question\">" + question.getQuestionText() + "</div>" + "<div class=\"response\">" + "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" + "</div>" + "<button class=\"btn\" type=\"submit\">Submit</button>" + "</form>";
+        return "<form action=\"QuestionServlet\" method=\"post\">" +
+                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" +
+                "<div class=\"question\">" + question.getQuestionText() + "</div>" +
+                "<div class=\"response\">" + "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" + "</div>"
+                + "<button class=\"btn\" type=\"submit\">Submit</button>" + "</form>";
     }
 
     private String generateMultiChoice(Question question) {
@@ -81,7 +82,12 @@ public class TakeQuiz {
 
 
     private String generatePictRes(Question question) {
-        return "<form action=\"QuestionServlet\" method=\"post\">" + "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">" + "<div class=\"image-question\">" + "<img src=\"" + question.getQuestionImage() + "\" alt=\"Question Image\">" + "</div>" + "<div class=\"question\">\"" + question.getQuestionText() + "\"</div>" + "<div class=\"response\">" + "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" + "</div>" + "<button class=\"btn\" type=\"submit\">Submit</button>" + "</form>";
+        return "<form action=\"QuestionServlet\" method=\"post\">" +
+                "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">"
+                + "<div class=\"image-question\">" + "<img src=\"" + question.getQuestionImage() + "\" alt=\"Question Image\">" + "</div>"
+                + "<div class=\"question\">\"" + question.getQuestionText() + "\"</div>"
+                + "<div class=\"response\">" + "<input type=\"text\" id=\"userAnswer\" name=\"userAnswer\" placeholder=\"Type your answer here\">" + "</div>"
+                + "<button class=\"btn\" type=\"submit\">Submit</button>" + "</form>";
     }
 
     private String generateMultiAns(Question question) {
@@ -172,7 +178,7 @@ public class TakeQuiz {
         formBuilder.append("<form action=\"QuestionServlet\" method=\"post\">").append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">").append("<h1> \"" + question.getQuestionText() + "\"</h1>").append("<div class=\"quiz\">").append("<div class=\"questions\">");
 
         for (int i = 0; i < questions.size(); i++) {
-            formBuilder.append("<div class=\"question\" id=\"question").append(i + 1).append("\" onclick=\"selectQuestion('question").append(i + 1).append("')\">").append(questions.get(i)).append("</div>");
+            formBuilder.append("<div class=\"marcxena\" id=\"question").append(i + 1).append("\" onclick=\"selectQuestion('question").append(i + 1).append("')\">").append(questions.get(i)).append("</div>");
         }
 
         formBuilder.append("</div>").append("<div class=\"answers\">");
@@ -181,7 +187,41 @@ public class TakeQuiz {
             formBuilder.append("<div class=\"answer\" id=\"answer").append(i + 1).append("\" onclick=\"selectAnswer('answer").append(i + 1).append("')\">").append(answers.get(i)).append("</div>");
         }
 
-        formBuilder.append("</div>").append("</div>").append("<button class=\"btn\" type=\"submit\">Submit</button>").append("</form>");
+        formBuilder.append("</div>").append("</div>").append("<button class=\"btn\" type=\"submit\">Submit</button>").append("</form>")
+                .append("<script>")
+                .append("let selectedQuestion = null;")
+                .append("let selectedAnswer = null;")
+                .append("let colorIndex = 0;")
+
+                .append("const colors = [")
+                .append("\"#3e771d\", \"#ea2234\", \"#197096\", \"#d50f93\", \"#dac55f\",")
+                .append("\"#cc11d7\", \"#992a42\", \"#15d199\", \"#dd6cfc\", \"#659997\",")
+                .append("\"#8b8e74\", \"#8d18f1\", \"#5a64d5\", \"#186e47\", \"#f1057c\",")
+                .append("\"#1453da\", \"#f63104\", \"#fe9ce3\", \"#fc6916\", \"#17A6E8\"")
+                .append("];")
+
+                .append("function selectQuestion(id) {")
+                .append("    selectedQuestion = document.getElementById(id);")
+                .append("    checkMatch();")
+                .append("}")
+
+                .append("function selectAnswer(id) {")
+                .append("    selectedAnswer = document.getElementById(id);")
+                .append("    checkMatch();")
+                .append("}")
+
+                .append("function checkMatch() {")
+                .append("    if (selectedQuestion && selectedAnswer) {")
+                .append("        colorIndex = Math.ceil(Math.random() * colors.length);")
+                .append("        selectedQuestion.style.backgroundColor = colors[colorIndex];")
+                .append("        selectedAnswer.style.backgroundColor = colors[colorIndex];")
+                .append("        selectedQuestion.style.borderColor = colors[colorIndex];")
+                .append("        selectedAnswer.style.borderColor = colors[colorIndex];")
+                .append("        selectedQuestion = null;")
+                .append("        selectedAnswer = null;")
+                .append("    }")
+                .append("}")
+                .append("</script>");
 
         return formBuilder.toString();
     }

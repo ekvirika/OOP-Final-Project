@@ -281,7 +281,7 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
                       matchingPairs)
 VALUES (6, 4, 'CHAMOTVALE 11-is JERADEBI ZRDADOBIT', NULL, NULL, NULL, NULL, NULL,
-        ' [\" 11 \",\" 22 \", \" 33 \", \" 44 \", \" 55 \"] ', NULL);
+        ' [\" 11 \",\" 22 \", \" 33 \", \" 44 \", \" 55 \", \" 66 \", \" 77 \", \" 88 \", \" 99 \", \" 110 \"] ', NULL);
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
