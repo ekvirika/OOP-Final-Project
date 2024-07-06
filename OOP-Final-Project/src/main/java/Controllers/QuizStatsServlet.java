@@ -38,6 +38,7 @@ public class QuizStatsServlet extends HttpServlet {
         long startTime = quizHistory.getStartTime().getTime();
         long endTime = quizHistory.getEndTime().getTime();
         long timeTakenSeconds = (endTime - startTime) / 1000;
+        quizHistory.setElapsedTime(timeTakenSeconds);
         String username = quizHistory.getUsername();
 
         // Store quiz history in database
