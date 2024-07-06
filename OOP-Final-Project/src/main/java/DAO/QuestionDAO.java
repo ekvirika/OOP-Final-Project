@@ -3,8 +3,10 @@ package DAO;
 import Models.Enums.QuestionType;
 import Models.Question;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -100,12 +102,12 @@ public class QuestionDAO {
         question.setQuestionType(QuestionType.values()[resultSet.getInt("questionType")]);
         question.setQuestionText(resultSet.getString("questionText"));
         question.setSingleQuestionAnswer(resultSet.getString("singleQuestionAnswer"));
-        question.setAlternativeAnswers(gson.fromJson(resultSet.getString("alternativeAnswers"), HashSet.class));
-        question.setMultipleChoiceAnswers(gson.fromJson(resultSet.getString("multipleChoiceAnswers"),ArrayList.class));
-        question.setMultipleChoiceCorrectIndexes(gson.fromJson(resultSet.getString("multipleChoiceCorrectIndexes"),ArrayList.class));
+        question.setAlternativeAnswers(gson.fromJson(resultSet.getString("alternativeAnswers"), new TypeToken<HashSet<String>>() {}.getType()));
+        question.setMultipleChoiceAnswers(gson.fromJson(resultSet.getString("multipleChoiceAnswers"), new TypeToken<ArrayList<String>>() {}.getType()));
+        question.setMultipleChoiceCorrectIndexes(gson.fromJson(resultSet.getString("multipleChoiceCorrectIndexes"), new TypeToken<ArrayList<Integer>>() {}.getType()));
         question.setQuestionImage(resultSet.getString("questionImage"));
-        question.setMultipleAnswerFields(gson.fromJson(resultSet.getString("multipleAnswerFields"), ArrayList.class));
-        question.setMatchingPairs(gson.fromJson(resultSet.getString("matchingPairs"),HashMap.class));
+        question.setMultipleAnswerFields(gson.fromJson(resultSet.getString("multipleAnswerFields"), new TypeToken<ArrayList<String>>() {}.getType()));
+        question.setMatchingPairs(gson.fromJson(resultSet.getString("matchingPairs"), new TypeToken<HashMap<String, String>>() {}.getType()));
         return question;
     }
 }
