@@ -315,3 +315,56 @@ VALUES (6,6, 'Match the following authors with their works.', NULL,
         NULL,
         '{"Mark Twain": "The Adventures of Tom Sawyer", "J.K. Rowling": "Harry Potter"}');
 
+
+
+
+
+# ------------------------- new quiz
+INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, randomizeQuestions,
+                  immediateFeedback, createTime)
+VALUES ('alo', 'New Quiz', 'A new single-page quiz', 0, '[28, 29, 30, 31, 32, 33, 34]', TRUE, FALSE, FALSE, CURRENT_TIMESTAMP);
+
+-- Question 1: Single Question Answer
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
+                      multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
+                      matchingPairs)
+VALUES (7, 0, 'What is the capital of France?', 'Paris', NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- Question 2: Fill-in-the-Blank
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
+                      multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
+                      matchingPairs)
+VALUES (7, 1, 'The chemical symbol for water is ______', 'H2O', NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- Question 3: Multiple Choice Single Answer
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
+                      multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
+                      matchingPairs)
+VALUES (7, 2, 'Which planet is known as the Red Planet?', NULL, NULL, '["Earth", "Mars", "Jupiter"]', '[1]', NULL, NULL, NULL);
+
+-- Question 4: Image Question
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
+                      multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
+                      matchingPairs)
+VALUES (7, 3, 'Identify the structure shown in the image', 'Eiffel Tower', NULL, NULL, NULL,
+        'https://example.com/eiffel_tower.jpg', NULL, NULL);
+
+-- Question 5: Multiple Answer Fields
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
+                      multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
+                      matchingPairs)
+VALUES (7, 4, 'List the first five prime numbers', NULL, NULL, NULL, NULL, NULL,
+        '["2", "3", "5", "7", "11"]', NULL);
+
+-- Question 6: Multiple Choice Multiple Answers
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
+                      multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
+                      matchingPairs)
+VALUES (7, 5, 'Select the colors in the flag of France', NULL, NULL, '["Red", "Green", "Blue", "White"]', '[0, 2, 3]', NULL, NULL, NULL);
+
+-- Question 7: Matching Pairs
+INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
+                      multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
+                      matchingPairs)
+VALUES (7, 6, 'Match the following capitals with their countries.', NULL, NULL, NULL, NULL, NULL, NULL,
+        '{"Paris": "France", "Berlin": "Germany", "Madrid": "Spain"}');

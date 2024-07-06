@@ -159,6 +159,7 @@ public class QuizDAO {
         Quiz quiz = readQuiz(quizID);
         ArrayList<Integer> questionIds = quiz.getQuestionIds();
         QuestionDAO questionDAO = new QuestionDAO();
+        questionDAO.setDataSource(this.dataSource);
         for (Integer questionId : questionIds) {
             questions.add(questionDAO.ReadQuestion(questionId));
         }

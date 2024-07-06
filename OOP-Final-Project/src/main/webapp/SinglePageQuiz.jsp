@@ -16,7 +16,7 @@
         if (currentQuiz != null) { %>
     <h1>Quiz: <%= currentQuiz.getQuizName() %></h1>
     <div class="question-html">
-        <%= (String) request.getAttribute("questionHtml") %>
+        <%= (String) request.getAttribute("questionsHtml") %>
     </div>
     <form action="QuizStatsServlet" method="post">
         <input type="submit" value="Submit Quiz">
