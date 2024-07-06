@@ -1,0 +1,30 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="Models.Quiz" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Single Page Quiz</title>
+    <link rel="icon" href="./assets/Logo.png">
+    <link rel="stylesheet" href="./css/SinglePageQuestion.css">
+</head>
+<body>
+
+<div class="quiz-container">
+    <% Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
+        if (currentQuiz != null) { %>
+    <h1>Quiz: <%= currentQuiz.getQuizName() %></h1>
+    <div class="question-html">
+        <%= (String) request.getAttribute("questionHtml") %>
+    </div>
+    <form action="QuizStatsServlet" method="post">
+        <input type="submit" value="Submit Quiz">
+    </form>
+    <% } else { %>
+    <h1>Quiz Not Found</h1>
+    <% } %>
+</div>
+
+</body>
+</html>
