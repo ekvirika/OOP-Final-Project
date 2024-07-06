@@ -181,7 +181,7 @@ public class TakeQuiz {
 
         StringBuilder formBuilder = new StringBuilder();
 
-        formBuilder.append("<form action=\"QuestionServlet\" method=\"post\">").append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
+        formBuilder.append("<form action=\"QuestionServlet\" method=\"post\" >").append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
                 .append("<input type=\"hidden\" name=\"questionId\" value=\"").append(question.getQuestionId()).append("\">")
                 .append("<h1> \"" + question.getQuestionText() + "\"</h1>").append("<div class=\"quiz\">").append("<div class=\"questions\">");
 
@@ -195,44 +195,14 @@ public class TakeQuiz {
             formBuilder.append("<div class=\"answer\" id=\"answer").append(i + 1).append("\" onclick=\"selectAnswer('answer").append(i + 1).append("')\">").append(answers.get(i)).append("</div>");
         }
 
-        formBuilder.append("</div>").append("</div>").append("<button class=\"btn\" type=\"submit\">Submit</button>").append("</form>")
-                .append("<script>")
-                .append("let selectedQuestion = null;")
-                .append("let selectedAnswer = null;")
-                .append("let colorIndex = 0;")
-
-                .append("const colors = [")
-                .append("\"#3e771d\", \"#ea2234\", \"#197096\", \"#d50f93\", \"#dac55f\",")
-                .append("\"#cc11d7\", \"#992a42\", \"#15d199\", \"#dd6cfc\", \"#659997\",")
-                .append("\"#8b8e74\", \"#8d18f1\", \"#5a64d5\", \"#186e47\", \"#f1057c\",")
-                .append("\"#1453da\", \"#f63104\", \"#fe9ce3\", \"#fc6916\", \"#17A6E8\"")
-                .append("];")
-
-                .append("function selectQuestion(id) {")
-                .append("    selectedQuestion = document.getElementById(id);")
-                .append("    checkMatch();")
-                .append("}")
-
-                .append("function selectAnswer(id) {")
-                .append("    selectedAnswer = document.getElementById(id);")
-                .append("    checkMatch();")
-                .append("}")
-
-                .append("function checkMatch() {")
-                .append("    if (selectedQuestion && selectedAnswer) {")
-                .append("        colorIndex = Math.ceil(Math.random() * colors.length);")
-                .append("        selectedQuestion.style.backgroundColor = colors[colorIndex];")
-                .append("        selectedAnswer.style.backgroundColor = colors[colorIndex];")
-                .append("        selectedQuestion.style.borderColor = colors[colorIndex];")
-                .append("        selectedAnswer.style.borderColor = colors[colorIndex];")
-                .append("        selectedQuestion = null;")
-                .append("        selectedAnswer = null;")
-                .append("    }")
-                .append("}")
+        formBuilder.append("</div>").append("</div>")
+                .append("<input type=\"hidden\" name=\"userAnswers\" id=\"userAnswers\" value=\"\">\n")
+                .append("<button class=\"btn\" type=\"submit\">Submit</button>")
+                .append("</form>")
+                .append("<script src=\"javascript/MatchingQuestion.js\">")
                 .append("</script>");
+
 
         return formBuilder.toString();
     }
-
-
 }

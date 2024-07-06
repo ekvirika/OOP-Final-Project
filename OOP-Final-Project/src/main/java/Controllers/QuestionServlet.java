@@ -1,5 +1,6 @@
 package Controllers;
 
+import Models.Enums.QuestionType;
 import Models.Managers.QuestionManager;
 import Models.Managers.QuizManager;
 import Models.Question;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @WebServlet(name = "QuestionServlet", urlPatterns = {"/QuestionServlet"})
@@ -85,45 +87,47 @@ public class QuestionServlet extends HttpServlet {
 
         if (quiz.isSinglePage()) {
             handleSinglePageQuiz(request, response, quiz);
+            return;
         } else {
             handleMultiPageQuiz(request, response, quiz, questionIndex);
-        }
-
-        List<Integer> questionIds = quiz.getQuestionIds();
-        QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
-
-        if (questionIndex >= questionIds.size()) {
-            quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
-            request.getSession().setAttribute("quizHistory", quizHistory);
-            request.getSession().setAttribute("username", quizHistory.getUsername());
-            response.sendRedirect("/QuizStatsServlet");
             return;
         }
-
-        int questionId = questionIds.get(questionIndex);
-        Question question = questionManager.getQuestion(questionId);
-        String userAnswer = request.getParameter("userAnswer");
-        System.out.println(question);
-        String userAnswersList = request.getParameter("userAnswers");
-        Gson gson = new Gson();
-        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
-        List<String> userAnswers = gson.fromJson(userAnswersList, listType);
-        System.out.println("list: " + userAnswers);
-        if(questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, null)){
-            quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
-        }
-        System.out.println("Score: "+ quizHistory.getQuizScore());
-
-        request.getSession().setAttribute("questionIndex", questionIndex + 1);
-
-        if (questionIndex + 1 >= questionIds.size()) {
-            quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
-            request.getSession().setAttribute("quizHistory", quizHistory);
-            request.getSession().setAttribute("username", quizHistory.getUsername());
-            response.sendRedirect("/QuizStatsServlet");
-        } else {
-            response.sendRedirect("/QuestionServlet?quizId=" + quizId);
-        }
+//
+//        List<Integer> questionIds = quiz.getQuestionIds();
+//        QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
+//
+//        if (questionIndex >= questionIds.size()) {
+//            quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
+//            request.getSession().setAttribute("quizHistory", quizHistory);
+//            request.getSession().setAttribute("username", quizHistory.getUsername());
+//            response.sendRedirect("/QuizStatsServlet");
+//            return;
+//        }
+//
+//        int questionId = questionIds.get(questionIndex);
+//        Question question = questionManager.getQuestion(questionId);
+//        String userAnswer = request.getParameter("userAnswer");
+//        System.out.println(question);
+//        String userAnswersList = request.getParameter("userAnswers");
+//        Gson gson = new Gson();
+//        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+//        List<String> userAnswers = gson.fromJson(userAnswersList, listType);
+//        System.out.println("list: " + userAnswers);
+//        if(questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, null)){
+//            quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
+//        }
+//        System.out.println("Score: "+ quizHistory.getQuizScore());
+//
+//        request.getSession().setAttribute("questionIndex", questionIndex + 1);
+//
+//        if (questionIndex + 1 >= questionIds.size()) {
+//            quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
+//            request.getSession().setAttribute("quizHistory", quizHistory);
+//            request.getSession().setAttribute("username", quizHistory.getUsername());
+//            response.sendRedirect("/QuizStatsServlet");
+//        } else {
+//            response.sendRedirect("/QuestionServlet?quizId=" + quizId);
+//        }
     }
 
     private void handleSinglePageQuiz(HttpServletRequest request, HttpServletResponse response, Quiz quiz)
@@ -173,9 +177,19 @@ public class QuestionServlet extends HttpServlet {
         String userAnswersList = request.getParameter("userAnswers");
         Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<String>>() {}.getType();
-        List<String> userAnswers = gson.fromJson(userAnswersList, listType);
-        System.out.println("list: " + userAnswers);
-        if(questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, null)){
+        List<String> userAnswers = new ArrayList<>();
+        if(question.getQuestionType().equals(QuestionType.MULTIPLE_CHOICE) ||
+        question.getQuestionType().equals(QuestionType.MULTIPLE_CHOICE_WITH_ANSWERS) ||
+        question.getQuestionType().equals(QuestionType.MULTI_ANSWER)) {
+            userAnswers = gson.fromJson(userAnswersList, listType);
+        }
+        Type hashmapType = new TypeToken<HashMap<String, String>>() {}.getType();
+        HashMap<String, String> hashmapAnswer = new HashMap<>();
+        if(question.getQuestionType().equals(QuestionType.MATCHING)){
+            hashmapAnswer = gson.fromJson(userAnswersList, hashmapType);
+        }
+        System.out.println("list: " + hashmapAnswer);
+        if(questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, hashmapAnswer)){
             quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
         }
         System.out.println("Score: "+ quizHistory.getQuizScore());
