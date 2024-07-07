@@ -38,9 +38,10 @@ public class QuestionManager {
      * Creates a new Question in the database.
      *
      * @param question The Question object to create.
+     * @return
      */
-    public void createQuestion(Question question) {
-        questionDAO.CreateQuestion(question);
+    public int createQuestion(Question question) {
+        return questionDAO.CreateQuestion(question);
     }
 
     /**

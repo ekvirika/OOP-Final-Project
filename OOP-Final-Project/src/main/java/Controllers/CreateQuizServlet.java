@@ -18,25 +18,31 @@ public class CreateQuizServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Quiz quiz = (Quiz) request.getServletContext().getAttribute("quiz");
+        Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");
+        System.out.println("quizi1: " + quiz);
         QuizManager quizManager = (QuizManager) request.getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         int quizId;
         if(quiz == null) {
+            String username = request.getSession().getAttribute("username").toString();
             quiz = new Quiz();
             quizId = quizManager.addQuiz(quiz);
+            quiz.setQuizID(quizId);
+            quiz.setCreatorUsername(username);
         } else quizId = quiz.getQuizID();
-        System.out.println(quizId);
+        System.out.println("aidio: " + quizId);
+        System.out.println(quiz);
         List<Question> questions = quizManager.getAllQuestionsByQuiz(quizId);
         TakeSinglePageQuiz uihelper = new TakeSinglePageQuiz();
-        String html = "";
+        StringBuilder html = new StringBuilder();
         for(Question question : questions) {
-            html += uihelper.generateUI(question.getQuestionType(), question);
+            html.append(uihelper.generateUI(question.getQuestionType(), question));
         }
+        System.out.println(html.toString());
 
         request.getSession().setAttribute("quizId", quizId);
-        request.setAttribute("html", html);
+        request.setAttribute("html", html.toString());
         request.getSession().setAttribute("quiz", quiz);
-        response.sendRedirect("CreateQuiz.jsp");
+        request.getRequestDispatcher("CreateQuiz.jsp").forward(request, response);
     }
 
     @Override

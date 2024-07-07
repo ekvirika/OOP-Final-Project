@@ -6,11 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import java.lang.reflect.Type;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,18 +36,26 @@ public class QuestionDAO {
     }
 
 
-    public void CreateQuestion(Question question) {
+    public int CreateQuestion(Question question) {
         String query = "INSERT INTO Question (quizId, questionType, questionText, " +
                 "singleQuestionAnswer, alternativeAnswers, multipleChoiceAnswers, " +
                 "multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields, " +
                 "matchingPairs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement statement = conn.prepareStatement(query)) {
+             PreparedStatement statement = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             setStatement(question, statement);
             statement.executeUpdate();
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Creating quiz failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     private void setStatement(Question question, PreparedStatement statement) throws SQLException {

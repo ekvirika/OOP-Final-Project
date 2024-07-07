@@ -112,6 +112,13 @@ public class Quiz {
     }
 
     /**
+     * sets the unique ID of the quiz.
+     */
+    public void setQuizID(int quizID) {
+        this.quizID = quizID;
+    }
+
+    /**
      * Retrieves the username of the creator of the quiz.
      *
      * @return the username of the creator of the quiz

@@ -13,13 +13,10 @@
     <h1>Create New Quiz</h1>
 
     <form id="createQuizForm" action="CreateQuestionServlet" method="get">
-        <div class="questions-list">
-            <c:forEach var="question" items="${sessionScope.questions}">
-                <div class="question">
-                    <p>${question.questionText}</p>
-                </div>
-            </c:forEach>
-        </div>
+            <%
+                String generatedUI = (String) request.getAttribute("html");
+            %>
+            <%= generatedUI %>
         <div class="buttons">
             <label for="questionType">Select QuestionType</label>
             <select id="questionType" name="questionType">
