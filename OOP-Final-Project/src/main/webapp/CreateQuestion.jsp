@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>Create Question</title>
     <link rel="icon" href="./assets/Logo.png">
-    <link rel="stylesheet" href="css/SinglePageQuestion.css">
+    <link rel="stylesheet" href="css/CreateQuestion.css">
 </head>
 <body>
 <div class="container">
