@@ -1,5 +1,6 @@
 package DAO;
 
+import Models.FriendRequest;
 import Models.Notification;
 import Models.Enums.NotificationType;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -101,5 +102,38 @@ public class NotificationDAO {
             }
         }
         return notifications;
+    }
+
+    public ArrayList<Notification> getAllNotificationsFrom(String usernameFrom) throws SQLException {
+        ArrayList<Notification> notifications = new ArrayList<>();
+        String query = "SELECT * FROM Notifications WHERE usernameFrom = ?";
+        return getNotifications(usernameFrom, notifications, query);
+    }
+
+    public ArrayList<Notification> getAllNotificationsTo(String usernameTo) throws SQLException {
+        ArrayList<Notification> notifications = new ArrayList<>();
+        String query = "SELECT * FROM Notifications WHERE usernameTo = ?";
+        return getNotifications(usernameTo, notifications, query);
+    }
+
+    private ArrayList<Notification> getNotifications(String username, ArrayList<Notification> notifications, String query) throws SQLException {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                notifications.add(new Notification(
+                        resultSet.getInt("notificationId"),
+                        resultSet.getString("usernameFrom"),
+                        resultSet.getString("usernameTo"),
+                        NotificationType.values()[resultSet.getInt("notificationType")],
+                        resultSet.getInt("quizId"),
+                        resultSet.getInt("friendRequestId"),
+                        resultSet.getString("message")
+                ));
+            }
+            return notifications;
+        }
     }
 }

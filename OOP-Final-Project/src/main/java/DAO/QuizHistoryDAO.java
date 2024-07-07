@@ -1,5 +1,6 @@
 package DAO;
 
+import Models.Quiz;
 import Models.QuizHistory;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -148,5 +149,22 @@ public class QuizHistoryDAO {
             }
         }
         return quizHistories;
+    }
+
+    public List<Quiz> getAllQuizzesByPopularity() throws SQLException {
+        List<Quiz> quizzes = new ArrayList<>();
+        String query = "SELECT quizId " +
+                "FROM QuizHistory " +
+                "GROUP BY quizId " +
+                "ORDER BY COUNT(quizId) DESC";
+        try(Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery()){
+                QuizDAO quizDAO = new QuizDAO(dataSource);
+                while (resultSet.next()) {
+                    quizzes.add(quizDAO.readQuiz(resultSet.getInt("quizId")));
+                }
+        }
+        return quizzes;
     }
 }

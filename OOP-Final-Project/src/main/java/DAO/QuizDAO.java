@@ -78,7 +78,8 @@ public class QuizDAO {
 
     private Quiz extractQuizFromResultSet(ResultSet rs) throws SQLException {
         Gson gson = new Gson();
-        Type listType = new TypeToken<ArrayList<Integer>>() {}.getType();
+        Type listType = new TypeToken<ArrayList<Integer>>() {
+        }.getType();
 
         ArrayList<Integer> questionIds = gson.fromJson(rs.getString("questionIds"), listType);
 
@@ -164,5 +165,20 @@ public class QuizDAO {
             questions.add(questionDAO.ReadQuestion(questionId));
         }
         return questions;
+    }
+
+    public List<Quiz> getAllQuizzesByCreationTime() throws SQLException {
+        List<Quiz> quizzes = new ArrayList<>();
+        String query = "SELECT quizId " +
+                "FROM quiz " +
+                "ORDER BY DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s')";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                quizzes.add(readQuiz(resultSet.getInt("quizId")));
+            }
+        }
+        return quizzes;
     }
 }
