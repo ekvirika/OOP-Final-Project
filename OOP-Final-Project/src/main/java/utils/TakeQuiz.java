@@ -168,8 +168,6 @@ public class TakeQuiz {
         return formBuilder.toString();
     }
 
-
-
     private String generateMatching(Question question) {
         HashMap<String, String> matchingPairs = question.getMatchingPairs();
 
