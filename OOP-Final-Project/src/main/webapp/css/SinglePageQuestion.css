@@ -32,7 +32,6 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
 }
 
 .response {
@@ -42,12 +41,24 @@ form {
 }
 
 .response input[type="text"] {
-    width: 60%;
-    padding: 10px;
+    padding: 15px;
     margin: 10px 0;
-    border: 1px solid #f5eaec;
+    width: 100%;
     border-radius: 5px;
     font-size: 1em;
+    box-sizing: border-box;
+    font-family: 'Raleway', Arial, sans-serif;
+    border: 2px solid #ccc;
+}
+
+.response input[type="text"]:focus {
+    border-color: #FE9CE3;
+    outline: none;
+}
+
+img{
+    border-radius: 5px;
+    border: 1px solid #FE9CE3;
 }
 
 ul.answers {
@@ -69,14 +80,13 @@ label {
 
 button.btn {
     display: block;
-    width: 60%;
-    padding: 10px;
+    padding: 15px;
     background-color: #fe9ce3;
     border: none;
     color: #f5eaec;
     font-size: 1em;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-top: 20px;
 }
 
@@ -97,7 +107,10 @@ button.btn:hover {
 }
 
 .questions, .answers {
-    width: 48%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .marcxena, .answer {
@@ -106,4 +119,11 @@ button.btn:hover {
     border-radius: 5px;
     margin: 5px 0;
     cursor: pointer;
+    user-select: none;
+    width: 80%;
 }
+
+.quiz{
+    width: 100%;
+}
+

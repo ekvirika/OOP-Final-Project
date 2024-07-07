@@ -60,7 +60,6 @@
     </form>
 
 
-
     <!-- New Quizzes -->
     <section>
         <h2>Explore Quizzes</h2>

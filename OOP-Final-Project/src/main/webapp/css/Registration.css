@@ -47,7 +47,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-family: 'Raleway', Arial, sans-serif; /* Apply Roboto font */
+    font-family: 'Raleway', Arial, sans-serif;
 }
 
 .form-group input:focus {
