@@ -10,7 +10,7 @@ import java.util.HashSet;
  * Represents a Question with various types such as multiple choice, fill in the blank, etc.
  */
 public class Question {
-    private final int questionId;
+    private int questionId;
     private int quizId;
     private QuestionType questionType; /**< The type of the question. */
     private String questionText; /**< The text of the question. */
@@ -22,6 +22,16 @@ public class Question {
     private ArrayList<String> multipleAnswerFields; /**< Fields for multiple answers. */
     private HashMap<String, String> matchingPairs; /**< Matching pairs for matching questions. */
 
+    /**
+     * Constructs a new Question instance with the specified question ID.
+     */
+    public Question() {
+        this.alternativeAnswers = new HashSet<>();
+        this.multipleChoiceAnswers = new ArrayList<>();
+        this.multipleChoiceCorrectIndexes = new ArrayList<>();
+        this.multipleAnswerFields = new ArrayList<>();
+        this.matchingPairs = new HashMap<>();
+    }
     /**
      * Constructs a new Question instance with the specified question ID.
      *

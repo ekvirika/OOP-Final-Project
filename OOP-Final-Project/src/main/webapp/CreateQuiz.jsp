@@ -12,7 +12,7 @@
 <div class="container">
     <h1>Create New Quiz</h1>
 
-    <form id="createQuizForm" action="CreateQuestionServlet" method="post">
+    <form id="createQuizForm" action="CreateQuestionServlet" method="get">
         <div class="questions-list">
             <c:forEach var="question" items="${sessionScope.questions}">
                 <div class="question">

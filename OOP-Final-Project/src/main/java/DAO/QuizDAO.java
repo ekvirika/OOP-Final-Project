@@ -27,15 +27,23 @@ public class QuizDAO {
      *
      * @param quiz the Quiz object to be created
      */
-    public void createQuiz(Quiz quiz) {
+    public int createQuiz(Quiz quiz) {
         String query = "INSERT INTO Quiz (username, quizName, quizDescription, quizScore, questionIds, isSinglePage, " +
                 "randomizeQuestions, immediateFeedback, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             setStatementParams(quiz, statement);
             statement.setTimestamp(9, quiz.getCreateTime());
             statement.executeUpdate();
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Creating quiz failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Error creating quiz: " + e.getMessage(), e);
         }

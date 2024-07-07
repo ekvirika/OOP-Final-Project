@@ -24,7 +24,7 @@ public class QuizManager {
      */
     public Quiz getQuiz(int quizId)  {
         Quiz quiz = quizDao.readQuiz(quizId);
-//        if(quiz.isRandomizeQuestions()) Collections.shuffle(quiz.getQuestionIds());
+        if(quiz.isRandomizeQuestions()) Collections.shuffle(quiz.getQuestionIds());
         return quiz;
     }
 
@@ -42,8 +42,8 @@ public class QuizManager {
      *
      * @param quiz the quiz to add
      */
-    public void addQuiz(Quiz quiz){
-        quizDao.createQuiz(quiz);
+    public int addQuiz(Quiz quiz){
+        return quizDao.createQuiz(quiz);
     }
 
     /**

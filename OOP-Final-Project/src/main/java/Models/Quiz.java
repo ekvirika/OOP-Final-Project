@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 public class Quiz {
 
-    private final int quizID;
+    private int quizID;
     private String username;
     private String quizName;
     private String quizDescription;
@@ -21,6 +21,18 @@ public class Quiz {
     private boolean immediateFeedback;
     private Timestamp createTime;
 
+
+    public Quiz() {
+        this.username = "";
+        this.quizName = "";
+        this.quizDescription = "";
+        this.quizScore = 0;
+        this.questionIds = new ArrayList<>();
+        this.isSinglePage = false;
+        this.randomizeQuestions = false;
+        this.immediateFeedback = false;
+        this.createTime = new Timestamp(System.currentTimeMillis());
+    }
     /**
      * Default constructor that initializes a new Quiz instance with default values.
      *
