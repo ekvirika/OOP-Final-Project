@@ -25,12 +25,15 @@ public class CreateQuizServlet extends HttpServlet {
             quiz = new Quiz();
             quizId = quizManager.addQuiz(quiz);
         } else quizId = quiz.getQuizID();
+        System.out.println(quizId);
         List<Question> questions = quizManager.getAllQuestionsByQuiz(quizId);
         TakeSinglePageQuiz uihelper = new TakeSinglePageQuiz();
         String html = "";
         for(Question question : questions) {
             html += uihelper.generateUI(question.getQuestionType(), question);
         }
+
+        request.getSession().setAttribute("quizId", quizId);
         request.setAttribute("html", html);
         request.getSession().setAttribute("quiz", quiz);
         response.sendRedirect("CreateQuiz.jsp");
