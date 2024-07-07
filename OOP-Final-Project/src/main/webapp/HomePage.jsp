@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="./css/HomePage.css">
     <link rel="stylesheet" href="./css/StartPage.css">
     <link rel="stylesheet" href="./css/NavBar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
@@ -21,57 +23,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
-
-    <style>
-        .search-container {
-            display: flex;
-            align-items: center;
-            background: #fff;
-            border-radius: 50px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-
-        .search-input {
-            height: 40px;
-            width: 200px;
-            border: none;
-            padding: 0 15px;
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            width: 300px;
-            padding: 0 20px;
-            border: 2px solid #007bff;
-        }
-
-        /*.search-button {*/
-        /*    height: 40px;*/
-        /*    width: 40px;*/
-        /*    background: #007bff;*/
-        /*    border: none;*/
-        /*    border-radius: 50%;*/
-        /*    color: #fff;*/
-        /*    display: flex;*/
-        /*    align-items: center;*/
-        /*    justify-content: center;*/
-        /*    cursor: pointer;*/
-        /*    transition: background 0.3s ease;*/
-        /*}*/
-
-        .search-button:hover {
-            background: #0056b3;
-        }
-
-        .search-button:focus {
-            outline: none;
-        }
-
-
-    </style>
 </head>
 <body>
 <!-- Navigation Bar -->
@@ -93,16 +44,15 @@
 
 <h1>Welcome to the Quizzz.com, <%= request.getAttribute("username") %>!</h1>
 <div class="search-container">
-    <form id="search-form" action="SuggestionServlet" method="get">
-        <label>
-            <input id="search-input" class="search-input" type="text" name="query" placeholder="Search A Friend...">
-        </label>
+    <form id="search-form" class="search-form" action="SuggestionServlet" method="get">
+        <input id="search-input" class="search-input" type="text" name="query" placeholder="Search A Friend...">
         <button class="search-button" type="submit">
             <i class="fa fa-search"></i>
         </button>
         <div id="suggestions" class="suggestions-container"></div>
     </form>
 </div>
+
 
 <div class="container">
     <form action="CreateQuizServlet" method="get">
@@ -128,5 +78,22 @@
     </section>
 </div>
 <script src="javascript/SearchBar.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchContainer = document.querySelector('.search-container');
+        const searchInput = document.getElementById('search-input');
+
+        searchInput.addEventListener('focus', function () {
+            searchContainer.classList.add('expanded');
+        });
+
+        searchInput.addEventListener('blur', function () {
+            if (searchInput.value.trim() === '') {
+                searchContainer.classList.remove('expanded');
+            }
+        });
+    });
+
+</script>
 </body>
 </html>
