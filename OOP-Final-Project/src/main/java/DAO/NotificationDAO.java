@@ -123,15 +123,7 @@ public class NotificationDAO {
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                notifications.add(new Notification(
-                        resultSet.getInt("notificationId"),
-                        resultSet.getString("usernameFrom"),
-                        resultSet.getString("usernameTo"),
-                        NotificationType.values()[resultSet.getInt("notificationType")],
-                        resultSet.getInt("quizId"),
-                        resultSet.getInt("friendRequestId"),
-                        resultSet.getString("message")
-                ));
+                notifications.add(getNotificationById(resultSet.getInt("notificationId")));
             }
             return notifications;
         }
