@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +41,7 @@ public class QuestionServlet extends HttpServlet {
             }
             request.setAttribute("questionsHtml", questionsHtml.toString());
             request.setAttribute("quizId", quizId);
+            request.setAttribute("questions", questions); // Ensure questions are set here
             request.setAttribute("currentQuiz", quiz);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("SinglePageQuiz.jsp");
@@ -92,63 +92,41 @@ public class QuestionServlet extends HttpServlet {
             handleMultiPageQuiz(request, response, quiz, questionIndex);
             return;
         }
-//
-//        List<Integer> questionIds = quiz.getQuestionIds();
-//        QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
-//
-//        if (questionIndex >= questionIds.size()) {
-//            quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
-//            request.getSession().setAttribute("quizHistory", quizHistory);
-//            request.getSession().setAttribute("username", quizHistory.getUsername());
-//            response.sendRedirect("/QuizStatsServlet");
-//            return;
-//        }
-//
-//        int questionId = questionIds.get(questionIndex);
-//        Question question = questionManager.getQuestion(questionId);
-//        String userAnswer = request.getParameter("userAnswer");
-//        System.out.println(question);
-//        String userAnswersList = request.getParameter("userAnswers");
-//        Gson gson = new Gson();
-//        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
-//        List<String> userAnswers = gson.fromJson(userAnswersList, listType);
-//        System.out.println("list: " + userAnswers);
-//        if(questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, null)){
-//            quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
-//        }
-//        System.out.println("Score: "+ quizHistory.getQuizScore());
-//
-//        request.getSession().setAttribute("questionIndex", questionIndex + 1);
-//
-//        if (questionIndex + 1 >= questionIds.size()) {
-//            quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
-//            request.getSession().setAttribute("quizHistory", quizHistory);
-//            request.getSession().setAttribute("username", quizHistory.getUsername());
-//            response.sendRedirect("/QuizStatsServlet");
-//        } else {
-//            response.sendRedirect("/QuestionServlet?quizId=" + quizId);
-//        }
     }
 
     private void handleSinglePageQuiz(HttpServletRequest request, HttpServletResponse response, Quiz quiz)
             throws ServletException, IOException {
-        QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         QuestionManager questionManager = (QuestionManager) getServletContext().getAttribute(QuestionManager.ATTRIBUTE_NAME);
         List<Integer> questionIds = quiz.getQuestionIds();
         QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
         String username = (String) request.getSession().getAttribute("username");
-        int questionId = Integer.parseInt(request.getParameter("questionId"));
-        Question question = questionManager.getQuestion(questionId);
-        String userAnswer = request.getParameter("userAnswer");
-//        System.out.println(question);
-        String userAnswersList = request.getParameter("userAnswers");
-        Gson gson = new Gson();
-        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
-        List<String> userAnswers = gson.fromJson(userAnswersList, listType);
-//        System.out.println("list: " + userAnswers);
-        if(questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, null)){
-            quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
+
+        for (Integer questionId : questionIds) {
+            Question question = questionManager.getQuestion(questionId);
+            String userAnswer = request.getParameter("userAnswer_" + questionId);
+            String userAnswersList = request.getParameter("userAnswers_" + questionId);
+            System.out.println("ans: " + userAnswer);
+            System.out.println("anss: " + userAnswersList);
+            Gson gson = new Gson();
+
+            List<String> userAnswers = new ArrayList<>();
+            HashMap<String, String> hashmapAnswer = new HashMap<>();
+
+            if (question.getQuestionType().equals(QuestionType.MULTIPLE_CHOICE) ||
+                    question.getQuestionType().equals(QuestionType.MULTIPLE_CHOICE_WITH_ANSWERS) ||
+                    question.getQuestionType().equals(QuestionType.MULTI_ANSWER)) {
+                Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+                userAnswers = gson.fromJson(userAnswersList, listType);
+            } else if (question.getQuestionType().equals(QuestionType.MATCHING)) {
+                Type hashmapType = new TypeToken<HashMap<String, String>>() {}.getType();
+                hashmapAnswer = gson.fromJson(userAnswersList, hashmapType);
+            }
+
+            if (questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, hashmapAnswer)) {
+                quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
+            }
         }
+
         request.getSession().setAttribute("quizHistory", quizHistory);
         request.getSession().setAttribute("username", quizHistory.getUsername());
         response.sendRedirect("/QuizStatsServlet");
@@ -178,21 +156,21 @@ public class QuestionServlet extends HttpServlet {
         Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<String>>() {}.getType();
         List<String> userAnswers = new ArrayList<>();
-        if(question.getQuestionType().equals(QuestionType.MULTIPLE_CHOICE) ||
-        question.getQuestionType().equals(QuestionType.MULTIPLE_CHOICE_WITH_ANSWERS) ||
-        question.getQuestionType().equals(QuestionType.MULTI_ANSWER)) {
+        if (question.getQuestionType().equals(QuestionType.MULTIPLE_CHOICE) ||
+                question.getQuestionType().equals(QuestionType.MULTIPLE_CHOICE_WITH_ANSWERS) ||
+                question.getQuestionType().equals(QuestionType.MULTI_ANSWER)) {
             userAnswers = gson.fromJson(userAnswersList, listType);
         }
         Type hashmapType = new TypeToken<HashMap<String, String>>() {}.getType();
         HashMap<String, String> hashmapAnswer = new HashMap<>();
-        if(question.getQuestionType().equals(QuestionType.MATCHING)){
+        if (question.getQuestionType().equals(QuestionType.MATCHING)) {
             hashmapAnswer = gson.fromJson(userAnswersList, hashmapType);
         }
         System.out.println("list: " + hashmapAnswer);
-        if(questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, hashmapAnswer)){
+        if (questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, hashmapAnswer)) {
             quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
         }
-        System.out.println("Score: "+ quizHistory.getQuizScore());
+        System.out.println("Score: " + quizHistory.getQuizScore());
 
         request.getSession().setAttribute("questionIndex", questionIndex + 1);
 

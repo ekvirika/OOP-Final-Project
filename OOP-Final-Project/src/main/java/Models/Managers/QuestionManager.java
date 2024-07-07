@@ -65,6 +65,9 @@ public class QuestionManager {
     public boolean isAnswerCorrect(Question question, String answer, ArrayList<String> answers,
                                    HashMap<String, String> matchingAnswers) {
         QuestionType questionType = question.getQuestionType();
+        System.out.println("Ques: " + questionType + " " + question);
+        System.out.println("Ans: " + answer + " " + answers);
+        System.out.println("Match: " + matchingAnswers);
         if (questionType.equals(QuestionType.MATCHING)) {
             HashMap<String, String> correctAnswers = question.getMatchingPairs();
             return matchingAnswers.equals(correctAnswers);
