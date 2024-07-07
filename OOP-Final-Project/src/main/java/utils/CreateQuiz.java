@@ -7,56 +7,50 @@ import java.util.*;
 
 public class CreateQuiz {
 
-    public String generateUI(QuestionType questionType, Question question) {
+    public String generateUI(QuestionType questionType) {
         switch (questionType) {
             case QUESTION_RESPONSE:
-                return generateQuesRes(question);
+                return generateQuesRes();
             case FILL_IN_THE_BLANK:
-                return generateFillBlank(question);
+                return generateFillBlank();
             case MULTIPLE_CHOICE:
-                return generateMultiChoice(question);
+                return generateMultiChoice();
             case PICTURE_RESPONSE:
-                return generatePictRes(question);
+                return generatePictRes();
             case MULTI_ANSWER:
-                return generateMultiAns(question);
+                return generateMultiAns();
             case MULTIPLE_CHOICE_WITH_ANSWERS:
-                return generateMultiChoiceAns(question);
+                return generateMultiChoiceAns();
             case MATCHING:
-                return generateMatching(question);
+                return generateMatching();
             default:
                 System.out.println("Invalid question type");
                 return "";
         }
     }
 
-    private String generateQuesRes(Question question) {
+    private String generateQuesRes() {
         return "<form action=\"CreateQuestionServlet\" method=\"post\">"
                 + "<input type=\"hidden\" name=\"questionType\" value=\"QUESTION_RESPONSE\">"
-                + "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">"
-                + "<input type=\"hidden\" name=\"questionId\" value=\"" + question.getQuestionId() + "\">"
                 + "<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">"
                 + "<input type=\"text\" name=\"answerText\" placeholder=\"Type correct answer here\">"
                 + "<button class=\"btn\" type=\"submit\">Save Question</button>"
                 + "</form>";
     }
 
-    private String generateFillBlank(Question question) {
+    private String generateFillBlank() {
         return "<form action=\"CreateQuestionServlet\" method=\"post\">"
                 + "<input type=\"hidden\" name=\"questionType\" value=\"FILL_IN_THE_BLANK\">"
-                + "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">"
-                + "<input type=\"hidden\" name=\"questionId\" value=\"" + question.getQuestionId() + "\">"
                 + "<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">"
                 + "<input type=\"text\" name=\"answerText\" placeholder=\"Type correct answer here\">"
                 + "<button class=\"btn\" type=\"submit\">Save Question</button>"
                 + "</form>";
     }
 
-    private String generateMultiChoice(Question question) {
+    private String generateMultiChoice() {
         StringBuilder formBuilder = new StringBuilder();
         formBuilder.append("<form action=\"CreateQuestionServlet\" method=\"post\">")
                 .append("<input type=\"hidden\" name=\"questionType\" value=\"MULTIPLE_CHOICE\">")
-                .append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
-                .append("<input type=\"hidden\" name=\"questionId\" value=\"").append(question.getQuestionId()).append("\">")
                 .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">")
                 .append("<input type=\"text\" name=\"correctAnswer1\" placeholder=\"Type the correct answer here\">")
                 .append("<input type=\"text\" name=\"correctAnswer2\" placeholder=\"Type another correct answer here\">")
@@ -68,11 +62,9 @@ public class CreateQuiz {
         return formBuilder.toString();
     }
 
-    private String generatePictRes(Question question) {
+    private String generatePictRes() {
         return "<form action=\"CreateQuestionServlet\" method=\"post\">"
                 + "<input type=\"hidden\" name=\"questionType\" value=\"PICTURE_RESPONSE\">"
-                + "<input type=\"hidden\" name=\"quizId\" value=\"" + question.getQuizId() + "\">"
-                + "<input type=\"hidden\" name=\"questionId\" value=\"" + question.getQuestionId() + "\">"
                 + "<input type=\"text\" name=\"questionText\" placeholder=\"Type your Image URL here\">"
                 + "<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">"
                 + "<input type=\"text\" name=\"answerText\" placeholder=\"Type correct answer here\">"
@@ -80,12 +72,10 @@ public class CreateQuiz {
                 + "</form>";
     }
 
-    private String generateMultiAns(Question question) {
+    private String generateMultiAns() {
         StringBuilder formBuilder = new StringBuilder();
         formBuilder.append("<form action=\"CreateQuestionServlet\" method=\"post\">")
                 .append("<input type=\"hidden\" name=\"questionType\" value=\"MULTI_ANSWER\">")
-                .append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
-                .append("<input type=\"hidden\" name=\"questionId\" value=\"").append(question.getQuestionId()).append("\">")
                 .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">");
 
         int maxAnswers = 10;
@@ -99,12 +89,10 @@ public class CreateQuiz {
         return formBuilder.toString();
     }
 
-    private String generateMultiChoiceAns(Question question) {
+    private String generateMultiChoiceAns() {
         StringBuilder formBuilder = new StringBuilder();
         formBuilder.append("<form action=\"CreateQuestionServlet\" method=\"post\">")
                 .append("<input type=\"hidden\" name=\"questionType\" value=\"MULTIPLE_CHOICE_WITH_ANSWERS\">")
-                .append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
-                .append("<input type=\"hidden\" name=\"questionId\" value=\"").append(question.getQuestionId()).append("\">")
                 .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">")
                 .append("<input type=\"text\" name=\"correctAnswer1\" placeholder=\"Type the correct answer here\">")
                 .append("<input type=\"text\" name=\"correctAnswer2\" placeholder=\"Type another correct answer here\">")
@@ -116,12 +104,10 @@ public class CreateQuiz {
         return formBuilder.toString();
     }
 
-    private String generateMatching(Question question) {
+    private String generateMatching() {
         StringBuilder formBuilder = new StringBuilder();
         formBuilder.append("<form action=\"CreateQuestionServlet\" method=\"post\">")
                 .append("<input type=\"hidden\" name=\"questionType\" value=\"MATCHING\">")
-                .append("<input type=\"hidden\" name=\"quizId\" value=\"").append(question.getQuizId()).append("\">")
-                .append("<input type=\"hidden\" name=\"questionId\" value=\"").append(question.getQuestionId()).append("\">")
                 .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">")
                 .append("<div class=\"quiz\">")
                 .append("<div class=\"questions\" id=\"questions\">")
