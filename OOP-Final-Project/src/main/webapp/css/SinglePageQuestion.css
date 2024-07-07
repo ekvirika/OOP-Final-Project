@@ -81,7 +81,7 @@ label {
 button.btn {
     display: block;
     padding: 15px;
-    background-color: #fe9ce3;
+    background-color: #17A6E8;
     border: none;
     color: #f5eaec;
     font-size: 1em;
@@ -91,7 +91,7 @@ button.btn {
 }
 
 button.btn:hover {
-    background-color: #17A6E8;
+    background-color: #fe9ce3;
 }
 
 .image-question img {

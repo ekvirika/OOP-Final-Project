@@ -52,34 +52,15 @@ select {
 
 button {
     padding: 10px 20px;
-    /*background-color: #fe9ce3;*/
-    /*color: #f5eaec;*/
+    background-color: #17A6E8;
+    color: #f5eaec;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     width: 20%;
 }
 
-/*button:hover {*/
-/*    background-color: #17A6E8;*/
-/*}*/
-
-#addQuestionBtn{
-    background-color: #fe9ce3;
-    color: #f5eaec;
-}
-
-#addQuestionBtn:hover{
-    background-color: #17A6E8;
-
-}
-
-#saveQuiz{
-    background-color: #17A6E8;
-    color: #f5eaec;
-}
-
-#saveQuiz:hover{
+button:hover {
     background-color: #fe9ce3;
 }
 

@@ -118,7 +118,7 @@ public class CreateQuiz {
                 .append("<input type=\"text\" name=\"answer1\" placeholder=\"Answer 1\">")
                 .append("</div>")
                 .append("</div>")
-                .append("<button type=\"button\" onclick=\"addPair()\">Add Pair</button>")
+                .append("<button type=\"button\" class=\"add-pair-btn\" onclick=\"addPair()\">Add Pair</button>")
                 .append("</div>")
                 .append("<button class=\"btn\" type=\"submit\">Save Question</button>")
                 .append("</form>")
