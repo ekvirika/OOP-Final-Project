@@ -171,7 +171,7 @@ public class QuizDAO {
         List<Quiz> quizzes = new ArrayList<>();
         String query = "SELECT quizId " +
                 "FROM quiz " +
-                "ORDER BY DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s')";
+                "ORDER BY DATE_FORMAT(createTime, '%Y-%m-%d %H:%i:%s') DESC";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {

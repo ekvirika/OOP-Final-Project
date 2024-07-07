@@ -157,13 +157,32 @@ public class QuizHistoryDAO {
                 "FROM QuizHistory " +
                 "GROUP BY quizId " +
                 "ORDER BY COUNT(quizId) DESC";
-        try(Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery()){
-                QuizDAO quizDAO = new QuizDAO(dataSource);
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            QuizDAO quizDAO = new QuizDAO(dataSource);
+            while (resultSet.next()) {
+                quizzes.add(quizDAO.readQuiz(resultSet.getInt("quizId")));
+            }
+        }
+        return quizzes;
+    }
+
+    public List<Quiz> getQuizzesForUserByTakingTime(String username) throws SQLException {
+        List<Quiz> quizzes = new ArrayList<>();
+        String query = "SELECT quizId " +
+                "FROM quizHistory " +
+                "WHERE username = ? " +
+                "ORDER BY DATE_FORMAT(startTime, '%Y-%m-%d %H:%i:%s') DESC";
+        QuizDAO quizDAO = new QuizDAO(dataSource);
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, username);
+            try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     quizzes.add(quizDAO.readQuiz(resultSet.getInt("quizId")));
                 }
+            }
         }
         return quizzes;
     }
