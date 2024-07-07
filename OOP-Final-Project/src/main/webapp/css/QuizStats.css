@@ -22,14 +22,19 @@ body {
     background-color: #1B1616;
     padding: 40px;
     border-radius: 8px;
-    width: 800px;
     display: flex;
-    flex-direction: column;
+    width: 100%;
     align-items: center;
     justify-content: space-between;
     color: #f5eaec;
 }
 
+main{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
 h1, h2 {
     color: #f5eaec;
     margin-bottom: 20px;

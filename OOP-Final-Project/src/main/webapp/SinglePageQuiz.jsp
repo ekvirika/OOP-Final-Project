@@ -56,15 +56,6 @@
             checkboxes.forEach((checkbox) => { selectedAnswers.push(checkbox.value); });
             form.querySelector('input[name="userAnswers_<%= questionId %>"]').value = JSON.stringify(selectedAnswers);
         } else if ("<%= questionType %>" === 'MATCHING') {
-            // const matchingPairs = {};
-            // const questions = form.querySelectorAll('.marcxena[id="question"]');
-            // questions.forEach((questionElem) => {
-            //     const questionId = questionElem.id.split('_')[1];
-            //     const selectedAnswer = form.querySelector('.answer.selected[id="answer_' + questionId + '"]');
-            //     if (selectedAnswer) {
-            //         matchingPairs[questionElem.innerText.trim()] = selectedAnswer.innerText.trim();
-            //     }
-            // });
             form.querySelector('input[name="userAnswers_<%= questionId %>"]').value = localStorage.getItem("json");
         } else if ("<%= questionType %>" === 'MULTI_ANSWER') {
             const answers = [];

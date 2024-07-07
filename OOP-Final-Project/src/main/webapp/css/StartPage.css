@@ -32,12 +32,13 @@ main .text {
   position: relative; /* Ensure position is set for z-index to work */
   z-index: -1;
   left: -10%;
+  font-weight: bold;
 }
 main h1 {
   font-size: 25px;
-  font-weight: 300;
   font-style: normal;
   color: #f5eaec;
+  font-weight: bold;
 }
 main .first {
   color: #17A6E8;

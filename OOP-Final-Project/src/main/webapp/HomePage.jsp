@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <title>Home Page</title>
     <link rel="icon" href="./assets/Logo.png">
-    <link rel="stylesheet" type="text/css" href="./css/HomePage.css">
+    <link rel="stylesheet" href="./css/HomePage.css">
     <link rel="stylesheet" href="./css/StartPage.css">
     <link rel="stylesheet" href="./css/NavBar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -91,6 +91,7 @@
     </div>
 </header>
 
+<h1>Welcome to the Quizzz.com, <%= request.getAttribute("username") %>!</h1>
 <div class="search-container">
     <form id="search-form" action="SuggestionServlet" method="get">
         <label>
@@ -104,27 +105,28 @@
 </div>
 
 <div class="container">
-    <h1>Welcome to the Quizzz.com, <%= request.getAttribute("username") %>!</h1>
     <form action="CreateQuizServlet" method="get">
-        <button type="submit">Create Quiz</button>
+        <button class="button-5" role="button">Create Quiz</button>
     </form>
+
 
 
     <!-- New Quizzes -->
     <section>
-        <h2>New Quizzes</h2>
+        <h2>Explore Quizzes</h2>
         <ul class="quiz-list">
             <%
                 List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
                 for (Quiz quiz : quizzes) {
             %>
             <li class="quiz-item">
-                <h2><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %></a></h2>
+                <h2><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %>
+                </a></h2>
             </li>
             <% } %>
         </ul>
     </section>
 </div>
-    <script src="javascript/SearchBar.js" defer></script>
+<script src="javascript/SearchBar.js" defer></script>
 </body>
 </html>
