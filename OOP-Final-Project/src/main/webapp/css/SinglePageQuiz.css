@@ -3,6 +3,8 @@ body {
     background-color: #1B1616;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
 }
 
 .quiz-container {
@@ -14,7 +16,14 @@ body {
     border-radius: 10px;
 }
 
-h1, h2 {
+h1{
+    text-align: center;
+    /*color: #fc6916;*/
+    color: #f5eaec;
+
+}
+
+h2 {
     text-align: center;
     color: #f5eaec;
 }
@@ -57,6 +66,7 @@ ul.answers {
 
 ul.answers li {
     margin: 10px 0;
+    color: #F5EAEC;
 }
 
 input[type="radio"], input[type="checkbox"] {
@@ -106,4 +116,23 @@ button.btn:hover {
     border-radius: 5px;
     margin: 5px 0;
     cursor: pointer;
+    color: #F5EAEC ;
 }
+
+button {
+    display: block;
+    width: 30%;
+    padding: 10px;
+    background-color: #fe9ce3;
+    border: none;
+    color: #f5eaec;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #17A6E8;
+}
+
