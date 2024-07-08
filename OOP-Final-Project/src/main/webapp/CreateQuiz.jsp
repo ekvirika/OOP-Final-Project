@@ -17,6 +17,44 @@
 <div class="container">
     <h1>Create New Quiz</h1>
 
+    <% Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");%>
+    <form id="quizActionsForm" action="CreateQuizServlet" method="post">
+        <input type="hidden" name="quizAction" id="quizAction">
+        <div class="textboxes">
+            <div class="row">
+            <div class="quiz-name">
+                <label for="quizName">Quiz Name:</label>
+                <input type="text" id="quizName" name="quizName" required>
+            </div>
+            <div class="booleans">
+                <label>
+                    <input type="checkbox" name="isSinglePage" <% if (quiz != null && quiz.isSinglePage()) { %>
+                           checked <% } %> /> Single Page Quiz
+                </label>
+                <label>
+                    <input type="checkbox"
+                           name="randomizeQuestions" <% if (quiz != null && quiz.isRandomizeQuestions()) { %>
+                           checked <% } %> /> Randomize Questions
+                </label>
+                <label>
+                    <input type="checkbox" name="immediateFeedback" <% if (quiz != null && quiz.isImmediateFeedback()) { %>
+                           checked <% } %> /> Immediate Feedback
+                </label>
+            </div>
+            </div>
+            <div class="quiz-desc">
+                <label for="quizDescription">Quiz Description:</label>
+                <textarea id="quizDescription" name="quizDescription" required></textarea>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button type="button" id="saveQuiz" onclick="submitForm('save')">Save Quiz</button>
+            <button type="button" id="deleteQuiz" onclick="submitForm('delete')">Delete Quiz</button>
+        </div>
+    </form>
+
+
     <form id="createQuizForm" action="CreateQuestionServlet" method="get">
         <div class="questions-list">
             <%
@@ -50,39 +88,6 @@
             </select>
             <input type="hidden" id="hiddenQuestionType" name="hiddenQuestionType">
             <button type="submit" id="addQuestionBtn">Add Question</button>
-        </div>
-    </form>
-    <% Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");%>
-    <form id="quizActionsForm" action="CreateQuizServlet" method="post">
-        <input type="hidden" name="quizAction" id="quizAction">
-        <div class="textboxes">
-            <div>
-                <label for="quizName">Quiz Name:</label>
-                <input type="text" id="quizName" name="quizName" required>
-            </div>
-            <div>
-                <label for="quizDescription">Quiz Description:</label>
-                <textarea id="quizDescription" name="quizDescription" required></textarea>
-            </div>
-        </div>
-        <div class="booleans">
-            <label>
-                <input type="checkbox" name="isSinglePage" <% if (quiz != null && quiz.isSinglePage()) { %>
-                       checked <% } %> /> Single Page Quiz
-            </label>
-            <label>
-                <input type="checkbox"
-                       name="randomizeQuestions" <% if (quiz != null && quiz.isRandomizeQuestions()) { %>
-                       checked <% } %> /> Randomize Questions
-            </label>
-            <label>
-                <input type="checkbox" name="immediateFeedback" <% if (quiz != null && quiz.isImmediateFeedback()) { %>
-                       checked <% } %> /> Immediate Feedback
-            </label>
-        </div>
-        <div class="buttons">
-            <button type="button" id="saveQuiz" onclick="submitForm('save')">Save Quiz</button>
-            <button type="button" id="deleteQuiz" onclick="submitForm('delete')">Delete Quiz</button>
         </div>
     </form>
 </div>
