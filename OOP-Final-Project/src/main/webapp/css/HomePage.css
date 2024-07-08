@@ -20,14 +20,12 @@ nav ul li {
     display: inline;
     margin-right: 20px;
 }
-
 nav ul li a {
     color: #17A6E8;
     text-decoration: none;
     padding: 10px 15px;
     display: block;
 }
-
 nav ul li a:hover {
     background-color: #fe9ce3;
     color: #1B1616;
@@ -52,21 +50,17 @@ table {
     width: 100%;
     border-collapse: collapse;
 }
-
 table th, table td {
     padding: 8px;
     text-align: left;
 }
-
 table th {
     background-color: #1B1616;
     color: white;
 }
-
 table td {
     border: 1px solid #1B1616;
 }
-
 table tbody tr:nth-child(odd) {
     background-color: #f5eaec;
 }
@@ -84,7 +78,6 @@ footer {
 a {
     color: #fc6916;
 }
-
 a:hover {
     color: #fe9ce3;
 }
@@ -192,3 +185,40 @@ a:hover {
     background: #0b7dda;
 }
 
+
+
+aside.notifications-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px; /* Adjust width as needed */
+    height: 90%;
+    margin-top: 300px;
+    background-color: #1B1616; /* Background color for the panel */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+    padding: 15px;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+aside.notifications-panel h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+aside.notifications-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+aside.notification-item {
+    background-color: #fff; /* Background color for each notification */
+    border-bottom: 1px solid #ddd; /* Border for separation */
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+aside.notification-item:hover {
+    background-color: #e0e0e0; /* Hover effect */
+}
