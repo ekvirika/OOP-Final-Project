@@ -24,7 +24,7 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 50;
+            z-index: 10000;
             left: 0;
             top: 0;
             width: 100%;
@@ -82,6 +82,7 @@
                  class="profile-picture">
         </div>
         <div class="profile-info selected animate__animated animate__fadeIn">
+            <input type="hidden" id="receiverId" value="<%= ((Account) request.getAttribute("account")).getUserName() %>">
             <h2>User Profile</h2>
             <p>
                 <strong>Name:</strong> <span class="val"><%= ((Account) request.getAttribute("account")).getFirstName() %></span>
@@ -103,7 +104,7 @@
             <% } else { %>
             <button type="button" class="submit" id="sendNote">Send Note</button>
             <button type="button" class="submit" id="challenge" >Challenge</button>
-            <button type="submit" class="submit">Add Friend</button>
+            <button type="submit" class="submit" id="addFriend">Add Friend</button>
 
             <div id="challengeModal" class="modal">
                 <div class="modal-content">
@@ -148,113 +149,150 @@
     </div>
 </div>
 
-
-
 <script>
-    // Get the modal
-    let challengeModal = document.getElementById("challengeModal");
-    let noteModal = document.getElementById("noteModal");
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the modal
+        let challengeModal = document.getElementById("challengeModal");
+        let noteModal = document.getElementById("noteModal");
 
-    // Get the button that opens the modal
-    let btnSendNote = document.getElementById("sendNote");
-    let btnChallenge = document.getElementById("challenge");
+        // Get the buttons that open the modal
+        let btnSendNote = document.getElementById("sendNote");
+        let btnChallenge = document.getElementById("challenge");
 
-    // Get the <span> element that closes the modal
-    let span = document.getElementsByClassName("close")[0];
+        // Get the <span> elements that close the modal
+        let closeButtons = document.getElementsByClassName("close");
 
-    // When the user clicks on the button, open the modal
-    btnSendNote.onclick = function() {
-        noteModal.style.display = "block";
-    }
+        let receiverId = document.getElementById("receiverId").value;
 
-    btnChallenge.onclick = function() {
-        challengeModal.style.display = "block";
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        challengeModal.style.display = "none";
-        noteModal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside the modal, close it
-    window.onclick = function(event) {
-        if (event.target === challengeModal) {
+        // When the user clicks on the button, open the modal
+        btnSendNote.onclick = function () {
+            noteModal.style.display = "block";
             challengeModal.style.display = "none";
         }
 
-        if (event.target === noteModal) {
+        btnChallenge.onclick = function () {
+            challengeModal.style.display = "block";
             noteModal.style.display = "none";
         }
-    }
 
-    // Handle challenge
-    let sendQuizBtn = document.getElementById("sendQuizBtn");
-    let quizLink = document.getElementById("quizInput");
-    let bestScore = document.getElementById("scoreInput")
+        // When the user clicks on <span> (x), close the modal
+        Array.from(closeButtons).forEach(button => {
+            button.onclick = function () {
+                challengeModal.style.display = "none";
+                noteModal.style.display = "none";
+            }
+        });
 
-    sendQuizBtn.onclick = function() {
-        let quiz = quizLink.value.trim();
-        let score = bestScore.value.trim();
-        if (quiz !== "" && score !== "") {
-            console.log("quiz link:", quiz);
-            console.log("high score:", score);
+        // When the user clicks anywhere outside the modal, close it
+        window.onclick = function (event) {
+            if (event.target === challengeModal) {
+                challengeModal.style.display = "none";
+            }
+            if (event.target === noteModal) {
+                noteModal.style.display = "none";
+            }
+        }
 
+        // Handle challenge
+        let sendQuizBtn = document.getElementById("sendQuizBtn");
+        let quizLink = document.getElementById("quizInput");
+        let bestScore = document.getElementById("scoreInput");
+
+        sendQuizBtn.onclick = function () {
+            let quiz = quizLink.value.trim();
+            let score = bestScore.value.trim();
+            if (quiz !== "" && score !== "") {
+                console.log("quiz link:", quiz);
+                console.log("high score:", score);
+
+                fetch('notificationServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        type: "quiz",
+                        quizLink: quiz,
+                        bestScore: score,
+                        receiver: receiverId
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                        challengeModal.style.display = "none";
+                        quizLink.value = "";
+                        bestScore.value = "";
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('An error occurred while sending the challenge. Please try again.');
+                    });
+            } else {
+                alert('Please fill out both the quiz link and the high score.');
+            }
+        }
+
+        // Handle send message
+        let sendNoteBtn = document.getElementById("sendNoteBtn");
+        let messageInp = document.getElementById("messageInput");
+
+        sendNoteBtn.onclick = function () {
+            let message = messageInp.value.trim();
+            if (message !== "") {
+                console.log("Message sent:", message);
+
+                fetch('notificationServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        type: "note",
+                        message: message,
+                        receiver: receiverId
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                        noteModal.style.display = "none";
+                        messageInp.value = "";
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        alert('An error occurred while sending the note. Please try again.');
+                    });
+            } else {
+                alert('Please write a message before sending.');
+            }
+        }
+
+        // Handle friend request
+        let friend = document.getElementById("addFriend");
+
+        friend.onclick = function () {
             fetch('notificationServlet', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    type: "quiz",
-                    quizLink: quiz,
-                    bestScore: score
+                    type: "addFriend",
+                    request: 1,
+                    receiver: receiverId
                 })
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Success:', data);
-                    challengeModal.style.display = "none";
-                    quizLink.value = "";
-                    bestScore.value = "";
+                    console.log('Request Sent:', data);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
+                    alert('An error occurred while sending the friend request. Please try again.');
                 });
         }
-    }
-
-    //Handle send message
-    let sendNoteBtn = document.getElementById("sendNoteBtn");
-    let messageInp = document.getElementById("messageInput");
-
-    sendNoteBtn.onclick = function() {
-        let message = messageInp.value.trim();
-        if (message !== "") {
-            console.log("Message sent:", message);
-
-            fetch('notificationServlet', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    type: "note",
-                    message: message
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Success:', data);
-                    noteModal.style.display = "none";
-                    messageInp.value = "";
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
-        }
-    }
-
+    });
 </script>
 </body>
 </html>
