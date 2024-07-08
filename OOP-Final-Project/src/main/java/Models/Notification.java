@@ -1,5 +1,6 @@
 package Models;
 
+import Controllers.Managers.QuizHistoryManager;
 import Models.Enums.NotificationType;
 
 public class Notification {
@@ -95,5 +96,10 @@ public class Notification {
     }
     public void setFriendRequest(FriendRequest friendRequest) {
         this.friendRequest = friendRequest;
+    }
+
+    public int getHighScore(){
+//        QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
+        return 0;
     }
 }

@@ -6,6 +6,7 @@
 <%@ page import="Models.Quiz" %>
 <%@ page import="Models.Notification" %>
 <%@ page import="Models.QuizHistory" %>
+<%@ page import="Models.Enums.NotificationType" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -157,12 +158,32 @@
                 if (notifications != null) {
                     for (Object obj : notifications) {
                         Notification notification = (Notification) obj;
+                        NotificationType type = notification.getNotificationType();
             %>
-            <li>You have new notification from <%= notification.getUsernameFrom() %>
-                : <%= notification.getMessage() %>
+            <li>
+                <%
+                    if (type.equals(NotificationType.FRIEND_REQUEST)) {
+                %>
+                <%= notification.getUsernameFrom() %> sent you a friend request.
+                <button onclick="handleFriendRequest('yes', '<%= notification.getNotificationId() %>')">Yes</button>
+                <button onclick="handleFriendRequest('no', '<%= notification.getNotificationId() %>')">No</button>
+                <%
+                } else if (type.equals(NotificationType.NOTE)) {
+                %>
+                <%= notification.getUsernameFrom() %> sent you a message:
+                <%= notification.getMessage() %>
+                <%
+                } else if (type.equals(NotificationType.CHALLENGE)) {
+                %>
+                <%= notification.getUsernameFrom() %> sent you a challenge:
+                <a href="<%= notification.getQuizLink() %>">Challenge Link</a>
+<%--                High Score: <%= notification.get() %>--%>
+                <%
+                    }
+                %>
             </li>
             <%
-                    }
+                }
             %>
             <%
             } else {
