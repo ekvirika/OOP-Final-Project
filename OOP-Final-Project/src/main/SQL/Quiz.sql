@@ -9,5 +9,6 @@ CREATE TABLE Quiz (
     randomizeQuestions BOOLEAN DEFAULT FALSE,
     immediateFeedback BOOLEAN DEFAULT FALSE,
     createTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (quizID)
+    PRIMARY KEY (quizID),
+    FOREIGN KEY (username) references Accounts(username) ON DELETE CASCADE
 );

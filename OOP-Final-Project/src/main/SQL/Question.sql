@@ -11,5 +11,5 @@ CREATE TABLE Question (
                           multipleAnswerFields TEXT,
                           matchingPairs TEXT,
                           PRIMARY KEY (questionId),
-                          FOREIGN KEY (quizId) REFERENCES Quiz(quizID)
+                          FOREIGN KEY (quizId) REFERENCES Quiz(quizID) ON DELETE CASCADE
 );

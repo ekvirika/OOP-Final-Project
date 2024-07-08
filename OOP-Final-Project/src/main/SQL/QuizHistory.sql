@@ -6,6 +6,6 @@ CREATE TABLE QuizHistory (
                              startTime TIME,
                              endTime TIME,
                              elapsedTime BIGINT DEFAULT 0,
-                             FOREIGN KEY (quizId) REFERENCES Quiz(quizId),
-                             FOREIGN KEY (username) REFERENCES Accounts(username)
+                             FOREIGN KEY (quizId) REFERENCES Quiz(quizId) ON DELETE CASCADE,
+                             FOREIGN KEY (username) REFERENCES Accounts(username) ON DELETE CASCADE
 );
