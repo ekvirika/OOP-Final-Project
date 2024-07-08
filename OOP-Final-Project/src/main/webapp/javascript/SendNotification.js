@@ -87,4 +87,66 @@ document.addEventListener("DOMContentLoaded", function () {
             alert('Please fill out both the quiz link and the high score.');
         }
     }
+
+    //Handle note
+    let sendNoteBtn = document.getElementById("sendNoteBtn");
+    let messageInp = document.getElementById("messageInput");
+
+    sendNoteBtn.onclick = function () {
+        let message = messageInp.value.trim();
+        if (message !== "") {
+            console.log("Message sent:", message);
+
+            fetch('notificationServlet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    type: "note",
+                    message: message,
+                    receiver: receiverId
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    noteModal.style.display = "none";
+                    messageInp.value = "";
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while sending the note. Please try again.');
+                });
+        } else {
+            alert('Please write a message before sending.');
+        }
+    }
+
+
+    // Handle friend request
+    let friend = document.getElementById("addFriend");
+
+    friend.onclick = function () {
+        fetch('notificationServlet', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                type: "addFriend",
+                request: 1,
+                receiver: receiverId
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Request Sent:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred while sending the friend request. Please try again.');
+            });
+    }
+
 });
