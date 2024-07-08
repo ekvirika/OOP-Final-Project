@@ -70,4 +70,27 @@ public class NotificationManager {
     public List<Notification> getAllNotifications() throws SQLException {
         return notificationDAO.getAllNotifications();
     }
+
+    /**
+     * Retrieves notifications for a specific user.
+     *
+     * @param username the username to retrieve notifications for
+     * @return a list of notifications to the specified user
+     * @throws SQLException if a database access error occurs
+     */
+    public List<Notification> getNotificationsToUser(String username) throws SQLException {
+        return notificationDAO.getAllNotificationsTo(username);
+    }
+
+
+    /**
+     * Retrieves notifications for a specific user.
+     *
+     * @param username the username to retrieve notifications for
+     * @return a list of notifications from the specified user
+     * @throws SQLException if a database access error occurs
+     */
+    public List<Notification> getNotificationsFromUser(String username) throws SQLException {
+        return notificationDAO.getAllNotificationsFrom(username);
+    }
 }
