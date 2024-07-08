@@ -48,13 +48,11 @@ public class NotificationServlet extends HttpServlet {
             String quizLink = requestData.quizLink;
             String bestScore = requestData.bestScore;
 
-            // Process the quiz link and best score here
             responseData.status = "success";
             responseData.message = "Quiz data received.";
             responseData.receiver = receiver;
 
             try {
-                System.out.println("aloooooo");
                 Notification note = new Notification(loggedInUsername, receiver, NotificationType.CHALLENGE, quizLink, 0, "");
                 NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
                 notificationManager.createNotification(note);
@@ -65,7 +63,6 @@ public class NotificationServlet extends HttpServlet {
         else if ("note".equals(type)) {
             String message = requestData.message;
 
-            // Process the message here
             responseData.status = "success";
             responseData.message = "Note received.";
             responseData.receiver = receiver;
@@ -80,23 +77,25 @@ public class NotificationServlet extends HttpServlet {
         }
         else if ("addFriend".equals(type)) {
             try {
-                System.out.println("vamateb megobrebshi");
                 FriendRequest friendRequest = new FriendRequest(loggedInUsername, receiver);
                 FriendManager friendManager = (FriendManager) request.getServletContext().getAttribute(FriendManager.ATTRIBUTE_NAME);
                 friendManager.sendFriendRequest(loggedInUsername, receiver);
 
-                int requestId = friendRequest.getFriendRequestId();
-                System.out.println(requestId);
-
+                int requestId = friendManager.getFriendRequestID(loggedInUsername, receiver);
                 Notification addFriend = new Notification(loggedInUsername, receiver, NotificationType.FRIEND_REQUEST, "", requestId, "");
                 NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
                 notificationManager.createNotification(addFriend);
-                System.out.println("shevqmeni");
+
+                responseData.status = "success";
+                responseData.message = "Friend request sent and notification created.";
+                responseData.receiver = receiver;
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                responseData.status = "error";
+                responseData.message = e.getMessage();
+                responseData.receiver = receiver;
+                e.printStackTrace();
             }
-        }
-        else {
+        } else {
             responseData.status = "error";
             responseData.message = "Invalid request type.";
             responseData.receiver = requestData.receiver;

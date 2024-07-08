@@ -76,4 +76,19 @@ public class FriendsDAO {
             return friendRequests;
         }
     }
+
+    public int getFriendRequestId(String usernameFrom, String usernameTo) throws SQLException {
+        String query = "SELECT friendRequestId FROM Friends WHERE usernameFrom = ? AND usernameTo = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, usernameFrom);
+            statement.setString(2, usernameTo);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt("friendRequestId");
+            } else {
+                throw new SQLException("Friend request not found.");
+            }
+        }
+    }
 }

@@ -19,7 +19,7 @@ public class FriendManager {
     }
 
     public void sendFriendRequest(String usernameFrom, String usernameTo) throws SQLException {
-        FriendRequest friendRequest = new FriendRequest(0, usernameFrom, usernameTo, false);
+        FriendRequest friendRequest = new FriendRequest(usernameFrom, usernameTo);
         friendsDAO.addFriendship(friendRequest);
     }
 
@@ -41,5 +41,9 @@ public class FriendManager {
 
     public ArrayList<FriendRequest> getAllFriendRequestsTo(String usernameTo) throws SQLException {
         return friendsDAO.getAllFriendRequestsTo(usernameTo);
+    }
+
+    public int getFriendRequestID(String usernameFrom, String usernameTo) throws SQLException {
+        return friendsDAO.getFriendRequestId(usernameFrom, usernameTo);
     }
 }
