@@ -1,7 +1,9 @@
 package Controllers;
 
+import Controllers.Managers.FriendManager;
 import Models.Enums.NotificationType;
 import Controllers.Managers.NotificationManager;
+import Models.FriendRequest;
 import Models.Notification;
 import com.google.gson.Gson;
 
@@ -78,7 +80,15 @@ public class NotificationServlet extends HttpServlet {
         }
         else if ("addFriend".equals(type)) {
             try {
-                Notification addFriend = new Notification(loggedInUsername, receiver, NotificationType.FRIEND_REQUEST, "", 1, "");
+                System.out.println("vamateb megobrebshi");
+                FriendRequest friendRequest = new FriendRequest(loggedInUsername, receiver);
+                FriendManager friendManager = (FriendManager) request.getServletContext().getAttribute(FriendManager.ATTRIBUTE_NAME);
+                friendManager.sendFriendRequest(loggedInUsername, receiver);
+
+                int requestId = friendRequest.getFriendRequestId();
+                System.out.println(requestId);
+
+                Notification addFriend = new Notification(loggedInUsername, receiver, NotificationType.FRIEND_REQUEST, "", requestId, "");
                 NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
                 notificationManager.createNotification(addFriend);
                 System.out.println("shevqmeni");
