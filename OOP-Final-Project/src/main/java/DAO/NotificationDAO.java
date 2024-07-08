@@ -28,13 +28,32 @@ public class NotificationDAO {
     }
 
     private void setStatement(Notification notification, PreparedStatement statement) throws SQLException {
+        // Set non-null values
         statement.setString(1, notification.getUsernameFrom());
         statement.setString(2, notification.getUsernameTo());
         statement.setInt(3, notification.getNotificationType().ordinal());
-        statement.setInt(4, notification.getQuizId());
-        statement.setInt(5, notification.getRequestId());
-        statement.setString(6, notification.getMessage());
+
+        // Initialize all fields to null in case they need to be reset
+        statement.setNull(4, java.sql.Types.INTEGER); // quizId
+        statement.setNull(5, java.sql.Types.INTEGER); // requestId
+        statement.setNull(6, java.sql.Types.VARCHAR); // message
+
+        // Set fields based on notification type
+        switch (notification.getNotificationType()) {
+            case CHALLENGE: // Assume case 0
+                statement.setInt(4, notification.getQuizId());
+                break;
+            case FRIEND_REQUEST: // Assume case 1
+                statement.setInt(5, notification.getRequestId());
+                break;
+            case NOTE: // Assume case 2
+                statement.setString(6, notification.getMessage());
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown notification type: " + notification.getNotificationType());
+        }
     }
+
 
     // Get notification by ID
     public Notification getNotificationById(int notificationId) throws SQLException {

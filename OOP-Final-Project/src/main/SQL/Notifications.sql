@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS Notifications (
     PRIMARY KEY (notificationId),
     FOREIGN KEY (usernameFrom) REFERENCES Accounts(userName) ON DELETE CASCADE,
     FOREIGN KEY (usernameTo) REFERENCES Accounts(userName) ON DELETE CASCADE,
-    FOREIGN KEY (quizId) REFERENCES Quiz(quizId) ON DELETE SET NULL,
-    FOREIGN KEY (friendRequestId) REFERENCES Friends(friendRequestId) ON DELETE SET NULL
+    FOREIGN KEY (quizId) REFERENCES Quiz(quizId) ON DELETE CASCADE,
+    FOREIGN KEY (friendRequestId) REFERENCES Friends(friendRequestId) ON DELETE CASCADE
     );
