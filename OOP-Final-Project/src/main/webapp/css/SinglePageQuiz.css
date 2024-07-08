@@ -16,7 +16,21 @@ body {
     border-radius: 10px;
 }
 
-h1, h2{
+.singleKitxva {
+    box-shadow: 15px 15px 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    margin: 30px 0;
+    background-color: #333;
+    color: #fe9ce3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1, h2 {
     text-align: center;
     color: #f5eaec;
 }
@@ -27,6 +41,8 @@ h1, h2{
     color: #f5eaec;
     display: flex;
     justify-content: center;
+    text-align: center;
+    width: 100%;
 }
 
 form {
@@ -34,13 +50,14 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: 100%;
 }
 
 .response {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
+    width: 100%;
 }
 
 .response input[type="text"] {
@@ -55,6 +72,8 @@ form {
 ul.answers {
     list-style-type: none;
     padding: 0;
+    width: 100%;
+    text-align: center;
 }
 
 ul.answers li {
@@ -109,7 +128,9 @@ button.btn:hover {
     border-radius: 5px;
     margin: 5px 0;
     cursor: pointer;
-    color: #F5EAEC ;
+    color: #F5EAEC;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
 button {
@@ -128,4 +149,3 @@ button {
 button:hover {
     background-color: #17A6E8;
 }
-

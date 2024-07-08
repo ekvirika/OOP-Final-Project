@@ -19,27 +19,32 @@
     <link rel="stylesheet" href="./css/SinglePageQuiz.css">
 </head>
 <body>
-<h1><%= ((Models.Quiz) request.getAttribute("currentQuiz")).getQuizName() %></h1>
-<form action="QuestionServlet" method="post" onsubmit="prepareUserAnswers(event)">
-    <input type="hidden" name="quizId" value="<%= request.getAttribute("quizId") %>">
+<div class="quiz-container">
+    <h1><%= ((Models.Quiz) request.getAttribute("currentQuiz")).getQuizName() %></h1>
+    <form action="QuestionServlet" method="post" onsubmit="prepareUserAnswers(event)">
+        <input type="hidden" name="quizId" value="<%= request.getAttribute("quizId") %>">
 
-    <%
-        List<Question> questions = (List<Question>) request.getAttribute("questions");
-        for (Question question : questions) {
-            String questionHtml = takeQuiz.generateUI(question.getQuestionType(), question, false);
-    %>
-    <div>
-        <h2>Question <%= question.getQuestionId() %></h2>
-        <div><%= questionHtml %></div>
-        <input type="hidden" name="questionId_<%= question.getQuestionId() %>" value="<%= question.getQuestionId() %>">
-    </div>
-    <%
-        }
-    %>
+        <%
+            List<Question> questions = (List<Question>) request.getAttribute("questions");
+            for (Question question : questions) {
+                String questionHtml = takeQuiz.generateUI(question.getQuestionType(), question, false);
+        %>
+        <div class="singleKitxva">
+            <h2>Question <%= question.getQuestionId() %></h2>
+            <div class="question-html"><%= questionHtml %></div>
+            <ul class="answers">
+                <%-- Generate the answer fields here based on the question type --%>
+            </ul>
+            <input type="hidden" name="questionId_<%= question.getQuestionId() %>" value="<%= question.getQuestionId() %>">
+        </div>
+        <%
+            }
+        %>
 
-    <button type="submit" class="btn">Submit</button>
-    <input type="hidden" id="userAnswers" name="userAnswers">
-</form>
+        <button type="submit" class="btn">Submit</button>
+        <input type="hidden" id="userAnswers" name="userAnswers">
+    </form>
+</div>
 
 <script>
     let selectedQuestion = null;
@@ -76,51 +81,18 @@
             colorIndex = Math.ceil(Math.random() * colors.length);
             selectedQuestion.style.backgroundColor = colors[colorIndex];
             selectedAnswer.style.backgroundColor = colors[colorIndex];
-            selectedQuestion.style.borderColor = colors[colorIndex];
-            selectedAnswer.style.borderColor = colors[colorIndex];
-
-            // Get question and answer texts
-            let questionText = selectedQuestion.innerText;
-            let answerText = selectedAnswer.innerText;
-
-            // Add to matchingPairs hashmap
-            matchingPairs[questionText] = answerText;
-            let matchingPairsJson = JSON.stringify(matchingPairs);
-            console.log(matchingPairs);
-            document.getElementById('userAnswers').value = matchingPairsJson;
-            localStorage.setItem("json", matchingPairsJson)
+            matchingPairs[selectedQuestion.dataset.id] = selectedAnswer.dataset.id;
+            selectedQuestion.style.pointerEvents = 'none';
+            selectedAnswer.style.pointerEvents = 'none';
             selectedQuestion = null;
             selectedAnswer = null;
         }
     }
 
     function prepareUserAnswers(event) {
-        const form = event.target;
-
-        <%
-            for (Question question : questions) {
-                String questionType = question.getQuestionType().toString();
-                int questionId = question.getQuestionId();
-        %>
-
-        if ("<%= questionType %>" === 'MULTIPLE_CHOICE' || "<%= questionType %>" === 'MULTIPLE_CHOICE_WITH_ANSWERS') {
-            const selectedAnswers = [];
-            const checkboxes = form.querySelectorAll('input[name="userAnswer_<%= questionId %>"]:checked');
-            checkboxes.forEach((checkbox) => { selectedAnswers.push(checkbox.value); });
-            form.querySelector('input[name="userAnswers_<%= questionId %>"]').value = JSON.stringify(selectedAnswers);
-        } else if ("<%= questionType %>" === 'MATCHING') {
-            form.querySelector('input[name="userAnswers_<%= questionId %>"]').value = localStorage.getItem("json");
-        } else if ("<%= questionType %>" === 'MULTI_ANSWER') {
-            const answers = [];
-            const inputs = form.querySelectorAll('input[name="userAnswer_<%= questionId %>"]');
-            inputs.forEach((input) => { answers.push(input.value); });
-            console.log(answers);
-            form.querySelector('input[name="userAnswers_<%= questionId %>"]').value = JSON.stringify(answers);
-        }
-
-        <%
-            }
-        %>
+        event.preventDefault();
+        document.getElementById('userAnswers').value = JSON.stringify(matchingPairs);
+        event.target.submit();
     }
 </script>
 </body>
