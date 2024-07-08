@@ -22,6 +22,69 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
+
+    <style>
+        /* Notification list items */
+        #notifications ul {
+            list-style-type: none; /* Remove default bullet points */
+            padding: 0; /* Remove default padding */
+            margin: 0; /* Remove default margin */
+        }
+
+        /* Individual notification item */
+        #notifications li {
+            background-color: #ffffff; /* White background for notifications */
+            margin-bottom: 10px; /* Space between notifications */
+            padding: 15px; /* Padding inside each notification */
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            line-height: 1.6; /* Line height for readability */
+            color: #1B1616;
+        }
+
+        /* Username link */
+        #notifications a {
+            color: #007bff; /* Link color */
+            text-decoration: none; /* Remove underline from links */
+        }
+
+        /* Username link on hover */
+        #notifications a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+
+        /* Buttons for accepting or rejecting friend requests */
+        #notifications button {
+            background-color: #007bff; /* Blue background */
+            color: #ffffff; /* White text */
+            border: none; /* Remove default border */
+            padding: 10px 15px; /* Padding inside the button */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            margin-right: 5px; /* Space between buttons */
+            margin-left: 5px;
+            font-size: 14px; /* Font size */
+        }
+
+        /* Button hover effects */
+        #notifications button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Button for rejecting friend requests */
+        #notifications button.reject {
+            background-color: #dc3545; /* Red background */
+        }
+
+        #notifications button.reject:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+
+        /* Hide the receiver ID input field */
+        #receiverId {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <header class="animate__animated animate__fadeInDown">
@@ -167,20 +230,19 @@
                 <%
                     if (type.equals(NotificationType.FRIEND_REQUEST)) {
                 %>
-                <%= notification.getUsernameFrom() %> sent you a friend request.
+                <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %></a> sent you a friend request.
                 <button onclick="handleFriendRequest('yes', '<%= notification.getNotificationId() %>')">Yes</button>
                 <button onclick="handleFriendRequest('no', '<%= notification.getNotificationId() %>')">No</button>
                 <%
                 } else if (type.equals(NotificationType.NOTE)) {
                 %>
-                <%= notification.getUsernameFrom() %> sent you a message:
+                <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %></a> sent you a message:
                 <%= notification.getMessage() %>
                 <%
                 } else if (type.equals(NotificationType.CHALLENGE)) {
                 %>
-                <%= notification.getUsernameFrom() %> sent you a challenge:
+                <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %></a> sent you a challenge:
                 <a href="<%= notification.getQuizLink() %>">Challenge Link</a>
-<%--                High Score: <%= notification.get() %>--%>
                 <%
                     }
                 %>
@@ -214,7 +276,8 @@
                 body: JSON.stringify({
                     type: "pending",
                     answer: true,
-                    receiver: receiverId
+                    receiver: receiverId,
+                    notificationId: notificationId
                 })
             })
                 .then(response => response.json())
@@ -235,7 +298,8 @@
                 body: JSON.stringify({
                     type: "pending",
                     answer: false,
-                    receiver: receiverId
+                    receiver: receiverId,
+                    notificationId: notificationId
                 })
             })
                 .then(response => response.json())

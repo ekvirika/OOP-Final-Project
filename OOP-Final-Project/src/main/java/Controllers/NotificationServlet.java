@@ -77,9 +77,11 @@ public class NotificationServlet extends HttpServlet {
         }
         else if ("addFriend".equals(type)) {
             try {
+                System.out.println("vgavzni");
                 FriendRequest friendRequest = new FriendRequest(loggedInUsername, receiver);
                 FriendManager friendManager = (FriendManager) request.getServletContext().getAttribute(FriendManager.ATTRIBUTE_NAME);
                 friendManager.sendFriendRequest(loggedInUsername, receiver);
+                System.out.println("Friend request sent.");
 
                 int requestId = friendManager.getFriendRequestID(loggedInUsername, receiver);
                 Notification addFriend = new Notification(loggedInUsername, receiver, NotificationType.FRIEND_REQUEST, "", requestId, "");
@@ -99,27 +101,29 @@ public class NotificationServlet extends HttpServlet {
         else if ("pending".equals(type)){
             System.out.println("PENDING");
             boolean answer = requestData.answer;
+            int notificationID = requestData.notificationID;
             System.out.println("answer: " + answer);
 
             FriendManager friendManager = (FriendManager) request.getServletContext().getAttribute(FriendManager.ATTRIBUTE_NAME);
-
+            System.out.println("notificationID: " + notificationID);
             NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
-//            notificationManager.getNotificationById()
+            System.out.println("friendManager: hshevedei");
+
 
             if(answer){
-                System.out.println("aqvaar");
                 try {
-                    System.out.println("shemovedi tryshi");
+//                    System.out.println("davamateb");
                     friendManager.acceptFriendRequest(loggedInUsername, requestData.receiver);
-                    System.out.println("gamovedy manageridan");
-//                    notificationManager.deleteNotification(1);
+                    System.out.println("Friend request accepted.");
+                    notificationManager.deleteNotification(notificationID);
+                    System.out.println("Notification removed.");
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
             } else{
                 try {
                     friendManager.rejectFriendRequest(requestData.receiver, loggedInUsername);
-//                    notificationManager.deleteNotification(1);
+                    notificationManager.deleteNotification(notificationID);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -145,6 +149,7 @@ public class NotificationServlet extends HttpServlet {
         String message;
         String receiver;
         boolean answer;
+        int notificationID;
     }
 
     private class ResponseData {
