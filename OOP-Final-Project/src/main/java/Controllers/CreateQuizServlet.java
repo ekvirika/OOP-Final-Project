@@ -3,7 +3,6 @@ package Controllers;
 import Models.Managers.QuizManager;
 import Models.Question;
 import Models.Quiz;
-import utils.TakeSinglePageQuiz;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,31 +21,53 @@ public class CreateQuizServlet extends HttpServlet {
         System.out.println("quizi1: " + quiz);
         QuizManager quizManager = (QuizManager) request.getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         int quizId;
-        if(quiz == null) {
+        if (quiz == null) {
             String username = request.getSession().getAttribute("username").toString();
             quiz = new Quiz();
             quizId = quizManager.addQuiz(quiz);
             quiz.setQuizID(quizId);
             quiz.setCreatorUsername(username);
-        } else quizId = quiz.getQuizID();
+        } else {
+            quizId = quiz.getQuizID();
+        }
         System.out.println("aidio: " + quizId);
         System.out.println(quiz);
         List<Question> questions = quizManager.getAllQuestionsByQuiz(quizId);
-        TakeSinglePageQuiz uihelper = new TakeSinglePageQuiz();
-        StringBuilder html = new StringBuilder();
-        for(Question question : questions) {
-            html.append(uihelper.generateUI(question.getQuestionType(), question));
-        }
-        System.out.println(html.toString());
-
+        System.out.println("questions: -------" + questions);
+        request.getSession().setAttribute("questions", questions);
         request.getSession().setAttribute("quizId", quizId);
-        request.setAttribute("html", html.toString());
         request.getSession().setAttribute("quiz", quiz);
         request.getRequestDispatcher("CreateQuiz.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String quizAction = request.getParameter("quizAction");
+        QuizManager quizManager = (QuizManager) request.getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
+        Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");
 
+        if (quiz == null) {
+            response.sendRedirect("HomePageServlet");
+            return;
+        }
+
+        if ("save".equals(quizAction)) {
+            // Update the quiz object with the checkbox values
+            quiz.setSinglePage(request.getParameter("isSinglePage") != null);
+            quiz.setRandomizeQuestions(request.getParameter("randomizeQuestions") != null);
+            quiz.setImmediateFeedback(request.getParameter("immediateFeedback") != null);
+
+            // Save the updated quiz
+            quizManager.updateQuiz(quiz);
+            response.sendRedirect("HomePageServlet");
+        } else if ("delete".equals(quizAction)) {
+            // Logic to delete the quiz and its questions
+            if (quiz != null) {
+                quizManager.deleteQuiz(quiz.getQuizID());
+            }
+            request.getSession().removeAttribute("quiz");
+            request.getSession().removeAttribute("questions");
+            response.sendRedirect("HomePageServlet");
+        }
     }
 }

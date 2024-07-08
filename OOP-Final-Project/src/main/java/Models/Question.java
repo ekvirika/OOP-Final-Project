@@ -21,6 +21,7 @@ public class Question {
     private String questionImage; /**< An image associated with the question, if any. */
     private ArrayList<String> multipleAnswerFields; /**< Fields for multiple answers. */
     private HashMap<String, String> matchingPairs; /**< Matching pairs for matching questions. */
+    private static final long serialVersionUID = 1L; // Add a version UID for serialization
 
     /**
      * Constructs a new Question instance with the specified question ID.

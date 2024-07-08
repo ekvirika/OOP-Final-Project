@@ -20,6 +20,8 @@ public class Quiz {
     private boolean randomizeQuestions;
     private boolean immediateFeedback;
     private Timestamp createTime;
+    private static final long serialVersionUID = 1L; // Add a version UID for serialization
+
 
 
     public Quiz() {
