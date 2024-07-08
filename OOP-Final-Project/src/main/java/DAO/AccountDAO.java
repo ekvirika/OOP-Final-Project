@@ -122,15 +122,17 @@ public class AccountDAO {
         }
     }
 
-    public void deleteAccount(String username) {
+    public boolean deleteAccount(String username) {
         String query = "DELETE FROM Accounts WHERE username = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, username);
             statement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public List<Quiz> getAllQuizzes(String username) {

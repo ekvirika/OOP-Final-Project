@@ -30,7 +30,8 @@ public class ProfileServlet extends HttpServlet {
         request.setAttribute("account", account);
         boolean isSelf = username.equals(loggedInUsername);
         request.setAttribute("isSelf", isSelf);
-
+        boolean isAdmin = account.isAdmin();
+        request.setAttribute("isAdmin", isAdmin);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("Profile.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -39,14 +40,21 @@ public class ProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Changing account information...");
+        AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
         String method = request.getParameter("_method");
+        String action = request.getParameter("action");
+        if(action != null && action.equals("deleteProfile")){
+            String username = request.getParameter("username");
+            accountManager.deleteAccount(username);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("HomePageServlet");
+            requestDispatcher.forward(request, response);
+        }
         if (method != null && method.equalsIgnoreCase("put")) {
             doPut(request, response);
         } else {
+            System.out.println("Changing account information...");
             String username = (String) request.getSession().getAttribute("username");
             if (username != null) {
-                AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
                 Account account = accountManager.getAccount(username);
                 request.setAttribute("account", account);
                 request.setAttribute("isSelf", true);

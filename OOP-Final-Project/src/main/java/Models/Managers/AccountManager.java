@@ -95,4 +95,8 @@ public class AccountManager {
     public List<Account> getAccounts() throws SQLException {
         return accountDAO.getAllAccounts();
     }
+
+    public boolean deleteAccount(String username){
+        return accountDAO.deleteAccount(username);
+    }
 }

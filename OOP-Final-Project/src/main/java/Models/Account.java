@@ -19,6 +19,7 @@ public class Account {
     private List<String> friends;
     private List<Integer> achievementIds;
     private List<Integer> quizIds;
+    private boolean isAdmin;
 
 
     /**
@@ -44,6 +45,7 @@ public class Account {
         this.achievementIds = new ArrayList<>();
         this.quizIds = new ArrayList<>();
         this.salt = salt;
+        isAdmin = false;
     }
 
     /**
@@ -198,6 +200,12 @@ public class Account {
 
     public void setQuizIds(List<Integer> quizIds) {this.quizIds = quizIds;}
 
+    public boolean isAdmin() {
+        return this.isAdmin;
+    }
+    public void setAdmin(boolean isAdmin) {
+        isAdmin = isAdmin;
+    }
 
     /**
      * Returns a string representation of the Account object.

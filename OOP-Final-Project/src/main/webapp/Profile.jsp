@@ -82,45 +82,58 @@
                  class="profile-picture">
         </div>
         <div class="profile-info selected animate__animated animate__fadeIn">
-            <input type="hidden" id="receiverId" value="<%= ((Account) request.getAttribute("account")).getUserName() %>">
+            <input type="hidden" id="receiverId"
+                   value="<%= ((Account) request.getAttribute("account")).getUserName() %>">
             <h2>User Profile</h2>
             <p>
-                <strong>Name:</strong> <span class="val"><%= ((Account) request.getAttribute("account")).getFirstName() %></span>
+                <strong>Name:</strong> <span
+                    class="val"><%= ((Account) request.getAttribute("account")).getFirstName() %></span>
             </p>
             <p>
-                <strong>Last name:</strong> <span class="val"><%= ((Account) request.getAttribute("account")).getLastName() %></span>
+                <strong>Last name:</strong> <span
+                    class="val"><%= ((Account) request.getAttribute("account")).getLastName() %></span>
             </p>
             <p>
-                <strong>Username:</strong> <span class="val"><%= ((Account) request.getAttribute("account")).getUserName() %></span>
+                <strong>Username:</strong> <span
+                    class="val"><%= ((Account) request.getAttribute("account")).getUserName() %></span>
             </p>
             <p>
-                <strong>Email:</strong> <span class="val"><%= ((Account) request.getAttribute("account")).getEmail() %></span>
+                <strong>Email:</strong> <span
+                    class="val"><%= ((Account) request.getAttribute("account")).getEmail() %></span>
             </p>
             <% Boolean isSelf = (Boolean) request.getAttribute("isSelf"); %>
+            <% Boolean isAdmin = (Boolean) request.getAttribute("isAdmin"); %>
             <% if (isSelf != null && isSelf) { %>
             <form action="ProfileServlet" method="post">
                 <button type="submit" name="action" value="editProfile" class="submit">Edit Profile</button>
             </form>
+            <% } else if (isAdmin != null && isAdmin) { %>
+            <form action="ProfileServlet" method="post">
+                <input type="hidden" name="username"
+                       value="\<%= ((Account) request.getAttribute("account")).getUserName() %>\">
+                <button type="submit" name="action" value="deleteProfile" class="submit">Delete Profile</button>
+            </form>
             <% } else { %>
             <button type="button" class="submit" id="sendNote">Send Note</button>
-            <button type="button" class="submit" id="challenge" >Challenge</button>
+            <button type="button" class="submit" id="challenge">Challenge</button>
             <button type="submit" class="submit" id="addFriend">Add Friend</button>
 
             <div id="challengeModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <label for="quizInput">Quiz Link</label><textarea id="quizInput" rows="2" cols="50" ></textarea>
+                    <label for="quizInput">Quiz Link</label><textarea id="quizInput" rows="2" cols="50"></textarea>
                     <div></div>
                     <label for="scoreInput">High Score</label><textarea id="scoreInput" rows="2" cols="50"></textarea>
                     <div></div>
-                    <button type="submit" id="sendQuizBtn" >Send</button>
+                    <button type="submit" id="sendQuizBtn">Send</button>
                 </div>
             </div>
 
             <div id="noteModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <label for="messageInput">Write your message: </label><textarea id="messageInput" rows="4" cols="50" ></textarea>
+                    <label for="messageInput">Write your message: </label><textarea id="messageInput" rows="4"
+                                                                                    cols="50"></textarea>
                     <div></div>
                     <button type="submit" id="sendNoteBtn">Send</button>
                 </div>

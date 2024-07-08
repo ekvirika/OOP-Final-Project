@@ -73,22 +73,55 @@ public class CreateQuiz {
                 + "</form>";
     }
 
+//    private String generateMultiAns() {
+//        StringBuilder formBuilder = new StringBuilder();
+//        formBuilder.append("<form action=\"CreateQuestionServlet\" method=\"post\">")
+//                .append("<input type=\"hidden\" name=\"questionType\" value=\"MULTI_ANSWER\">")
+//                .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">");
+//
+//        int maxAnswers = 10;
+//        for (int i = 1; i <= maxAnswers; i++) {
+//            formBuilder.append("<input type=\"text\" name=\"answer").append(i).append("\" placeholder=\"Type correct answer ").append(i).append(" here\">");
+//        }
+//
+//        formBuilder.append("<button type=\"submit\">Save Question</button>")
+//                .append("</form>");
+//
+//        return formBuilder.toString();
+//    }
+
     private String generateMultiAns() {
         StringBuilder formBuilder = new StringBuilder();
-        formBuilder.append("<form action=\"CreateQuestionServlet\" method=\"post\">")
+        formBuilder.append("<form id=\"multiAnswerForm\" action=\"CreateQuestionServlet\" method=\"post\">")
                 .append("<input type=\"hidden\" name=\"questionType\" value=\"MULTI_ANSWER\">")
-                .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">");
+                .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\" required>");
 
-        int maxAnswers = 10;
-        for (int i = 1; i <= maxAnswers; i++) {
-            formBuilder.append("<input type=\"text\" name=\"answer").append(i).append("\" placeholder=\"Type correct answer ").append(i).append(" here\">");
-        }
+        // Initial input fields for answers
+        formBuilder.append("<div id=\"answerFields\">");
+        formBuilder.append("<div><input type=\"text\" name=\"answer1\" placeholder=\"Type correct answer 1 here\" required></div>");
+        formBuilder.append("</div>");
 
+        // Button to add new answer input fields dynamically
+        formBuilder.append("<button type=\"button\" onclick=\"addAnswerField()\">Add Answer Field</button>");
+
+        // Submit button
         formBuilder.append("<button type=\"submit\">Save Question</button>")
                 .append("</form>");
 
+        // JavaScript function to add new answer fields dynamically
+        formBuilder.append("<script>");
+        formBuilder.append("function addAnswerField() {");
+        formBuilder.append("var answerFields = document.getElementById('answerFields');");
+        formBuilder.append("var newInput = document.createElement('div');");
+        formBuilder.append("var index = answerFields.children.length + 1;");
+        formBuilder.append("newInput.innerHTML = '<input type=\"text\" name=\"answer' + index + '\" placeholder=\"Type correct answer ' + index + ' here\" required>';")
+                .append("answerFields.appendChild(newInput);");
+        formBuilder.append("}");
+        formBuilder.append("</script>");
+
         return formBuilder.toString();
     }
+
 
     private String generateMultiChoiceAns() {
         StringBuilder formBuilder = new StringBuilder();
@@ -105,7 +138,6 @@ public class CreateQuiz {
 
         return formBuilder.toString();
     }
-
     private String generateMatching() {
         StringBuilder formBuilder = new StringBuilder();
         formBuilder.append("<form action=\"CreateQuestionServlet\" method=\"post\">")
@@ -120,6 +152,7 @@ public class CreateQuiz {
                 .append("</div>")
                 .append("<button type=\"button\" class=\"add-pair-btn\" onclick=\"addPair()\">Add Pair</button>")
                 .append("</div>")
+                .append("<input type=\"hidden\" name=\"pairCount\" id=\"pairCount\" value=\"1\">") // Added pairCount field
                 .append("<button class=\"btn\" type=\"submit\">Save Question</button>")
                 .append("</form>")
                 .append("<script>")
@@ -132,10 +165,12 @@ public class CreateQuiz {
                 .append("  newPairDiv.innerHTML = `<input type='text' name='question${pairCount}' placeholder='Question ${pairCount}'>")
                 .append("  <input type='text' name='answer${pairCount}' placeholder='Answer ${pairCount}'>`;")
                 .append("  questionsDiv.appendChild(newPairDiv);")
+                .append("  document.getElementById('pairCount').value = pairCount;") // Update pairCount field
                 .append("}")
                 .append("</script>");
         return formBuilder.toString();
     }
+
 
     public Question createQuestion(QuestionType questionType, Map<String, String> formData) {
         Question question = new Question();

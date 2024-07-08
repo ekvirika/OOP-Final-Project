@@ -75,16 +75,21 @@ public class CreateQuestionServlet extends HttpServlet {
             switch (questionType) {
                 case QUESTION_RESPONSE:
                 case FILL_IN_THE_BLANK:
-                case PICTURE_RESPONSE:
                     String answerText = request.getParameter("answerText").trim();
                     question.setSingleQuestionAnswer(answerText);
+                    break;
+                case PICTURE_RESPONSE:
+                    String questionImage = request.getParameter("questionImage").trim();
+                    String singleAns = request.getParameter("answerText").trim();
+                    question.setSingleQuestionAnswer(singleAns);
+                    question.setQuestionImage(questionImage);
                     break;
 
                 case MULTIPLE_CHOICE:
                 case MULTIPLE_CHOICE_WITH_ANSWERS:
                     ArrayList<String> multipleChoiceAnswers = new ArrayList<>();
                     for (int i = 1; i <= 4; i++) {
-                        String answer = request.getParameter("correctAnswer" + i);
+                        String answer = request.getParameter("answer" + i);
                         if (answer != null && !answer.trim().isEmpty()) {
                             multipleChoiceAnswers.add(answer.trim());
                         }
@@ -92,9 +97,12 @@ public class CreateQuestionServlet extends HttpServlet {
                     question.setMultipleChoiceAnswers(multipleChoiceAnswers);
 
                     ArrayList<Integer> correctIndexes = new ArrayList<>();
-                    for (int i = 0; i < multipleChoiceAnswers.size(); i++) {
-                        if (request.getParameter("isCorrect" + i) != null) {
-                            correctIndexes.add(i);
+                    String[] correctIndexArray = request.getParameter("correctIndexes").split(",");
+                    for (String index : correctIndexArray) {
+                        try {
+                            correctIndexes.add(Integer.parseInt(index.trim()));
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace(); // handle error or log it
                         }
                     }
                     question.setMultipleChoiceCorrectIndexes(correctIndexes);
@@ -103,7 +111,7 @@ public class CreateQuestionServlet extends HttpServlet {
                 case MULTI_ANSWER:
                     ArrayList<String> multiAnswers = new ArrayList<>();
                     for (int i = 1; i <= 10; i++) {
-                        String answer = request.getParameter("correctAnswer" + i);
+                        String answer = request.getParameter("answer" + i);
                         if (answer != null && !answer.trim().isEmpty()) {
                             multiAnswers.add(answer.trim());
                         }

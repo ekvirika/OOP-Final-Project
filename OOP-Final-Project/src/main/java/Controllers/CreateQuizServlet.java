@@ -19,7 +19,7 @@ public class CreateQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");
-        System.out.println("quizi1: " + quiz);
+//        System.out.println("quizi1: " + quiz);
         QuizManager quizManager = (QuizManager) request.getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         int quizId;
         if (quiz == null) {
@@ -31,10 +31,9 @@ public class CreateQuizServlet extends HttpServlet {
         } else {
             quizId = quiz.getQuizID();
         }
-        System.out.println("aidio: " + quizId);
-        System.out.println(quiz);
+//        System.out.println(quiz);
         List<Question> questions = quizManager.getAllQuestionsByQuiz(quizId);
-        System.out.println("questions: -------" + questions);
+//        System.out.println("questions: -------" + questions);
         request.getSession().setAttribute("questions", questions);
         request.getSession().setAttribute("quizId", quizId);
         request.getSession().setAttribute("quiz", quiz);
@@ -51,22 +50,18 @@ public class CreateQuizServlet extends HttpServlet {
             response.sendRedirect("HomePageServlet");
             return;
         }
-
         if ("save".equals(quizAction)) {
-            // Update the quiz object with the checkbox values
             quiz.setSinglePage(request.getParameter("isSinglePage") != null);
             quiz.setRandomizeQuestions(request.getParameter("randomizeQuestions") != null);
             quiz.setImmediateFeedback(request.getParameter("immediateFeedback") != null);
             quiz.setQuizDescription(request.getParameter("quizDescription"));
             quiz.setQuizName(request.getParameter("quizName"));
 
-            // Save the updated quiz
             quizManager.updateQuiz(quiz);
             request.getSession().removeAttribute("quiz");
             request.getSession().removeAttribute("questions");
             response.sendRedirect("HomePageServlet");
         } else if ("delete".equals(quizAction)) {
-            // Logic to delete the quiz and its questions
             if (quiz != null) {
                 QuestionManager questionManager = (QuestionManager) request.getServletContext().getAttribute(QuestionManager.ATTRIBUTE_NAME);
                 List<Integer> questionIds = quiz.getQuestionIds();
