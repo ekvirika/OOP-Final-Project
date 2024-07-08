@@ -2,11 +2,8 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Models.LeaderboardEntry" %>
-<%@ page import="Models.Quiz" %>
-<%@ page import="Models.Notification" %>
-<%@ page import="Models.QuizHistory" %>
 <%@ page import="Models.Enums.NotificationType" %>
+<%@ page import="Models.*" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -151,6 +148,8 @@
     </div>
 
     <div id="notifications" class="tabcontent">
+        <input type="hidden" id="receiverId"
+               value="<%= ((Account) request.getAttribute("account")).getUserName() %>">
         <h3>Notifications</h3>
         <ul>
             <%
@@ -196,6 +195,58 @@
     </div>
 </div>
 <script src="javascript/SearchBar.js" defer></script>
+<script src="javascript/SendNotification.js" defer></script>
+
+<script>
+    function handleFriendRequest(response, notificationId) {
+        let receiverId = document.getElementById("receiverId").value;
+        // Add your logic to handle friend request response (yes/no)
+        if(response === "yes"){
+            fetch('notificationServlet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    type: "pending",
+                    answer: true,
+                    receiver: receiverId
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Request Sent:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while sending the friend request. Please try again.');
+                });
+
+        }else {
+            fetch('notificationServlet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    type: "pending",
+                    answer: false,
+                    receiver: receiverId
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Request Sent:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred while sending the friend request. Please try again.');
+                });
+        }
+            console.log(response, notificationId);
+    }
+</script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         let item = document.querySelector('#firstTab');

@@ -95,11 +95,43 @@ public class NotificationServlet extends HttpServlet {
                 responseData.receiver = receiver;
                 e.printStackTrace();
             }
-        } else {
+        }
+        else if ("pending".equals(type)){
+            System.out.println("PENDING");
+            boolean answer = requestData.answer;
+            System.out.println("answer: " + answer);
+
+            FriendManager friendManager = (FriendManager) request.getServletContext().getAttribute(FriendManager.ATTRIBUTE_NAME);
+
+            NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
+//            notificationManager.getNotificationById()
+
+            if(answer){
+                System.out.println("aqvaar");
+                try {
+                    System.out.println("shemovedi tryshi");
+                    friendManager.acceptFriendRequest(loggedInUsername, requestData.receiver);
+                    System.out.println("gamovedy manageridan");
+//                    notificationManager.deleteNotification(1);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            } else{
+                try {
+                    friendManager.rejectFriendRequest(requestData.receiver, loggedInUsername);
+//                    notificationManager.deleteNotification(1);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        else {
             responseData.status = "error";
             responseData.message = "Invalid request type.";
             responseData.receiver = requestData.receiver;
         }
+
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -112,6 +144,7 @@ public class NotificationServlet extends HttpServlet {
         String bestScore;
         String message;
         String receiver;
+        boolean answer;
     }
 
     private class ResponseData {
