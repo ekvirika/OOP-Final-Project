@@ -1,5 +1,6 @@
 package Models;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -8,7 +9,7 @@ import java.util.Objects;
  * Represents a quiz entity, containing details such as quiz ID, creator ID, name, description,
  * score, associated question IDs, history, and various settings.
  */
-public class Quiz {
+public class Quiz implements Serializable {
 
     private int quizID;
     private String username;

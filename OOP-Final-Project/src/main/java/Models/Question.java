@@ -2,6 +2,7 @@ package Models;
 
 import Models.Enums.QuestionType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.HashSet;
 /**
  * Represents a Question with various types such as multiple choice, fill in the blank, etc.
  */
-public class Question {
+public class Question implements Serializable {
     private int questionId;
     private int quizId;
     private QuestionType questionType; /**< The type of the question. */

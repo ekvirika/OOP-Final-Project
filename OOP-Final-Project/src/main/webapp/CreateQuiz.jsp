@@ -26,7 +26,7 @@
                     for (int i = 0; i < questions.size(); i++) {
                         Question question = questions.get(i);
                         String questionHtml = "<h2>Question " + (i + 1) + "</h2>";
-                        questionHtml += takeQuiz.generateUI(question.getQuestionType(), question);
+                        questionHtml += takeQuiz.generateUI(question.getQuestionType(), question, true);
             %>
             <div>
                 <%= questionHtml %>
@@ -52,7 +52,7 @@
             <button type="submit" id="addQuestionBtn">Add Question</button>
         </div>
     </form>
-    <% Quiz quiz = (Qu  iz) request.getSession().getAttribute("quiz");%>
+    <% Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");%>
     <form id="quizActionsForm" action="CreateQuizServlet" method="post">
         <input type="hidden" name="quizAction" id="quizAction">
 
