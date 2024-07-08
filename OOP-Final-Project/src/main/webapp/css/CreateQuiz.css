@@ -82,18 +82,10 @@ button:hover {
     background-color: palevioletred;
 }
 
-.editBtn {
-    background-color: green;
-    margin-right: 10px;
-    margin-top: 10px;
-}
-
-.editBtn:hover {
-    background-color: greenyellow;
-}
-
 .deleteBtn {
     background-color: red;
+    margin-top: 10px;
+    width: 21%;
 }
 
 .deleteBtn:hover {
@@ -104,6 +96,7 @@ button:hover {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 25px;
 }
 
 .row {
