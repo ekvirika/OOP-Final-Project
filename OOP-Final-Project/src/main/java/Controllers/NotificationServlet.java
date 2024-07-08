@@ -53,7 +53,7 @@ public class NotificationServlet extends HttpServlet {
 
             try {
                 System.out.println("aloooooo");
-                Notification note = new Notification(loggedInUsername, receiver, NotificationType.CHALLENGE, 1, 0, "");
+                Notification note = new Notification(loggedInUsername, receiver, NotificationType.CHALLENGE, quizLink, 0, "");
                 NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
                 notificationManager.createNotification(note);
             } catch (SQLException e) {
@@ -69,7 +69,7 @@ public class NotificationServlet extends HttpServlet {
             responseData.receiver = receiver;
 
             try {
-                Notification note = new Notification(loggedInUsername, receiver, NotificationType.NOTE, 0, 0, message);
+                Notification note = new Notification(loggedInUsername, receiver, NotificationType.NOTE, "", 0, message);
                 NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
                 notificationManager.createNotification(note);
             } catch (SQLException e) {
@@ -78,7 +78,7 @@ public class NotificationServlet extends HttpServlet {
         }
         else if ("addFriend".equals(type)) {
             try {
-                Notification addFriend = new Notification(loggedInUsername, receiver, NotificationType.FRIEND_REQUEST, 0, 1, "");
+                Notification addFriend = new Notification(loggedInUsername, receiver, NotificationType.FRIEND_REQUEST, "", 1, "");
                 NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
                 notificationManager.createNotification(addFriend);
                 System.out.println("shevqmeni");

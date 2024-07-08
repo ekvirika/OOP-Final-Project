@@ -41,7 +41,7 @@ public class NotificationDAO {
         // Set fields based on notification type
         switch (notification.getNotificationType()) {
             case CHALLENGE: // Assume case 0
-                statement.setInt(4, notification.getQuizId());
+                statement.setString(4, notification.getQuizLink());
                 break;
             case FRIEND_REQUEST: // Assume case 1
                 statement.setInt(5, notification.getRequestId());
@@ -68,7 +68,7 @@ public class NotificationDAO {
                             resultSet.getString("usernameFrom"),
                             resultSet.getString("usernameTo"),
                             NotificationType.values()[resultSet.getInt("notificationType")],
-                            resultSet.getInt("quizId"),
+                            resultSet.getString("quizLink"),
                             resultSet.getInt("friendRequestId"),
                             resultSet.getString("message")
                     );
@@ -114,7 +114,7 @@ public class NotificationDAO {
                         resultSet.getString("usernameFrom"),
                         resultSet.getString("usernameTo"),
                         NotificationType.values()[resultSet.getInt("notificationType")],
-                        resultSet.getInt("quizId"),
+                        resultSet.getString("quizLink"),
                         resultSet.getInt("friendRequestId"),
                         resultSet.getString("message")
                 ));

@@ -7,29 +7,29 @@ public class Notification {
     private String usernameFrom;
     private String usernameTo;
     private NotificationType notificationType;
-    private int quizId;
+    private String quizLink;
     private int requestId;
     private String message;
     private FriendRequest friendRequest;
 
     // Parameterized constructor
     public Notification(int notificationId, String usernameFrom, String usernameTo,
-                        NotificationType notificationType, int quizId, int requestId, String message) {
+                        NotificationType notificationType, String quizLink, int requestId, String message) {
         this.notificationId = notificationId;
         this.usernameFrom = usernameFrom;
         this.usernameTo = usernameTo;
         this.notificationType = notificationType;
-        this.quizId = quizId;
+        this.quizLink = quizLink;
         this.requestId = requestId;
         this.message = message;
     }
 
     public Notification(String usernameFrom, String usernameTo,
-                        NotificationType notificationType, int quizId, int requestId, String message) {
+                        NotificationType notificationType, String quizLink, int requestId, String message) {
         this.usernameFrom = usernameFrom;
         this.usernameTo = usernameTo;
         this.notificationType = notificationType;
-        this.quizId = quizId;
+        this.quizLink = quizLink;
         this.requestId = requestId;
         this.message = message;
     }
@@ -67,12 +67,12 @@ public class Notification {
         this.notificationType = notificationType;
     }
 
-    public int getQuizId() {
-        return quizId;
+    public String getQuizLink() {
+        return quizLink;
     }
 
-    public void setQuizId(int quizId) {
-        this.quizId = quizId;
+    public void setQuizLink(String quizLink) {
+        this.quizLink = quizLink;
     }
 
     public int getRequestId() {
