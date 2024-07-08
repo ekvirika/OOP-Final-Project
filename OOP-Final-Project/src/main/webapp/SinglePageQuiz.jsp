@@ -26,7 +26,7 @@
     <%
         List<Question> questions = (List<Question>) request.getAttribute("questions");
         for (Question question : questions) {
-            String questionHtml = takeQuiz.generateUI(question.getQuestionType(), question);
+            String questionHtml = takeQuiz.generateUI(question.getQuestionType(), question, false);
     %>
     <div>
         <h2>Question <%= question.getQuestionId() %></h2>
