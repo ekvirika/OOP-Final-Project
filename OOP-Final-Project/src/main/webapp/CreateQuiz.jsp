@@ -5,14 +5,13 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Models.Quiz" %>
 
-<jsp:useBean id="takeQuiz" class="utils.TakeSinglePageQuiz" />
+<jsp:useBean id="takeQuiz" class="utils.TakeSinglePageQuiz"/>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Create New Quiz</title>
     <link rel="icon" href="./assets/Logo.png">
     <link rel="stylesheet" href="css/CreateQuiz.css">
-    <link rel="stylesheet" href="css/SinglePageQuiz.css">
 </head>
 <body>
 <div class="container">
@@ -30,7 +29,8 @@
             %>
             <div>
                 <%= questionHtml %>
-                <input type="hidden" name="questionId_<%= question.getQuestionId() %>" value="<%= question.getQuestionId() %>">
+                <input type="hidden" name="questionId_<%= question.getQuestionId() %>"
+                       value="<%= question.getQuestionId() %>">
             </div>
             <%
                     }
@@ -55,24 +55,40 @@
     <% Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");%>
     <form id="quizActionsForm" action="CreateQuizServlet" method="post">
         <input type="hidden" name="quizAction" id="quizAction">
-
-        <label>
-            <input type="checkbox" name="isSinglePage" <% if (quiz != null && quiz.isSinglePage()) { %> checked <% } %> /> Single Page Quiz
-        </label>
-        <label>
-            <input type="checkbox" name="randomizeQuestions" <% if (quiz != null && quiz.isRandomizeQuestions()) { %> checked <% } %> /> Randomize Questions
-        </label>
-        <label>
-            <input type="checkbox" name="immediateFeedback" <% if (quiz != null && quiz.isImmediateFeedback()) { %> checked <% } %> /> Immediate Feedback
-        </label>
-
-        <button type="button" id="saveQuiz" onclick="submitForm('save')">Save Quiz</button>
-        <button type="button" id="deleteQuiz" onclick="submitForm('delete')">Delete Quiz</button>
+        <div class="textboxes">
+            <div>
+                <label for="quizName">Quiz Name:</label>
+                <input type="text" id="quizName" name="quizName" required>
+            </div>
+            <div>
+                <label for="quizDescription">Quiz Description:</label>
+                <textarea id="quizDescription" name="quizDescription" required></textarea>
+            </div>
+        </div>
+        <div class="booleans">
+            <label>
+                <input type="checkbox" name="isSinglePage" <% if (quiz != null && quiz.isSinglePage()) { %>
+                       checked <% } %> /> Single Page Quiz
+            </label>
+            <label>
+                <input type="checkbox"
+                       name="randomizeQuestions" <% if (quiz != null && quiz.isRandomizeQuestions()) { %>
+                       checked <% } %> /> Randomize Questions
+            </label>
+            <label>
+                <input type="checkbox" name="immediateFeedback" <% if (quiz != null && quiz.isImmediateFeedback()) { %>
+                       checked <% } %> /> Immediate Feedback
+            </label>
+        </div>
+        <div class="buttons">
+            <button type="button" id="saveQuiz" onclick="submitForm('save')">Save Quiz</button>
+            <button type="button" id="deleteQuiz" onclick="submitForm('delete')">Delete Quiz</button>
+        </div>
     </form>
 </div>
 
 <script>
-    document.getElementById('addQuestionBtn').addEventListener('click', function() {
+    document.getElementById('addQuestionBtn').addEventListener('click', function () {
         const questionType = document.getElementById('questionType').value;
         document.getElementById('hiddenQuestionType').value = questionType;
     });
@@ -82,11 +98,11 @@
         document.getElementById('quizActionsForm').submit();
     }
 
-    document.getElementById('saveQuiz').addEventListener('click', function() {
+    document.getElementById('saveQuiz').addEventListener('click', function () {
         submitForm('save');
     });
 
-    document.getElementById('deleteQuiz').addEventListener('click', function() {
+    document.getElementById('deleteQuiz').addEventListener('click', function () {
         submitForm('delete');
     });
 </script>
