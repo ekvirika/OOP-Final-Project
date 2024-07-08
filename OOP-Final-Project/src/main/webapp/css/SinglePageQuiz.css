@@ -41,6 +41,7 @@ h1, h2 {
     color: #f5eaec;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     text-align: center;
     width: 100%;
 }
