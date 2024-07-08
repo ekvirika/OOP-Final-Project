@@ -4,6 +4,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Models.LeaderboardEntry" %>
 <%@ page import="Models.Quiz" %>
+<%@ page import="Models.Notification" %>
+<%@ page import="Models.QuizHistory" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +17,6 @@
     <link rel="stylesheet" href="./css/StartPage.css">
     <link rel="stylesheet" href="./css/NavBar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
@@ -25,7 +26,6 @@
           rel="stylesheet">
 </head>
 <body>
-<!-- Navigation Bar -->
 <header class="animate__animated animate__fadeInDown">
     <div class="logo-area">
         <a href="/HomePageServlet">
@@ -42,7 +42,7 @@
     </div>
 </header>
 
-<h1>Welcome to the Quizzz.com, <%= request.getAttribute("username") %>!</h1>
+<h2>Welcome to the Quizzz.com, <%= request.getAttribute("username") %>!</h2>
 <div class="search-container">
     <form id="search-form" class="search-form" action="SuggestionServlet" method="get">
         <input id="search-input" class="search-input" type="text" name="query" placeholder="Search A Friend...">
@@ -55,30 +55,107 @@
 
 
 <div class="container">
-    <form action="CreateQuizServlet" method="get">
-        <button class="button-5" role="button">Create Quiz</button>
-    </form>
+    <button class="tablink" id="firstTab" onclick="openPage('Quizzes', this, '#F5EAEC')">Quiz news</button>
+    <button class="tablink" onclick="openPage('personalAcivity', this, '#FE9CE3')">My Activity</button>
+    <button class="tablink" onclick="openPage('friendActivity', this, '#17A6E8')">Friend's Activity</button>
+    <button class="tablink" onclick="openPage('notifications', this, '#dc5103')">Notifications</button>
 
-
-    <!-- New Quizzes -->
-    <section>
+    <div id="Quizzes" class="tabcontent">
         <h2>Explore Quizzes</h2>
+        <form action="CreateQuizServlet" method="get">
+            <button class="button-5" role="button">Create Quiz</button>
+        </form>
         <ul class="quiz-list">
+            <h3>My Recent Quiz Taking Activities</h3>
+            <ul>
+                <%
+                    List<Quiz> recentQuizHistory = (List) request.getAttribute("recentQuizHistory");
+                    if (recentQuizHistory != null) {
+                        for (Quiz obj : recentQuizHistory) {
+
+                %>
+                <li>Name: <%= obj.getQuizName() %></li>
+                <%
+                        }
+                    }
+                %>
+            </ul>
+            <%--            <%--%>
+            <%--                List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");--%>
+            <%--                for (Quiz quiz : quizzes) {--%>
+            <%--            %>--%>
+            <%--            <li class="quiz-item">--%>
+            <%--                <h2><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %>--%>
+            <%--                </a></h2>--%>
+            <%--            </li>--%>
+            <%--            <% } %>--%>
+            <%--        </ul>--%>
+    </div>
+
+    <div id="personalAcivity" class="tabcontent">
+        <h3>My Activity</h3>
+        <%
+            List<Quiz> createdQuizzes = (List) request.getAttribute("recentQuizzes");
+            if (createdQuizzes != null && !createdQuizzes.isEmpty()) {
+        %>
+        <h3>My Quiz Creating Activities</h3>
+        <ul>
             <%
-                List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
-                for (Quiz quiz : quizzes) {
+                for (Object obj : createdQuizzes) {
+                    Quiz quiz = (Quiz) obj;
             %>
-            <li class="quiz-item">
-                <h2><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %>
-                </a></h2>
-            </li>
-            <% } %>
+            <li><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %></a></li>
+            <%
+                }
+            %>
         </ul>
-    </section>
+        <%
+            }
+        %>
+    </div>
+
+    <div id="friendActivity" class="tabcontent">
+        <h3>Friends' Recent Activities</h3>
+<%--        <ul>--%>
+<%--            <%--%>
+<%--                java.util.List friendsActivities = (java.util.List) request.getAttribute("friendsActivities");--%>
+<%--                if (friendsActivities != null) {--%>
+<%--                    for (Object obj : friendsActivities) {--%>
+<%--                        FriendActivity activity = (FriendActivity) obj;--%>
+<%--            %>--%>
+<%--            <li><a href="UserServlet?username=<%= activity.getUsername() %>"><%= activity.getUsername() %></a> - <%= activity.getActivityDescription() %></li>--%>
+<%--            <%--%>
+<%--                    }--%>
+<%--                }--%>
+<%--            %>--%>
+<%--        </ul>--%>
+    </div>
+
+    <div id="notifications" class="tabcontent">
+        <h3>Notifications</h3>
+        <h3>Notifications</h3>
+        <ul>
+            <%
+                List notifications = (List) request.getAttribute("notifications");
+                if (notifications != null) {
+                    for (Object obj : notifications) {
+                        Notification notification = (Notification) obj;
+            %>
+            <li>You have new notification from <%= notification.getUsernameFrom() %>: <%= notification.getMessage() %>
+            </li>
+            <%
+                    }
+                }
+            %>
+        </ul>
+    </div>
 </div>
 <script src="javascript/SearchBar.js" defer></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        let item = document.querySelector('#firstTab');
+        item.click();
+
         const searchContainer = document.querySelector('.search-container');
         const searchInput = document.getElementById('search-input');
 
@@ -92,6 +169,25 @@
             }
         });
     });
+
+    function openPage(pageName, elmnt, color) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].style.backgroundColor = "";
+        }
+
+        document.getElementById(pageName).style.display = "block";
+
+        elmnt.style.backgroundColor = color;
+    }
+
+    document.getElementById("defaultOpen").click();
 
 </script>
 </body>

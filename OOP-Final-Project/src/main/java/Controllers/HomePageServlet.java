@@ -1,10 +1,7 @@
 package Controllers;
 
-import Models.Account;
-import Models.LeaderboardEntry;
-import Models.Managers.AccountManager;
-import Models.Managers.QuizManager;
-import Models.Quiz;
+import Controllers.Managers.*;
+import Models.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "HomePageServlet", urlPatterns = {"/HomePageServlet"})
@@ -20,20 +18,53 @@ public class HomePageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
-        
+        AnnouncementManager announcementManager = (AnnouncementManager) getServletContext().getAttribute(AnnouncementManager.ATTRIBUTE_NAME);
+        QuizHistoryManager quizHistoryManager = (QuizHistoryManager) getServletContext().getAttribute(QuizHistoryManager.ATTRIBUTE_NAME);
+//        AchievementManager achievementManager = (AchievementManager) getServletContext().getAttribute(AchievementManager.ATTRIBUTE_NAME);
+        NotificationManager notificationManager = (NotificationManager) getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
+//        FriendManager friendManager = (FriendManager) getServletContext().getAttribute(FriendManager.ATTRIBUTE_NAME);
         String username = (String) request.getSession().getAttribute("username");
         Account account = (Account) accountManager.getAccount(username);
         List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) accountManager.getLeaderboard();
         List<Quiz> quizzes = quizManager.getAllQuizzes();
-        
-        
-        request.setAttribute("username", username);
-        request.setAttribute("account", account);
-        request.setAttribute("quizzes", quizzes);
-        request.setAttribute("leaderboard", leaderboard);
-        request.setAttribute("quizzes", quizzes);
-        request.getSession().setAttribute("account", account);
-        request.getSession().removeAttribute("quiz");
-        request.getRequestDispatcher("/HomePage.jsp").forward(request, response);
+
+        try {
+            List<Announcement> announcements = announcementManager.getAnnouncements();
+            request.setAttribute("announcements", announcements);
+
+            List<Quiz> popularQuizzes = quizHistoryManager.getPopularQuizzes();
+            request.setAttribute("popularQuizzes", popularQuizzes);
+
+            List<Quiz> recentlyTakenQuizzes = quizHistoryManager.getRecentlyTakenQuizzes(username);
+            request.setAttribute("recentQuizHistory", recentlyTakenQuizzes);
+            System.out.println(recentlyTakenQuizzes);
+
+            List<Quiz> recentQuizzes = quizHistoryManager.getRecentlyAddedQuizzes();
+            request.setAttribute("recentQuizzes", recentQuizzes);
+            System.out.println("rec: " + recentQuizzes);
+
+//            List<Achievement> achievements = achievementManager.getAchievementsByUsername(username);
+//            request.setAttribute("achievements", achievements);
+
+            List<Notification> notifications = notificationManager.getNotificationsToUser(username);
+            request.setAttribute("notifications", notifications);
+
+//            List<FriendActivity> friendsActivities = friendManager.getFriendsRecentActivities(username);
+//            request.setAttribute("friendsActivities", friendsActivities);
+
+
+            request.setAttribute("username", username);
+            request.setAttribute("account", account);
+            request.setAttribute("quizzes", quizzes);
+            request.setAttribute("leaderboard", leaderboard);
+            request.setAttribute("quizzes", quizzes);
+            request.getSession().setAttribute("account", account);
+            request.getSession().removeAttribute("quiz");
+            request.getRequestDispatcher("/HomePage.jsp").forward(request, response);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

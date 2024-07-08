@@ -3,8 +3,12 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f5eaec;
-    height: 100% !important;
-    overflow: scroll !important;
+    /*height: 100% !important;*/
+    /*overflow: scroll !important;*/
+}
+
+*{
+    font-family: 'Raleway', sans-serif !important;
 }
 
 nav ul {
@@ -222,3 +226,41 @@ aside.notification-item {
 aside.notification-item:hover {
     background-color: #e0e0e0;
 }
+
+
+.tablink {
+    background-color: #1B1616;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 25%;
+}
+.tablink:hover {
+    background-color: #1B1616;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: white;
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+    border-radius: 40px;
+}
+
+.container{
+    margin-top: 40px;
+    width: 90%;
+}
+
+#Quizzes {
+    background-color: #F5EAEC;
+    color: #1B1616;
+}
+#personalAcivity {background-color: #FE9CE3;}
+#friendActivity {background-color: #17A6E8;}
+#notifications {background-color: #dc5103;}
