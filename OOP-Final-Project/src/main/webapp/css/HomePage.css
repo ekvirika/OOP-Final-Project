@@ -247,13 +247,46 @@ aside.notification-item:hover {
     background-color: #1B1616;
 }
 
-/* Style the tab content (and add height:100% for full page content) */
 .tabcontent {
     color: white;
     display: none;
     padding: 100px 20px;
     height: 100%;
     border-radius: 40px;
+}
+
+.add-announcement{
+    align-items: center;
+    background-clip: padding-box;
+    background-color: #fc6916;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin-top: 10px;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+}
+
+.add-announcement:hover{
+    background-color: #fb8332;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
 }
 
 .container{

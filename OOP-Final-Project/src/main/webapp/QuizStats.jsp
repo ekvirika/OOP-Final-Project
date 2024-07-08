@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Models.LeaderboardEntry" %>
 <%@ page import="Models.QuizHistory" %>
+Qu<%@ page import="Models.Question" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -8,6 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Quiz Statistics</title>
+    <link rel="icon" href="./assets/Logo.png">
     <link rel="stylesheet" href="./css/QuizStats.css">
     <link rel="stylesheet" href="./css/StartPage.css">
     <link rel="stylesheet" href="./css/NavBar.css">
@@ -106,7 +108,8 @@
                     <tr>
                         <td colspan="4">No leaderboard data available.</td>
                     </tr>
-                    <% } %>
+                    <% }
+                        Question question = new Question();%>
                     </tbody>
                 </table>
             </div>
@@ -114,7 +117,10 @@
     </main>
     <div class="actions">
         <a href="/HomePageServlet">Go Home</a>
-        <a href="/QuizServlet">Retake Quiz</a>
+        <form action="QuizServlet" method="post">
+            <button class="retake" type="submit">Retake Quiz</button>
+            <input type="hidden" name="quizId" value="<%= question.getQuizId() %>">
+        </form>
     </div>
 </div>
 </body>

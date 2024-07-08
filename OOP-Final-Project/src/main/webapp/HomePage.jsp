@@ -105,7 +105,11 @@
     </div>
     <div id="announcements" class="tabcontent">
         <h3>Announcements</h3>
+        <form action="AddAnnouncement.jsp" method="post">
+            <button class="add-announcement">Add Announcement</button>
+        </form>
     </div>
+
 
     <div id="personalAcivity" class="tabcontent">
         <h3>My Activity</h3>
