@@ -39,7 +39,7 @@ public class HomePageServlet extends HttpServlet {
             request.setAttribute("recentQuizHistory", recentlyTakenQuizzes);
             System.out.println(recentlyTakenQuizzes);
 
-            List<Quiz> recentQuizzes = quizHistoryManager.getRecentlyAddedQuizzes();
+            List<Quiz> recentQuizzes = quizManager.getNewlyAddedQuizzes();
             request.setAttribute("recentQuizzes", recentQuizzes);
             System.out.println("rec: " + recentQuizzes);
 

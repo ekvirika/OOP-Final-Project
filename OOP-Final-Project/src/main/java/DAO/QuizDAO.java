@@ -189,4 +189,25 @@ public class QuizDAO {
         }
         return quizzes;
     }
+
+    /**
+     * Retrieves all quizzes from the database.
+     *
+     * @return a list of all Quiz objects
+     */
+    public List<Quiz> getAllQuizzesByUser(String username) {
+        List<Quiz> quizzes = new ArrayList<>();
+        String query = "SELECT * FROM Quiz where username = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            statement.setString(1, username);
+            while (resultSet.next()) {
+                quizzes.add(extractQuizFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving all quizzes: " + e.getMessage(), e);
+        }
+        return quizzes;
+    }
 }

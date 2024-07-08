@@ -187,22 +187,4 @@ public class QuizHistoryDAO {
         return quizzes;
     }
 
-    public List<Quiz> getTop10RecentlyAddedQuizzes() throws SQLException {
-        List<Quiz> quizzes = new ArrayList<>();
-        String query = "SELECT * FROM Quiz ORDER BY createTime DESC LIMIT 10";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                Quiz quiz = new Quiz(
-                        resultSet.getInt("quizId"),
-                        resultSet.getString("quizName"),
-                        resultSet.getString("username"),
-                        resultSet.getString("quizDescription")
-                );
-                quizzes.add(quiz);
-            }
-        }
-        return quizzes;
-    }
 }

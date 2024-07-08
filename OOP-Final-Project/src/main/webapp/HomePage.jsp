@@ -65,33 +65,55 @@
         <form action="CreateQuizServlet" method="get">
             <button class="button-5" role="button">Create Quiz</button>
         </form>
-        <ul class="quiz-list">
-            <h3>My Recent Quiz Taking Activities</h3>
-            <ul>
-                <%
-                    List<Quiz> recentQuizHistory = (List) request.getAttribute("recentQuizHistory");
-                    if (recentQuizHistory != null) {
-                        for (Quiz obj : recentQuizHistory) {
+        <div class="quizzes-inside">
+            <div class="new">
+                <h3>Newly added Quizzes</h3>
+                <ul>
+                    <%
+                        List<Quiz> recentQuizHistory = (List) request.getAttribute("recentQuizzes");
+                        if (recentQuizHistory != null) {
+                            for (Quiz obj : recentQuizHistory) {
 
-                %>
-                <li>Name: <%= obj.getQuizName() %></li>
-                <%
+                    %>
+                    <li><a href="QuizServlet?quizId=<%= obj.getQuizID() %>"><%= obj.getQuizName() %>
+                    </a>
+                    </li>
+                    <%
+                            }
                         }
-                    }
-                %>
-            </ul>
-            <%--            <%--%>
-            <%--                List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");--%>
-            <%--                for (Quiz quiz : quizzes) {--%>
-            <%--            %>--%>
-            <%--            <li class="quiz-item">--%>
-            <%--                <h2><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %>--%>
-            <%--                </a></h2>--%>
-            <%--            </li>--%>
-            <%--            <% } %>--%>
-            <%--        </ul>--%>
-    </div>
+                    %>
+                </ul>
+            </div>
+            <div class="popular">
+                <h3>Popular Quizzes</h3>
+                <ul>
+                    <%
+                        List<Quiz> popularQuizzes = (List) request.getAttribute("popularQuizzes");
+                        if (popularQuizzes != null) {
+                            for (Quiz obj : popularQuizzes) {
 
+                    %>
+                    <li><a href="QuizServlet?quizId=<%= obj.getQuizID() %>"><%= obj.getQuizName() %>
+                    </a>
+                    </li>
+                    <%
+                            }
+                        }
+                    %>
+                </ul>
+            </div>
+        </div>
+        <%--            <%--%>
+        <%--                List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");--%>
+        <%--                for (Quiz quiz : quizzes) {--%>
+        <%--            %>--%>
+        <%--            <li class="quiz-item">--%>
+        <%--                <h2><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %>--%>
+        <%--                </a></h2>--%>
+        <%--            </li>--%>
+        <%--            <% } %>--%>
+        <%--        </ul>--%>
+    </div>
     <div id="personalAcivity" class="tabcontent">
         <h3>My Activity</h3>
         <%
@@ -104,7 +126,8 @@
                 for (Object obj : createdQuizzes) {
                     Quiz quiz = (Quiz) obj;
             %>
-            <li><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %></a></li>
+            <li><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %>
+            </a></li>
             <%
                 }
             %>
@@ -116,23 +139,22 @@
 
     <div id="friendActivity" class="tabcontent">
         <h3>Friends' Recent Activities</h3>
-<%--        <ul>--%>
-<%--            <%--%>
-<%--                java.util.List friendsActivities = (java.util.List) request.getAttribute("friendsActivities");--%>
-<%--                if (friendsActivities != null) {--%>
-<%--                    for (Object obj : friendsActivities) {--%>
-<%--                        FriendActivity activity = (FriendActivity) obj;--%>
-<%--            %>--%>
-<%--            <li><a href="UserServlet?username=<%= activity.getUsername() %>"><%= activity.getUsername() %></a> - <%= activity.getActivityDescription() %></li>--%>
-<%--            <%--%>
-<%--                    }--%>
-<%--                }--%>
-<%--            %>--%>
-<%--        </ul>--%>
+        <%--        <ul>--%>
+        <%--            <%--%>
+        <%--                java.util.List friendsActivities = (java.util.List) request.getAttribute("friendsActivities");--%>
+        <%--                if (friendsActivities != null) {--%>
+        <%--                    for (Object obj : friendsActivities) {--%>
+        <%--                        FriendActivity activity = (FriendActivity) obj;--%>
+        <%--            %>--%>
+        <%--            <li><a href="UserServlet?username=<%= activity.getUsername() %>"><%= activity.getUsername() %></a> - <%= activity.getActivityDescription() %></li>--%>
+        <%--            <%--%>
+        <%--                    }--%>
+        <%--                }--%>
+        <%--            %>--%>
+        <%--        </ul>--%>
     </div>
 
     <div id="notifications" class="tabcontent">
-        <h3>Notifications</h3>
         <h3>Notifications</h3>
         <ul>
             <%
@@ -141,10 +163,17 @@
                     for (Object obj : notifications) {
                         Notification notification = (Notification) obj;
             %>
-            <li>You have new notification from <%= notification.getUsernameFrom() %>: <%= notification.getMessage() %>
+            <li>You have new notification from <%= notification.getUsernameFrom() %>
+                : <%= notification.getMessage() %>
             </li>
             <%
-                    }
+                }
+            %>
+            <%
+            } else {
+            %>
+            <h4>You don't have any notifications yet.</h4>
+            <%
                 }
             %>
         </ul>

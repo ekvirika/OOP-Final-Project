@@ -5,6 +5,7 @@ import Models.Question;
 import Models.Quiz;
 import utils.SQLConnector;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,5 +68,13 @@ public class QuizManager {
 
     public List<Question> getAllQuestionsByQuiz(int quizId) {
         return quizDao.getAllQuestionsByQuizId(quizId);
+    }
+
+    public List<Quiz> getNewlyAddedQuizzes() throws SQLException {
+        return quizDao.getAllQuizzesByCreationTime();
+    }
+
+    public List<Quiz> getQuizzesByUser(String username){
+        return quizDao.getAllQuizzesByUser(username);
     }
 }

@@ -53,7 +53,4 @@ public class QuizHistoryManager {
         return quizHistoryDAO.getQuizzesForUserByTakingTime(username);
     }
 
-    public List<Quiz> getRecentlyAddedQuizzes() throws SQLException {
-        return quizHistoryDAO.getTop10RecentlyAddedQuizzes();
-    }
 }

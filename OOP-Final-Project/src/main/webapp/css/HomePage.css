@@ -227,6 +227,10 @@ aside.notification-item:hover {
     background-color: #e0e0e0;
 }
 
+.quizzes-inside{
+    display: flex;
+    justify-content: space-evenly;
+}
 
 .tablink {
     background-color: #1B1616;
