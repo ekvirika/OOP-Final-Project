@@ -33,6 +33,7 @@ public class HomePageServlet extends HttpServlet {
         request.setAttribute("leaderboard", leaderboard);
         request.setAttribute("quizzes", quizzes);
         request.getSession().setAttribute("account", account);
+        request.getSession().removeAttribute("quiz");
         request.getRequestDispatcher("/HomePage.jsp").forward(request, response);
     }
 }

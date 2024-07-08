@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws ServletException, IOException {
-
+        httpRequest.getSession().removeAttribute("quiz");
         AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
         String username = httpRequest.getParameter("username");
         String password = httpRequest.getParameter("password");

@@ -19,7 +19,7 @@ public class CreateQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");
-//        System.out.println("quizi1: " + quiz);
+        System.out.println("quizi1: " + quiz);
         QuizManager quizManager = (QuizManager) request.getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         int quizId;
         if (quiz == null) {
@@ -28,8 +28,10 @@ public class CreateQuizServlet extends HttpServlet {
             quiz.setCreatorUsername(username);
             quizId = quizManager.addQuiz(quiz);
             quiz.setQuizID(quizId);
+            System.out.println(quizId);
         } else {
             quizId = quiz.getQuizID();
+            System.out.println("ucnauri: " + quizId);
         }
 //        System.out.println(quiz);
         List<Question> questions = quizManager.getAllQuestionsByQuiz(quizId);

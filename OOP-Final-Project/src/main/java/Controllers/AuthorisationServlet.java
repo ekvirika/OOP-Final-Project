@@ -17,7 +17,7 @@ public class AuthorisationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
-
+        request.getSession().removeAttribute("quiz");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         request.setAttribute("username", username);
