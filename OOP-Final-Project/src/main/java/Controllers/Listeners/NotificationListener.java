@@ -1,18 +1,19 @@
 package Controllers.Listeners;
 
-import Models.Managers.AccountManager;
 import Models.Managers.NotificationManager;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
+@WebListener
 public class NotificationListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        NotificationManager notification = new NotificationManager();
+        NotificationManager notificationManager = new NotificationManager();
         ServletContext servletContext = servletContextEvent.getServletContext();
-        servletContext.setAttribute(NotificationManager.ATTRIBUTE_NAME, notification);
+        servletContext.setAttribute(NotificationManager.ATTRIBUTE_NAME, notificationManager);
     }
 
     @Override
