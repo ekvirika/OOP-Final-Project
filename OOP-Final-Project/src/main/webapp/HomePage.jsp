@@ -168,9 +168,30 @@
     </div>
     <div id="announcements" class="tabcontent">
         <h3>Announcements</h3>
-        <form action="AddAnnouncement.jsp" method="post">
+        <% Account account = (Account) request.getSession().getAttribute("account");
+            if(account.isAdmin()){
+
+        %>
+        <form action="AddAnnouncementServlet" method="get">
             <button class="add-announcement">Add Announcement</button>
         </form>
+        <% } %>
+        <div class="announcement-list">
+            <%
+                List<Announcement> announcements = (List<Announcement>) request.getAttribute("announcements");
+                if (announcements != null) {
+                    for (Announcement announcement : announcements) {
+            %>
+            <div class="announcement-box">
+                <p class="messageText" ><strong>Message:</strong> <%= announcement.getMessage() %></p>
+                <p class="time"><strong>Time:</strong> <%= announcement.getAnnouncementTime() %></p>
+                <p class="author"><strong>Author:</strong> <%= announcement.getUsername() %></p>
+            </div>
+            <%
+                    }
+                }
+            %>
+        </div>
     </div>
 
 

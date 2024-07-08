@@ -302,3 +302,55 @@ aside.notification-item:hover {
 #friendActivity {background-color: #17A6E8;}
 #notifications {background-color: #dc5103;}
 #announcements{background-color: #8264ee}
+
+
+.announcement-list {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+    justify-content: space-evenly;
+}
+
+.announcement-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    /*border-radius: 5px;*/
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    -webkit-box-shadow: 20px 20px 0px -7px #1B1616;
+    -moz-box-shadow: 20px 20px 0px -7px #1B1616;
+    box-shadow: 20px 20px 0px -5px #1B1616;
+    color: #8264ee;
+    max-width: 50%;
+    margin: 20px 0px;
+}
+
+.author{
+    align-self: flex-end;
+    font-family: "Raleway", Consolas, serif;
+    color: #1B1616;
+    font-style: italic;
+}
+p{
+    font-weight: 500;
+}
+
+.announcement-box p {
+    margin: 5px 0;
+}
+
+.add-announcement {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}

@@ -16,11 +16,19 @@
 <body>
     <div class="container">
         <h1>Add Announcement</h1>
-        <form action="AddAnnouncementServlet" method="post">
+        <form action="AddAnnouncementServlet" method="post" onsubmit="copyTextareaContent()">
             <label for="announcement"><h3>Announcement:</h3></label>
-            <textarea id="announcement" name="announcement" required></textarea>
+            <textarea id="announcement" required></textarea>
+            <input type="hidden" name="announcement" id="hiddenAnnouncement">
             <button type="submit">Submit</button>
         </form>
+
+        <script>
+            function copyTextareaContent() {
+                var textareaContent = document.getElementById('announcement').value;
+                document.getElementById('hiddenAnnouncement').value = textareaContent;
+            }
+        </script>
     </div>
 </body>
 </html>
