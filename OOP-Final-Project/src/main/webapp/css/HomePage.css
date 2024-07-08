@@ -241,7 +241,7 @@ aside.notification-item:hover {
     cursor: pointer;
     padding: 14px 16px;
     font-size: 17px;
-    width: 25%;
+    width: 20%;
 }
 .tablink:hover {
     background-color: #1B1616;
@@ -268,3 +268,4 @@ aside.notification-item:hover {
 #personalAcivity {background-color: #FE9CE3;}
 #friendActivity {background-color: #17A6E8;}
 #notifications {background-color: #dc5103;}
+#announcements{background-color: #8264ee}

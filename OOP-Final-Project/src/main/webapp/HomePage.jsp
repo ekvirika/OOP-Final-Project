@@ -56,6 +56,7 @@
 
 <div class="container">
     <button class="tablink" id="firstTab" onclick="openPage('Quizzes', this, '#F5EAEC')">Quiz news</button>
+    <button class="tablink" onclick="openPage('announcements', this, '#8264ee')">Announcements</button>
     <button class="tablink" onclick="openPage('personalAcivity', this, '#FE9CE3')">My Activity</button>
     <button class="tablink" onclick="openPage('friendActivity', this, '#17A6E8')">Friend's Activity</button>
     <button class="tablink" onclick="openPage('notifications', this, '#dc5103')">Notifications</button>
@@ -103,17 +104,11 @@
                 </ul>
             </div>
         </div>
-        <%--            <%--%>
-        <%--                List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");--%>
-        <%--                for (Quiz quiz : quizzes) {--%>
-        <%--            %>--%>
-        <%--            <li class="quiz-item">--%>
-        <%--                <h2><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %>--%>
-        <%--                </a></h2>--%>
-        <%--            </li>--%>
-        <%--            <% } %>--%>
-        <%--        </ul>--%>
     </div>
+    <div id="announcements" class="tabcontent">
+        <h3>Announcements</h3>
+    </div>
+
     <div id="personalAcivity" class="tabcontent">
         <h3>My Activity</h3>
         <%
@@ -158,7 +153,7 @@
         <h3>Notifications</h3>
         <ul>
             <%
-                List notifications = (List) request.getAttribute("notifications");
+                List<Notification> notifications = (List<Notification>) request.getAttribute("notifications");
                 if (notifications != null) {
                     for (Object obj : notifications) {
                         Notification notification = (Notification) obj;
@@ -167,7 +162,7 @@
                 : <%= notification.getMessage() %>
             </li>
             <%
-                }
+                    }
             %>
             <%
             } else {
