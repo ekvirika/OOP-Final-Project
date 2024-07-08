@@ -2,9 +2,8 @@ package Controllers;
 
 import Models.LeaderboardEntry;
 import Models.Managers.LeaderboardManager;
-import Models.Managers.QuizManager;
 import Models.Managers.QuizHistoryManager;
-import Models.Quiz;
+import Models.Managers.QuizManager;
 import Models.QuizHistory;
 
 import javax.servlet.RequestDispatcher;
@@ -36,22 +35,34 @@ public class QuizStatsServlet extends HttpServlet {
         String loggedIn = (String) request.getSession().getAttribute("username");
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         int quizId = quizHistory.getQuizId();
-        quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
         String quizName = quizManager.getQuiz(quizId).getQuizName();
         int score = quizHistory.getQuizScore();
-        long startTime = quizHistory.getStartTime().getTime();
-        long endTime = quizHistory.getEndTime().getTime();
-        long timeTakenSeconds = (endTime - startTime) / 1000;
-        quizHistory.setElapsedTime(timeTakenSeconds);
-        String username = quizHistory.getUsername();
+
+        // Check if quiz history is already stored
+        if (!isQuizHistoryStored(request)) {
+            quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
+            long startTime = quizHistory.getStartTime().getTime();
+            long endTime = quizHistory.getEndTime().getTime();
+            long timeTakenSeconds = (endTime - startTime) / 1000;
+            quizHistory.setElapsedTime(timeTakenSeconds);
+            String username = quizHistory.getUsername();
+
+            // Store quiz history in database
+            try {
+                quizHistoryManager.createQuizHistory(quizHistory);
+                request.getSession().setAttribute("quizHistoryStored", true); // Set flag to indicate history is stored
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new ServletException("Failed to store quiz history in database", e);
+            }
+        }
+
         List<QuizHistory> personalHistory = new ArrayList<>();
-        // Store quiz history in database
         try {
-            quizHistoryManager.createQuizHistory(quizHistory);
             personalHistory = quizHistoryManager.getAllQuizHistoryByUsername(loggedIn);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new ServletException("Failed to store quiz history in database", e);
+            throw new ServletException("Failed to retrieve quiz history from database", e);
         }
 
         LeaderboardManager leaderboardManager = (LeaderboardManager) getServletContext().getAttribute(LeaderboardManager.ATTRIBUTE_NAME);
@@ -66,16 +77,20 @@ public class QuizStatsServlet extends HttpServlet {
         quizStatsCounter(personalHistory, request);
         request.setAttribute("personalHistory", personalHistory);
         request.setAttribute("quizName", quizName);
-        request.setAttribute("username", username);
+        request.setAttribute("username", loggedIn);
         request.setAttribute("score", score);
-        request.setAttribute("timeTakenSeconds", timeTakenSeconds);
+        request.setAttribute("timeTakenSeconds", quizHistory.getElapsedTime());
         request.setAttribute("quizHistory", quizHistory);
         RequestDispatcher dispatcher = request.getRequestDispatcher("QuizStats.jsp");
         dispatcher.forward(request, response);
     }
 
+    private boolean isQuizHistoryStored(HttpServletRequest request) {
+        Boolean quizHistoryStored = (Boolean) request.getSession().getAttribute("quizHistoryStored");
+        return quizHistoryStored != null && quizHistoryStored;
+    }
 
-    private void quizStatsCounter(List<QuizHistory> personalHistory, HttpServletRequest request){
+    private void quizStatsCounter(List<QuizHistory> personalHistory, HttpServletRequest request) {
         double totalScore = 0;
         double totalTimeTaken = 0;
         int count = 0;
@@ -91,6 +106,5 @@ public class QuizStatsServlet extends HttpServlet {
 
         request.setAttribute("averageScore", averageScore);
         request.setAttribute("averageTimeTaken", averageTimeTaken);
-
     }
 }

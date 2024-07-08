@@ -81,18 +81,46 @@
             colorIndex = Math.ceil(Math.random() * colors.length);
             selectedQuestion.style.backgroundColor = colors[colorIndex];
             selectedAnswer.style.backgroundColor = colors[colorIndex];
-            matchingPairs[selectedQuestion.dataset.id] = selectedAnswer.dataset.id;
-            selectedQuestion.style.pointerEvents = 'none';
-            selectedAnswer.style.pointerEvents = 'none';
+            selectedQuestion.style.borderColor = colors[colorIndex];
+            selectedAnswer.style.borderColor = colors[colorIndex];
+            // Get question and answer texts
+            let questionText = selectedQuestion.innerText;
+            let answerText = selectedAnswer.innerText;
+            // Add to matchingPairs hashmap
+            matchingPairs[questionText] = answerText;
+            let matchingPairsJson = JSON.stringify(matchingPairs);
+            console.log(matchingPairs);
+            document.getElementById('userAnswers').value = matchingPairsJson;
+            localStorage.setItem("json", matchingPairsJson)
             selectedQuestion = null;
             selectedAnswer = null;
         }
     }
 
     function prepareUserAnswers(event) {
-        event.preventDefault();
-        document.getElementById('userAnswers').value = JSON.stringify(matchingPairs);
-        event.target.submit();
+        const form = event.target;
+        <%
+            for (Question question : questions) {
+                String questionType = question.getQuestionType().toString();
+                int questionId = question.getQuestionId();
+        %>
+        if ("<%= questionType %>" === 'MULTIPLE_CHOICE' || "<%= questionType %>" === 'MULTIPLE_CHOICE_WITH_ANSWERS') {
+            const selectedAnswers = [];
+            const checkboxes = form.querySelectorAll('input[name="userAnswer_<%= questionId %>"]:checked');
+            checkboxes.forEach((checkbox) => { selectedAnswers.push(checkbox.value); });
+            form.querySelector('input[name="userAnswers_<%= questionId %>"]').value = JSON.stringify(selectedAnswers);
+        } else if ("<%= questionType %>" === 'MATCHING') {
+            form.querySelector('input[name="userAnswers_<%= questionId %>"]').value = localStorage.getItem("json");
+        } else if ("<%= questionType %>" === 'MULTI_ANSWER') {
+            const answers = [];
+            const inputs = form.querySelectorAll('input[name="userAnswer_<%= questionId %>"]');
+            inputs.forEach((input) => { answers.push(input.value); });
+            console.log(answers);
+            form.querySelector('input[name="userAnswers_<%= questionId %>"]').value = JSON.stringify(answers);
+        }
+        <%
+            }
+        %>
     }
 </script>
 </body>

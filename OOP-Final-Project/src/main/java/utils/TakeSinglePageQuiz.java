@@ -72,6 +72,7 @@ public class TakeSinglePageQuiz {
         if (isEditable) {
             html.append(generateEditButtons(question));
         }
+        html.append("<input type=\"hidden\" name=\"userAnswers_").append(question.getQuestionId()).append("\" value=\"\">");
         return html.toString();
     }
 
@@ -106,11 +107,13 @@ public class TakeSinglePageQuiz {
         if (isEditable) {
             html.append(generateEditButtons(question));
         }
+        html.append("<input type=\"hidden\" name=\"userAnswers_").append(question.getQuestionId()).append("\" value=\"\">");
         return html.toString();
     }
 
     private String generateMultiChoiceAns(Question question, boolean isEditable) {
         StringBuilder html = new StringBuilder();
+
         html.append("<div class=\"question\"><h3>").append(question.getQuestionText()).append("</h3></div>")
                 .append("<ul class=\"answers\">");
 
@@ -119,13 +122,15 @@ public class TakeSinglePageQuiz {
             char answerId = (char) ('A' + i);
             html.append("<li><input type=\"checkbox\" id=\"answer").append(answerId).append("_").append(question.getQuestionId())
                     .append("\" name=\"userAnswer_").append(question.getQuestionId()).append("\" value=\"").append(answerId).append("\">")
-                    .append("<label for=\"answer").append(answerId).append("_").append(question.getQuestionId()).append("\">").append(answers.get(i)).append("</label></li>");
+                    .append("<label for=\"answer").append(answerId).append("_").append(question.getQuestionId())
+                    .append("\">").append(answers.get(i)).append("</label></li>");
         }
-        html.append("</ul>");
 
+        html.append("</ul>");
         if (isEditable) {
             html.append(generateEditButtons(question));
         }
+        html.append("<input type=\"hidden\" name=\"userAnswers_").append(question.getQuestionId()).append("\" value=\"\">");
         return html.toString();
     }
 
@@ -161,6 +166,7 @@ public class TakeSinglePageQuiz {
         if (isEditable) {
             html.append(generateEditButtons(question));
         }
+        html.append("<input type=\"hidden\" name=\"userAnswers_").append(question.getQuestionId()).append("\" value=\"\">");
         return html.toString();
     }
 

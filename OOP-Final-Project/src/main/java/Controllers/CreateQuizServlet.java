@@ -25,9 +25,9 @@ public class CreateQuizServlet extends HttpServlet {
         if (quiz == null) {
             String username = request.getSession().getAttribute("username").toString();
             quiz = new Quiz();
+            quiz.setCreatorUsername(username);
             quizId = quizManager.addQuiz(quiz);
             quiz.setQuizID(quizId);
-            quiz.setCreatorUsername(username);
         } else {
             quizId = quiz.getQuizID();
         }

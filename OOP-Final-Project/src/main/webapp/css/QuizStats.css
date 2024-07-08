@@ -27,13 +27,24 @@ body {
     align-items: center;
     justify-content: space-between;
     color: #f5eaec;
+    flex-direction: column;
+}
+table{
+    margin: 10px;
 }
 
 main{
-    display: flex;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.stats{
+    display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    width: 100%;
 }
 h1, h2 {
     color: #f5eaec;
@@ -53,7 +64,7 @@ ul li {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin: 20px;
 }
 
 thead {
