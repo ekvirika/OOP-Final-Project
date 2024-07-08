@@ -24,7 +24,7 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 10000;
+            z-index: 10000 !important;
             left: 0;
             top: 0;
             width: 100%;
