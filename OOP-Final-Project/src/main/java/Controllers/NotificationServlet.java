@@ -59,73 +59,114 @@ public class NotificationServlet extends HttpServlet {
 
             // Process the quiz link and best score here
             responseData.status = "success";
+            System.out.println(responseData.status);
             responseData.message = "Quiz data received.";
+
+            System.out.println(responseData.message);
             responseData.receiver = receiver;
+            System.out.println(responseData.receiver);
 
-            Notification note = new Notification(1, loggedInUsername, receiver, NotificationType.CHALLENGE, 1, 0, "");
-            NotificationManager notificationManager = new NotificationManager();
+            System.out.println("aq movedi");
+            Notification note = new Notification(loggedInUsername, receiver, NotificationType.CHALLENGE, 1, 0, "");
+            System.out.println("aaqac");
+            NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
+            System.out.println("manager arsebobs");
             try {
-                notificationManager.createNotification(note);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-        else if ("note".equals(type)) {
-            String message = requestData.message;
-
-            // Process the message here
-            System.out.println("message: "+ message);
-            System.out.println("receiver: " + receiver);
-            responseData.status = "success";
-            responseData.message = "Note received.";
-            responseData.receiver = receiver;
-
-            Notification note = new Notification(1, loggedInUsername, receiver, NotificationType.NOTE, 0, 0, message);
-            System.out.println("shevqmeni");
-            NotificationManager notificationManager = new NotificationManager();
-            System.out.println("shevqmeni");
-            try {
+                System.out.println("vamateb nots");
                 notificationManager.createNotification(note);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        else if ("addFriend".equals(type)) {
-            System.out.println("megobrebshi vamateb");
-            Notification addFriend = new Notification(1, loggedInUsername, receiver, NotificationType.NOTE, 0, 1, "");
-            System.out.println("shevqmeni");
-            NotificationManager notificationManager = new NotificationManager();
-            try {
-                notificationManager.createNotification(addFriend);
-                System.out.println("shevqmeni");
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
+//        else if ("note".equals(type)) {
+//                String message = requestData.message;
+//
+//                // Process the message here
+//                System.out.println("message: "+ message);
+//                System.out.println("receiver: " + receiver);
+//                responseData.status = "success";
+//                responseData.message = "Note received.";
+//                responseData.receiver = receiver;
+//
+//                Notification note = new Notification(1, loggedInUsername, receiver, NotificationType.NOTE, 0, 0, message);
+//                System.out.println("shevqmeni");
+//                NotificationManager notificationManager = new NotificationManager();
+//                System.out.println("shevqmeni");
+//                try {
+//                    notificationManager.createNotification(note);
+//                } catch (SQLException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//            else if ("addFriend".equals(type)) {
+//                System.out.println("megobrebshi vamateb");
+//                Notification addFriend = new Notification(1, loggedInUsername, receiver, NotificationType.NOTE, 0, 1, "");
+//                System.out.println("shevqmeni");
+//                NotificationManager notificationManager = new NotificationManager();
+//                try {
+//                    notificationManager.createNotification(addFriend);
+//>>>>>>> Stashed changes
+//                    System.out.println("shevqmeni");
+//                } catch (SQLException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//            }
+//        else if ("note".equals(type)) {
+//            String message = requestData.message;
+//
+//            // Process the message here
+//            System.out.println("message: "+ message);
+//            System.out.println("receiver: " + receiver);
+//            responseData.status = "success";
+//            responseData.message = "Note received.";
+//            responseData.receiver = receiver;
+//
+//            Notification note = new Notification(1, loggedInUsername, receiver, NotificationType.NOTE, 0, 0, message);
+//            System.out.println("shevqmeni");
+//            NotificationManager notificationManager = new NotificationManager();
+//            System.out.println("shevqmeni");
+//            try {
+//                notificationManager.createNotification(note);
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//        else if ("addFriend".equals(type)) {
+//            System.out.println("megobrebshi vamateb");
+//            Notification addFriend = new Notification(1, loggedInUsername, receiver, NotificationType.NOTE, 0, 1, "");
+//            System.out.println("shevqmeni");
+//            NotificationManager notificationManager = new NotificationManager();
+//            try {
+//                notificationManager.createNotification(addFriend);
+//                System.out.println("shevqmeni");
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//
+//        }
         else {
-            responseData.status = "error";
-            responseData.message = "Invalid request type.";
-            responseData.receiver = requestData.receiver;
+                responseData.status = "error";
+                responseData.message = "Invalid request type.";
+                responseData.receiver = requestData.receiver;
+            }
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(gson.toJson(responseData));
         }
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(gson.toJson(responseData));
-    }
+        private class RequestData {
+            String type;
+            String quizLink;
+            String bestScore;
+            String message;
+            String receiver;
+        }
 
-    private class RequestData {
-        String type;
-        String quizLink;
-        String bestScore;
-        String message;
-        String receiver;
+        private class ResponseData {
+            String status;
+            String message;
+            String receiver;
+        }
     }
-
-    private class ResponseData {
-        String status;
-        String message;
-        String receiver;
-    }
-}

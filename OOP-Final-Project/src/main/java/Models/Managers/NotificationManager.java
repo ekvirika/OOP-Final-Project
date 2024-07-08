@@ -27,6 +27,7 @@ public class NotificationManager {
      * @throws SQLException if a database access error occurs
      */
     public void createNotification(Notification notification) throws SQLException {
+        System.out.println("managershi var");
         notificationDAO.CreateNotification(notification);
     }
 

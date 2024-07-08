@@ -12,11 +12,11 @@ public class NotificationListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         NotificationManager notification = new NotificationManager();
         ServletContext servletContext = servletContextEvent.getServletContext();
-        servletContext.setAttribute(AccountManager.ATTRIBUTE_NAME, notification);
+        servletContext.setAttribute(NotificationManager.ATTRIBUTE_NAME, notification);
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        servletContextEvent.getServletContext().removeAttribute(AccountManager.ATTRIBUTE_NAME);
+        servletContextEvent.getServletContext().removeAttribute(NotificationManager.ATTRIBUTE_NAME);
     }
 }
