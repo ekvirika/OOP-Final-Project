@@ -1,8 +1,6 @@
 package Controllers.Listeners;
 
-import Models.LeaderboardEntry;
-import Models.Managers.LeaderboardManager;
-import Models.Managers.QuizManager;
+import Controllers.Managers.LeaderboardManager;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;

@@ -1,6 +1,6 @@
 package Controllers.Listeners;
 
-import Models.Managers.NotificationManager;
+import Controllers.Managers.NotificationManager;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;

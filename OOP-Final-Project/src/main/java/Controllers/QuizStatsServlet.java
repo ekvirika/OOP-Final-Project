@@ -1,9 +1,9 @@
 package Controllers;
 
 import Models.LeaderboardEntry;
-import Models.Managers.LeaderboardManager;
-import Models.Managers.QuizHistoryManager;
-import Models.Managers.QuizManager;
+import Controllers.Managers.LeaderboardManager;
+import Controllers.Managers.QuizHistoryManager;
+import Controllers.Managers.QuizManager;
 import Models.QuizHistory;
 
 import javax.servlet.RequestDispatcher;

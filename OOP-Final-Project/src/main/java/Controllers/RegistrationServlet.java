@@ -1,7 +1,7 @@
 package Controllers;
 
 import Models.Account;
-import Models.Managers.AccountManager;
+import Controllers.Managers.AccountManager;
 import Models.PasswordHasher;
 
 import javax.servlet.RequestDispatcher;

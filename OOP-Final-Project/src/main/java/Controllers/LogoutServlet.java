@@ -22,7 +22,7 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         if (session != null) {
-            session.removeAttribute("loggedInAccount"); 
+            session.removeAttribute("username");
             session.invalidate();
         }
 

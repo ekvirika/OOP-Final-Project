@@ -1,8 +1,8 @@
-package Models.Managers;
+package Controllers.Managers;
 
 import DAO.QuizHistoryDAO;
+import Models.Quiz;
 import Models.QuizHistory;
-import org.apache.commons.dbcp2.BasicDataSource;
 import utils.SQLConnector;
 
 import java.sql.SQLException;
@@ -43,5 +43,17 @@ public class QuizHistoryManager {
 
     public List<QuizHistory> getAllQuizHistoryByUsername(String username) throws SQLException {
         return quizHistoryDAO.getAllQuizHistoryByUsername(username);
+    }
+
+    public List<Quiz> getPopularQuizzes() throws SQLException {
+        return quizHistoryDAO.getAllQuizzesByPopularity();
+    }
+
+    public List<Quiz> getRecentlyTakenQuizzes(String username) throws SQLException {
+        return quizHistoryDAO.getQuizzesForUserByTakingTime(username);
+    }
+
+    public List<Quiz> getRecentlyAddedQuizzes() throws SQLException {
+        return quizHistoryDAO.getTop10RecentlyAddedQuizzes();
     }
 }

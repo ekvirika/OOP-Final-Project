@@ -1,7 +1,7 @@
 package Controllers;
 
 import Models.Enums.NotificationType;
-import Models.Managers.NotificationManager;
+import Controllers.Managers.NotificationManager;
 import Models.Notification;
 import com.google.gson.Gson;
 

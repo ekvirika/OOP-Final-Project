@@ -1,8 +1,8 @@
 package Controllers;
 
 import Models.Enums.QuestionType;
-import Models.Managers.QuestionManager;
-import Models.Managers.QuizManager;
+import Controllers.Managers.QuestionManager;
+import Controllers.Managers.QuizManager;
 import Models.Question;
 import Models.Quiz;
 import Models.QuizHistory;

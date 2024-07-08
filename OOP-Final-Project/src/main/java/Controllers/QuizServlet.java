@@ -1,9 +1,9 @@
 package Controllers;
 
 import Models.LeaderboardEntry;
-import Models.Managers.LeaderboardManager;
+import Controllers.Managers.LeaderboardManager;
 import Models.Quiz;
-import Models.Managers.QuizManager;
+import Controllers.Managers.QuizManager;
 import Models.QuizHistory;
 
 import javax.servlet.ServletException;

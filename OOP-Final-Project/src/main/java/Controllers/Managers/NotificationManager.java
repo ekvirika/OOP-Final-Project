@@ -1,4 +1,4 @@
-package Models.Managers;
+package Controllers.Managers;
 
 import DAO.NotificationDAO;
 import Models.Notification;

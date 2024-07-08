@@ -2,7 +2,7 @@ package Controllers.Listeners;
 
 
 
-import Models.Managers.QuizHistoryManager;
+import Controllers.Managers.QuizHistoryManager;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;

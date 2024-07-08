@@ -1,4 +1,4 @@
-package Models.Managers;
+package Controllers.Managers;
 
 import DAO.QuestionDAO;
 import Models.Enums.QuestionType;
