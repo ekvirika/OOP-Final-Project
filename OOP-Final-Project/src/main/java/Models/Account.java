@@ -18,7 +18,6 @@ public class Account {
     private String imageUrl;
     private List<String> friends;
     private List<Integer> achievementIds;
-    private List<Integer> quizIds;
     private boolean isAdmin;
 
 
@@ -43,7 +42,6 @@ public class Account {
         this.imageUrl = imageUrl;
         this.friends = new ArrayList<>();
         this.achievementIds = new ArrayList<>();
-        this.quizIds = new ArrayList<>();
         this.salt = salt;
         isAdmin = false;
     }
@@ -192,19 +190,20 @@ public class Account {
         this.salt = salt;
     }
 
-    public List<Integer> getAchievementIds() {return Collections.unmodifiableList(achievementIds);}
+    public List<Integer> getAchievementIds() {
+        return Collections.unmodifiableList(achievementIds);
+    }
 
-    public void setAchievementIds(List<Integer> achievements) {this.achievementIds = achievements;}
-
-    public List<Integer> getQuizIds() {return Collections.unmodifiableList(quizIds);}
-
-    public void setQuizIds(List<Integer> quizIds) {this.quizIds = quizIds;}
+    public void setAchievementIds(List<Integer> achievements) {
+        this.achievementIds = achievements;
+    }
 
     public boolean isAdmin() {
         return this.isAdmin;
     }
+
     public void setAdmin(boolean isAdmin) {
-        isAdmin = isAdmin;
+        this.isAdmin = isAdmin;
     }
 
     /**

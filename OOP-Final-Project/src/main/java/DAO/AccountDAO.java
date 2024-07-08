@@ -36,11 +36,12 @@ public class AccountDAO {
      * @param account the Account object containing the account details.
      */
     public void createAccount(Account account) {
-        String query = "INSERT INTO Accounts (username, firstName, lastName, password, email, imageUrl, salt) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Accounts (username, firstName, lastName, password, email, imageUrl, salt, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             setStatement(account, statement);
+            statement.setBoolean(8, account.isAdmin());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,7 +97,7 @@ public class AccountDAO {
                     }
                 }
                 account.setFriends(friends);
-
+                account.setAdmin(resultSet.getBoolean("isAdmin"));
                 setGson(resultSet, account);
 
             }
@@ -108,14 +109,13 @@ public class AccountDAO {
 
 
     public void updateAccount(Account account) {
-        String query = "UPDATE Accounts SET username = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ?, achievementIds = ?, QuizIds = ? WHERE username = ?";
+        String query = "UPDATE Accounts SET username = ?, firstName = ?, lastName = ?, password = ?, email = ?, imageUrl = ?, salt = ?, achievementIds = ?, isAdmin = ? WHERE username = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(account, statement);
-            statement.setString(10, new Gson().toJson(account.getQuizIds()));
-            statement.setString(9, new Gson().toJson(account.getAchievementIds()));
-            statement.setString(8, account.getUserName());
-            statement.setString(7, account.getSalt());
+            statement.setString(10, account.getUserName());
+            statement.setBoolean(9, account.isAdmin());
+            statement.setString(8, new Gson().toJson(account.getAchievementIds()));
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,12 +135,20 @@ public class AccountDAO {
         return false;
     }
 
-    public List<Quiz> getAllQuizzes(String username) {
+    public List<Quiz> getAllQuizzes(String username) throws SQLException {
         ArrayList<Quiz> quizzes = new ArrayList<>();
-        ArrayList<Integer> quizIds = (ArrayList<Integer>) readAccount(username).getQuizIds();
-        QuizDAO quizDAO = new QuizDAO(dataSource);
-        for (Integer quizId : quizIds) {
-            quizzes.add(quizDAO.readQuiz(quizId));
+        String query = "SELECT * FROM QUIZ WHERE username = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, username);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                QuizDAO quizDAO = new QuizDAO(dataSource);
+                while (resultSet.next()) {
+                    Quiz quiz = quizDAO.readQuiz(resultSet.getInt("quizId"));
+                    quizzes.add(quiz);
+                }
+            }
+
         }
         return quizzes;
     }
@@ -166,7 +174,8 @@ public class AccountDAO {
                 );
 
                 // Deserialize JSON strings to ArrayLists
-//                setGson(resultSet, account);
+                setGson(resultSet, account);
+                account.setAdmin(resultSet.getBoolean("isAdmin"));
                 accounts.add(account);
             }
         }
@@ -178,9 +187,7 @@ public class AccountDAO {
         Type listType = new TypeToken<ArrayList<Integer>>() {
         }.getType();
         ArrayList<Integer> achievementIds = gson.fromJson(resultSet.getString("achievementIds"), listType);
-        ArrayList<Integer> quizIds = gson.fromJson(resultSet.getString("quizIds"), listType);
         account.setAchievementIds(achievementIds);
-        account.setQuizIds(quizIds);
     }
 
 }

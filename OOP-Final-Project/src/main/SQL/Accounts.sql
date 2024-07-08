@@ -8,6 +8,5 @@ CREATE TABLE IF NOT EXISTS Accounts (
     imageUrl VARCHAR(255),
     salt VARCHAR(16),
     achievementIds TEXT,
-    quizIds TEXT,
-    CONSTRAINT chk_password_length CHECK (CHAR_LENGTH(password) >= 8)
+    isAdmin BOOLEAN
 );
