@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS Notifications (
     usernameFrom VARCHAR(255) NOT NULL,
     usernameTO VARCHAR(255) NOT NULL,
     notificationType INT NOT NULL,
-    quizLink VARCHAR(255) NOT NULL,
+    quizLink VARCHAR(255) DEFAULT NULL,
     friendRequestId INT DEFAULT NULL,
     message TEXT,
     PRIMARY KEY (notificationId),

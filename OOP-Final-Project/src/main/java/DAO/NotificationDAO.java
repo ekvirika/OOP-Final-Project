@@ -19,7 +19,7 @@ public class NotificationDAO {
 
     // Add a new notification
     public void CreateNotification(Notification notification) throws SQLException {
-        String query = "INSERT INTO Notifications (usernameFrom, usernameTo, notificationType, quizId, friendRequestId, message) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Notifications (usernameFrom, usernameTo, notificationType, quizLink, friendRequestId, message) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(notification, statement);
@@ -34,7 +34,7 @@ public class NotificationDAO {
         statement.setInt(3, notification.getNotificationType().ordinal());
 
         // Initialize all fields to null in case they need to be reset
-        statement.setNull(4, java.sql.Types.INTEGER); // quizId
+        statement.setNull(4, java.sql.Types.VARCHAR); // quizLink
         statement.setNull(5, java.sql.Types.INTEGER); // requestId
         statement.setNull(6, java.sql.Types.VARCHAR); // message
 
@@ -80,7 +80,7 @@ public class NotificationDAO {
 
     // Update a notification
     public void updateNotification(Notification notification) throws SQLException {
-        String query = "UPDATE Notifications SET usernameFrom = ?, usernameTo = ?, notificationType = ?, quizId = ?, friendRequestId = ?, message = ? WHERE notificationId = ?";
+        String query = "UPDATE Notifications SET usernameFrom = ?, usernameTo = ?, notificationType = ?, quizLink = ?, friendRequestId = ?, message = ? WHERE notificationId = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(notification, statement);
