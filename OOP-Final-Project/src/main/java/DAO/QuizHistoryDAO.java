@@ -223,7 +223,9 @@ public class QuizHistoryDAO {
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, quizId);
             try (ResultSet resultSet = statement.executeQuery()) {
-                return new Pair<>(resultSet.getLong("avg(quizScore)"), resultSet.getLong("avg(elapsedTime)"));
+                if (resultSet.next())
+                    return new Pair<>(resultSet.getLong("avg(quizScore)"), resultSet.getLong("avg(elapsedTime)"));
+                else return null;
             }
         }
     }
