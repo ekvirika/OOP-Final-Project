@@ -1,5 +1,7 @@
 package Controllers;
 
+import Controllers.Managers.AccountManager;
+import Models.Account;
 import Models.LeaderboardEntry;
 import Controllers.Managers.LeaderboardManager;
 import Models.Quiz;
@@ -21,6 +23,10 @@ public class QuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int quizId = Integer.parseInt(request.getParameter("quizId"));
+        AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
+        String username = request.getSession().getAttribute("username").toString();
+        Account account = accountManager.getAccount(username);
+        request.setAttribute("account", account);
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         LeaderboardManager leaderboardManager = (LeaderboardManager) getServletContext().getAttribute(LeaderboardManager.ATTRIBUTE_NAME);
         Quiz quiz = quizManager.getQuiz(quizId);

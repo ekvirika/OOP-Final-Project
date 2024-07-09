@@ -23,68 +23,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
 
-    <style>
-        /* Notification list items */
-        #notifications ul {
-            list-style-type: none; /* Remove default bullet points */
-            padding: 0; /* Remove default padding */
-            margin: 0; /* Remove default margin */
-        }
-
-        /* Individual notification item */
-        #notifications li {
-            background-color: #ffffff; /* White background for notifications */
-            margin-bottom: 10px; /* Space between notifications */
-            padding: 15px; /* Padding inside each notification */
-            border-radius: 5px; /* Rounded corners */
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-            line-height: 1.6; /* Line height for readability */
-            color: #1B1616;
-        }
-
-        /* Username link */
-        #notifications a {
-            color: #007bff; /* Link color */
-            text-decoration: none; /* Remove underline from links */
-        }
-
-        /* Username link on hover */
-        #notifications a:hover {
-            text-decoration: underline; /* Underline on hover */
-        }
-
-        /* Buttons for accepting or rejecting friend requests */
-        #notifications button {
-            background-color: #007bff; /* Blue background */
-            color: #ffffff; /* White text */
-            border: none; /* Remove default border */
-            padding: 10px 15px; /* Padding inside the button */
-            border-radius: 5px; /* Rounded corners */
-            cursor: pointer; /* Pointer cursor on hover */
-            margin-right: 5px; /* Space between buttons */
-            margin-left: 5px;
-            font-size: 14px; /* Font size */
-        }
-
-        /* Button hover effects */
-        #notifications button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-        }
-
-        /* Button for rejecting friend requests */
-        #notifications button.reject {
-            background-color: #dc3545; /* Red background */
-        }
-
-        #notifications button.reject:hover {
-            background-color: #c82333; /* Darker red on hover */
-        }
-
-        /* Hide the receiver ID input field */
-        #receiverId {
-            display: none;
-        }
-    </style>
 </head>
 <body>
 <header class="animate__animated animate__fadeInDown">
@@ -108,7 +46,12 @@
     <form id="search-form" class="search-form" action="SuggestionServlet" method="get">
         <input id="search-input" class="search-input" type="text" name="query" placeholder="Search A Friend...">
         <button class="search-button" type="submit">
-            <i class="fa fa-search"></i>
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z"/>
+                <path fill-rule="evenodd" d="M21.707 21.707a1 1 0 0 1-1.414 0l-3.5-3.5a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414Z" clip-rule="evenodd"/>
+            </svg>
+
+<%--            <i class="fa fa-search"></i>--%>
         </button>
         <div id="suggestions" class="suggestions-container"></div>
     </form>
@@ -373,9 +316,7 @@
 
         elmnt.style.backgroundColor = color;
     }
-
     document.getElementById("defaultOpen").click();
-
 </script>
 </body>
 </html>

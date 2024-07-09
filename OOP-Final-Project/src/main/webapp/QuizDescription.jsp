@@ -5,6 +5,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Models.LeaderboardEntry" %>
 <%@ page import="java.util.List" %>
+<%@ page import="Models.Account" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +25,7 @@
 <body>
 <% Quiz quiz = (Quiz) request.getAttribute("currentQuiz");
     List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) request.getAttribute("leaderboard");
+    Account account = (Account) request.getAttribute("account");
 %>
 <header class="animate__animated animate__fadeInDown">
     <h1><%= quiz.getQuizName() %></h1>
@@ -79,12 +81,11 @@
 </form>
 
 <%
-    String loggedInUser = (String) request.getSession().getAttribute("username");
-    boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");
-    if (isAdmin) {
+
+    if (account.isAdmin()) {
 %>
-<form action="AddAnnouncementServlet" method="post">
-    <button class="add-announcement">Add Announcement</button>
+<form action="QuizServlet" method="post">
+    <button class="add-announcement" >Delete quiz</button>
 </form>
 <% } %>
 

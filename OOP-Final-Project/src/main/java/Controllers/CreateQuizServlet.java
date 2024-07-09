@@ -28,6 +28,7 @@ public class CreateQuizServlet extends HttpServlet {
             quiz.setCreatorUsername(username);
             quizId = quizManager.addQuiz(quiz);
             quiz.setQuizID(quizId);
+
             System.out.println(quizId);
         } else {
             quizId = quiz.getQuizID();
