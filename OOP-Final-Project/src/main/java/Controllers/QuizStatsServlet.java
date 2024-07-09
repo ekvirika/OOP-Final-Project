@@ -76,6 +76,7 @@ public class QuizStatsServlet extends HttpServlet {
         }
 
         quizStatsCounter(personalHistory, request);
+        request.setAttribute("quizId", quizId);
         request.setAttribute("personalHistory", personalHistory);
         request.setAttribute("quizName", quizName);
         request.setAttribute("username", loggedIn);

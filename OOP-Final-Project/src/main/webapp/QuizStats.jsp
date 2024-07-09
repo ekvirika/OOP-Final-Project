@@ -117,10 +117,11 @@
     </main>
     <div class="actions">
         <a href="/HomePageServlet">Go Home</a>
-        <form action="QuizServlet" method="post">
-            <button class="retake" type="submit">Retake Quiz</button>
-            <input type="hidden" name="quizId" value="<%= question.getQuizId() %>">
-        </form>
+        <a href="QuizServlet?quizId=<%= request.getAttribute("quizId") %>"> Retake Quiz</a>
+<%--        <form action="QuizServlet" method="post">--%>
+<%--            <button class="retake" type="submit">Retake Quiz</button>--%>
+<%--            <input type="hidden" name="quizId" value="<%= question.getQuizId() %>">--%>
+<%--        </form>--%>
     </div>
 </div>
 </body>
