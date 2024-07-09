@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="./css/StartPage.css">
     <link rel="stylesheet" href="./css/NavBar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://img.icons8.com/?size=100&id=59878&format=png&color=000000">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -196,8 +196,9 @@
                 %>
                 <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %></a> sent you a friend request.
                 <input type="hidden" class="usernameFrom" name="usernameFrom" value="<%= notification.getUsernameFrom() %>">
-                <button onclick="handleFriendRequest('yes', '<%= notification.getNotificationId() %>')">Yes</button>
-                <button onclick="handleFriendRequest('no', '<%= notification.getNotificationId() %>')">No</button>
+                <button id="acceptButton" onclick="handleFriendRequest('yes', '<%= notification.getNotificationId() %>')">Yes</button>
+                <button id="rejectButton" onclick="handleFriendRequest('no', '<%= notification.getNotificationId() %>')">No</button>
+                <div id="responseMessage"></div>
                 <%
                 } else if (type.equals(NotificationType.NOTE)) {
                 %>
@@ -207,7 +208,7 @@
                 } else if (type.equals(NotificationType.CHALLENGE)) {
                 %>
                 <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %></a> sent you a challenge:
-                <a href="<%= notification.getQuizLink() %>">Challenge Link</a>
+                <a href="<%= notification.getQuizLink() %>">Challenge Link.</a> High Score: <%= notification.getHighScore() %>
                 <%
                     }
                 %>
@@ -230,54 +231,38 @@
 
 <script>
     function handleFriendRequest(response, notificationId) {
-        // let receiverId = document.getElementById("receiverId").value;
         let receiverId = document.querySelector(".usernameFrom").value;
         // Add your logic to handle friend request response (yes/no)
-        if(response === "yes"){
-            fetch('notificationServlet', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    type: "pending",
-                    answer: true,
-                    receiver: receiverId,
-                    notificationId: notificationId
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Request Sent:', data);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    alert('An error occurred while sending the friend request. Please try again.');
-                });
 
-        }else {
-            fetch('notificationServlet', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    type: "pending",
-                    answer: false,
-                    receiver: receiverId,
-                    notificationId: notificationId
-                })
+        fetch('notificationServlet', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                type: "pending",
+                answer: response === "yes",
+                receiver: receiverId,
+                notificationId: notificationId
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Request Sent:', data);
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    alert('An error occurred while sending the friend request. Please try again.');
-                });
-        }
-            console.log(response, notificationId);
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Request Sent:', data);
+                if (response === "yes") {
+                    console.log("davetanxme");
+                    document.getElementById('responseMessage').textContent = "Accepted";
+                } else {
+                    document.getElementById('responseMessage').textContent = "Rejected";
+                }
+                document.getElementById('acceptButton').style.display = 'none';
+                document.getElementById('rejectButton').style.display = 'none';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred while sending the friend request. Please try again.');
+            });
+        console.log(response, notificationId);
     }
 </script>
 
