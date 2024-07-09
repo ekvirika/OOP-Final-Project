@@ -43,7 +43,7 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
                       matchingPairs)
 VALUES (1, 6, 'Match the following pairs.', NULL, NULL, NULL, NULL, NULL, NULL,
-        '[{"Red":"Color"},{"Car":"Vehicle"}]');
+        '{"Red":"Color",Car":"Vehicle"}');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
@@ -75,7 +75,7 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
                       matchingPairs)
 VALUES (2, 6, 'Match the following historical figures with their achievements.', NULL, NULL, NULL, NULL, NULL, NULL,
-        '[{"Albert Einstein":"Theory of relativity"},{"Isaac Newton":"Laws of motion"}]');
+        '{"Albert Einstein":"Theory of relativity","Isaac Newton":"Laws of motion"}');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
@@ -106,7 +106,7 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
                       matchingPairs)
 VALUES (3, 6, 'Match the following scientists with their discoveries.', NULL, NULL, NULL, NULL, NULL, NULL,
-        '[{"Marie Curie":"Radioactivity"},{"Charles Darwin":"Theory of evolution"}]');
+        '{"Marie Curie":"Radioactivity","Charles Darwin":"Theory of evolution"');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
@@ -137,7 +137,7 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
                       matchingPairs)
 VALUES (4, 6, 'Match followings with their works.', NULL, NULL, NULL, NULL, NULL, NULL,
-        '[{"Mark Twain":"The Adventures of Tom Sawyer"},{"J.K. Rowling":"Harry Potter"}]');
+        '{"Mark Twain":"The Adventures of Tom Sawyer","J.K. Rowling":"Harry Potter"}');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
