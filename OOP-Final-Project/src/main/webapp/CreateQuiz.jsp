@@ -18,29 +18,25 @@
     <h1>Create New Quiz</h1>
 
     <% Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");%>
-    <form id="quizActionsForm" action="CreateQuizServlet" method="post">
+    <form id="quizActionsForm" action="CreateQuizServlet" method="post" onsubmit="return validateForm()">
         <input type="hidden" name="quizAction" id="quizAction">
         <div class="textboxes">
             <div class="row">
-            <div class="quiz-name">
-                <label for="quizName">Quiz Name:</label>
-                <input type="text" id="quizName" name="quizName" required>
-            </div>
-            <div class="booleans">
-                <label>
-                    <input type="checkbox" name="isSinglePage" <% if (quiz != null && quiz.isSinglePage()) { %>
-                           checked <% } %> /> Single Page Quiz
-                </label>
-                <label>
-                    <input type="checkbox"
-                           name="randomizeQuestions" <% if (quiz != null && quiz.isRandomizeQuestions()) { %>
-                           checked <% } %> /> Randomize Questions
-                </label>
-                <label>
-                    <input type="checkbox" name="immediateFeedback" <% if (quiz != null && quiz.isImmediateFeedback()) { %>
-                           checked <% } %> /> Immediate Feedback
-                </label>
-            </div>
+                <div class="quiz-name">
+                    <label for="quizName">Quiz Name:</label>
+                    <input type="text" id="quizName" name="quizName" required>
+                </div>
+                <div class="booleans">
+                    <label>
+                        <input type="checkbox" name="isSinglePage" <% if (quiz != null && quiz.isSinglePage()) { %>checked<% } %> /> Single Page Quiz
+                    </label>
+                    <label>
+                        <input type="checkbox" name="randomizeQuestions" <% if (quiz != null && quiz.isRandomizeQuestions()) { %>checked<% } %> /> Randomize Questions
+                    </label>
+                    <label>
+                        <input type="checkbox" name="immediateFeedback" <% if (quiz != null && quiz.isImmediateFeedback()) { %>checked<% } %> /> Immediate Feedback
+                    </label>
+                </div>
             </div>
             <div class="quiz-desc">
                 <label for="quizDescription">Quiz Description:</label>
@@ -54,7 +50,6 @@
         </div>
     </form>
 
-
     <form id="createQuizForm" action="CreateQuestionServlet" method="get">
         <div class="questions-list">
             <%
@@ -67,8 +62,7 @@
             %>
             <div>
                 <%= questionHtml %>
-                <input type="hidden" name="questionId_<%= question.getQuestionId() %>"
-                       value="<%= question.getQuestionId() %>">
+                <input type="hidden" name="questionId_<%= question.getQuestionId() %>" value="<%= question.getQuestionId() %>">
             </div>
             <%
                     }
@@ -99,17 +93,21 @@
     });
 
     function submitForm(action) {
+        if (action === 'save' && !validateForm()) {
+            return;
+        }
         document.getElementById('quizAction').value = action;
         document.getElementById('quizActionsForm').submit();
     }
 
-    document.getElementById('saveQuiz').addEventListener('click', function () {
-        submitForm('save');
-    });
-
-    document.getElementById('deleteQuiz').addEventListener('click', function () {
-        submitForm('delete');
-    });
+    function validateForm() {
+        const quizName = document.getElementById('quizName').value;
+        if (!quizName) {
+            alert('Quiz Name is required.');
+            return false;
+        }
+        return true;
+    }
 </script>
 </body>
 </html>
