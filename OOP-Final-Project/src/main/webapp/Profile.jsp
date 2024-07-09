@@ -59,16 +59,44 @@
             cursor: pointer;
         }
 
+        .friends h3 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .friends ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .friends li {
+            margin: 5px 0;
+        }
+
+        .friends a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .friends a:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+
     </style>
 </head>
 <body>
 <%
     Account account = (Account) request.getAttribute("account");
+    String currentUsername = (String) request.getSession().getAttribute("username");
     boolean isSelf = (Boolean) request.getAttribute("isSelf");
     boolean isAdmin = (Boolean) request.getAttribute("isAdmin");
     List<Quiz> quizList = (List<Quiz>) request.getAttribute("quizList");
     List<String> friendsList = (List<String>) request.getAttribute("friendsList");
-    boolean isFriend = friendsList.contains(account.getUserName());
+    boolean isFriend = friendsList.contains(currentUsername);
 %>
 <header class="animate__animated">
     <div class="logo-area">
