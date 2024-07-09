@@ -178,7 +178,7 @@
                 <%
                     for (String friend : friendsList) {
                 %>
-                <li><%= friend %></li>
+                <li><a href="ProfileServlet?username=<%= friend %>"><%= friend %></a></li>
                 <%
                     }
                 %>
