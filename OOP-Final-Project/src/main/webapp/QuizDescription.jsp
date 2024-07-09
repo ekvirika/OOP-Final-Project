@@ -95,14 +95,12 @@
 </form>
 <% } %>
 
-<%--<%--%>
-<%--    if (account.isAdmin()) {--%>
-<%--%>--%>
-<%--<form action="QuizServlet" method="post">--%>
-<%--    <button class="add-announcement" >Delete quiz</button>--%>
-<%--</form>--%>
-<%--<% } %>--%>
-
-
+<% if (account.getUserName().equals(quiz.getCreatorUsername())) { %>
+<form action="QuizServlet" method="post">
+    <input type="hidden" name="quizId" value="<%=quiz.getQuizID()%>">
+    <input type="hidden" name="action" value="editQuiz">
+    <button type="submit" class="start-btn">Edit Quiz</button>
+</form>
+<% } %>
 </body>
 </html>

@@ -32,6 +32,9 @@ public class QuizServlet extends HttpServlet {
         Quiz quiz = quizManager.getQuiz(quizId);
         request.setAttribute("currentQuiz", quiz);
 
+        request.setAttribute("quizId", quizId);
+//        int quizid = request.getSession().getAttribute("quizId").toString();
+
         boolean isAdmin = accountManager.isAdmin(username);
         request.setAttribute("isAdmin", isAdmin);
 
@@ -57,7 +60,16 @@ public class QuizServlet extends HttpServlet {
             quizManager.deleteQuiz(quizId);
             System.out.println(request.getContextPath() + "webapp/HomePage.jsp");
             response.sendRedirect(request.getContextPath() + "/HomePageServlet");
-        } else {
+        }
+        else if ("editQuiz".equals(action)) {
+            int quizId = Integer.parseInt(request.getParameter("quizId"));
+            QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
+            Quiz quiz = quizManager.getQuiz(quizId);
+
+            request.setAttribute("quiz", quiz);
+            response.sendRedirect(request.getContextPath() + "/QuizServlet");
+        }
+        else {
             int quizId = Integer.parseInt(request.getParameter("quizId"));
             String username = (String) request.getSession().getAttribute("username");
 
