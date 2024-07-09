@@ -50,8 +50,8 @@ public class HomePageServlet extends HttpServlet {
             List<Notification> notifications = notificationManager.getNotificationsToUser(username);
             request.setAttribute("notifications", notifications);
 
-//            List<FriendActivity> friendsActivities = friendManager.getFriendsRecentActivities(username);
-//            request.setAttribute("friendsActivities", friendsActivities);
+            List<QuizHistory> friendsActivities = quizHistoryManager.getUsersFriendsRecentActivities(username);
+            request.setAttribute("friendsActivities", friendsActivities);
 
 
             request.setAttribute("username", username);

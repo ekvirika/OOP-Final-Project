@@ -4,6 +4,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Models.Enums.NotificationType" %>
 <%@ page import="Models.*" %>
+<%@ page import="Controllers.Managers.QuizManager" %>
+<%@ page import="Controllers.Managers.QuizHistoryManager" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +27,10 @@
 
 </head>
 <body>
+
+<% QuizManager manager = (QuizManager) request.getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
+%>
+
 <header class="animate__animated animate__fadeInDown">
     <div class="logo-area">
         <a href="/HomePageServlet">
@@ -46,12 +52,15 @@
     <form id="search-form" class="search-form" action="SuggestionServlet" method="get">
         <input id="search-input" class="search-input" type="text" name="query" placeholder="Search A Friend...">
         <button class="search-button" type="submit">
-            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                 width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z"/>
-                <path fill-rule="evenodd" d="M21.707 21.707a1 1 0 0 1-1.414 0l-3.5-3.5a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414Z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd"
+                      d="M21.707 21.707a1 1 0 0 1-1.414 0l-3.5-3.5a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414Z"
+                      clip-rule="evenodd"/>
             </svg>
 
-<%--            <i class="fa fa-search"></i>--%>
+            <%--            <i class="fa fa-search"></i>--%>
         </button>
         <div id="suggestions" class="suggestions-container"></div>
     </form>
@@ -88,9 +97,13 @@
                             for (Quiz obj : recentQuizHistory) {
                     %>
                     <tr>
-                        <td><a href="QuizServlet?quizId=<%= obj.getQuizID() %>"><%= obj.getQuizName() %></a></td>
-                        <td><a href="ProfileServlet?username=<%= obj.getCreatorUsername() %>"><%= obj.getCreatorUsername() %></a></td>
-                        <td><%= obj.getCreateTime() %></td>
+                        <td><a href="QuizServlet?quizId=<%= obj.getQuizID() %>"><%= obj.getQuizName() %>
+                        </a></td>
+                        <td>
+                            <a href="ProfileServlet?username=<%= obj.getCreatorUsername() %>"><%= obj.getCreatorUsername() %>
+                            </a></td>
+                        <td><%= obj.getCreateTime() %>
+                        </td>
                     </tr>
                     <%
                             }
@@ -116,9 +129,12 @@
                             for (Quiz obj : popularQuizzes) {
                     %>
                     <tr>
-                        <td><a href="QuizServlet?quizId=<%= obj.getQuizID() %>"><%= obj.getQuizName() %></a></td>
-                        <td><%= obj.getCreatorUsername() %></td>
-                        <td><%= obj.getCreateTime() %></td>
+                        <td><a href="QuizServlet?quizId=<%= obj.getQuizID() %>"><%= obj.getQuizName() %>
+                        </a></td>
+                        <td><%= obj.getCreatorUsername() %>
+                        </td>
+                        <td><%= obj.getCreateTime() %>
+                        </td>
                     </tr>
                     <%
                             }
@@ -132,7 +148,7 @@
     <div id="announcements" class="tabcontent">
         <h3>Announcements</h3>
         <% Account account = (Account) request.getSession().getAttribute("account");
-            if(account.isAdmin()){
+            if (account.isAdmin()) {
 
         %>
         <form action="AddAnnouncementServlet" method="get">
@@ -146,9 +162,12 @@
                     for (Announcement announcement : announcements) {
             %>
             <div class="announcement-box">
-                <p class="messageText" ><strong>Message:</strong> <%= announcement.getMessage() %></p>
-                <p class="time"><strong>Time:</strong> <%= announcement.getAnnouncementTime() %></p>
-                <p class="author"><strong>Author:</strong> <%= announcement.getUsername() %></p>
+                <p class="messageText"><strong>Message:</strong> <%= announcement.getMessage() %>
+                </p>
+                <p class="time"><strong>Time:</strong> <%= announcement.getAnnouncementTime() %>
+                </p>
+                <p class="author"><strong>Author:</strong> <%= announcement.getUsername() %>
+                </p>
             </div>
             <%
                     }
@@ -183,19 +202,26 @@
 
     <div id="friendActivity" class="tabcontent">
         <h3>Friends' Recent Activities</h3>
-        <%--        <ul>--%>
-        <%--            <%--%>
-        <%--                java.util.List friendsActivities = (java.util.List) request.getAttribute("friendsActivities");--%>
-        <%--                if (friendsActivities != null) {--%>
-        <%--                    for (Object obj : friendsActivities) {--%>
-        <%--                        FriendActivity activity = (FriendActivity) obj;--%>
-        <%--            %>--%>
-        <%--            <li><a href="UserServlet?username=<%= activity.getUsername() %>"><%= activity.getUsername() %></a> - <%= activity.getActivityDescription() %></li>--%>
-        <%--            <%--%>
-        <%--                    }--%>
-        <%--                }--%>
-        <%--            %>--%>
-        <%--        </ul>--%>
+            <%
+                java.util.List friendsActivities = (java.util.List) request.getAttribute("friendsActivities");
+                if (friendsActivities != null) {
+                    for (Object obj : friendsActivities) {
+                        QuizHistory activity = (QuizHistory) obj;
+                        int quizId = activity.getQuizId();
+                        Quiz quiz = manager.getQuiz(quizId);
+            %>
+            <div class='activity'>
+                <p>Friend:  <a href="ProfileServlet?username=<%= activity.getUsername() %>"><%= activity.getUsername() %>
+                </a> </p>
+                <p>Quiz Name: <a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%=quiz.getQuizName() %></a></p>
+                <p>Quiz Description: </p>
+                <p>Quiz Score: <%= activity.getQuizScore() %> </p>
+                <p>Time Taken: <%= activity.getElapsedTime() %> seconds </p>
+            </div>
+            <%
+                    }
+                }
+            %>
     </div>
 
     <div id="notifications" class="tabcontent">
@@ -214,21 +240,30 @@
                 <%
                     if (type.equals(NotificationType.FRIEND_REQUEST)) {
                 %>
-                <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %></a> sent you a friend request.
-                <input type="hidden" class="usernameFrom" name="usernameFrom" value="<%= notification.getUsernameFrom() %>">
-                <button id="acceptButton" onclick="handleFriendRequest('yes', '<%= notification.getNotificationId() %>')">Yes</button>
-                <button id="rejectButton" onclick="handleFriendRequest('no', '<%= notification.getNotificationId() %>')">No</button>
+                <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %>
+                </a> sent you a friend request.
+                <input type="hidden" class="usernameFrom" name="usernameFrom"
+                       value="<%= notification.getUsernameFrom() %>">
+                <button id="acceptButton"
+                        onclick="handleFriendRequest('yes', '<%= notification.getNotificationId() %>')">Yes
+                </button>
+                <button id="rejectButton"
+                        onclick="handleFriendRequest('no', '<%= notification.getNotificationId() %>')">No
+                </button>
                 <div id="responseMessage"></div>
                 <%
                 } else if (type.equals(NotificationType.NOTE)) {
                 %>
-                <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %></a> sent you a message:
+                <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %>
+                </a> sent you a message:
                 <%= notification.getMessage() %>
                 <%
                 } else if (type.equals(NotificationType.CHALLENGE)) {
                 %>
-                <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %></a> sent you a challenge:
-                <a href="<%= notification.getQuizLink() %>">Challenge Link.</a> High Score: <%= notification.getHighScore() %>
+                <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %>
+                </a> sent you a challenge:
+                <a href="<%= notification.getQuizLink() %>">Challenge Link.</a> High
+                Score: <%= notification.getHighScore() %>
                 <%
                     }
                 %>
@@ -321,6 +356,7 @@
 
         elmnt.style.backgroundColor = color;
     }
+
     document.getElementById("defaultOpen").click();
 </script>
 </body>

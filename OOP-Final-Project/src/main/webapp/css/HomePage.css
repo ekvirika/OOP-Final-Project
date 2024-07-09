@@ -18,6 +18,15 @@ nav ul {
     justify-content: flex-end;
 }
 
+.activity{
+    padding: 10px;
+    color: black;
+    display: block;
+    background: white;
+    max-width: 30%;
+    box-shadow: 10px 10px;
+}
+
 nav ul li {
     display: inline;
     margin-right: 20px;
