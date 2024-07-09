@@ -25,6 +25,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
 
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
 
@@ -162,6 +188,7 @@
                     for (Announcement announcement : announcements) {
             %>
             <div class="announcement-box">
+                <img class="pin" src="assets/pin.png" alt="">
                 <p class="messageText"><strong>Message:</strong> <%= announcement.getMessage() %>
                 </p>
                 <p class="time"><strong>Time:</strong> <%= announcement.getAnnouncementTime() %>
@@ -179,29 +206,38 @@
 
     <div id="personalAcivity" class="tabcontent">
         <h3>My Activity</h3>
-        <%
-            List<Quiz> createdQuizzes = (List) request.getAttribute("recentQuizzes");
-            if (createdQuizzes != null && !createdQuizzes.isEmpty()) {
-        %>
+
+        <% List<Quiz> createdQuizzes = (List<Quiz>) request.getAttribute("recentQuizzes");
+            if (createdQuizzes != null && !createdQuizzes.isEmpty()) { %>
+
         <h3>My Quiz Creating Activities</h3>
-        <ul>
-            <%
-                for (Object obj : createdQuizzes) {
-                    Quiz quiz = (Quiz) obj;
-            %>
-            <li><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %>
-            </a></li>
-            <%
-                }
-            %>
-        </ul>
-        <%
-            }
-        %>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Quiz Name</th>
+                <th>Creation time</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for (Quiz quiz : createdQuizzes) { %>
+            <tr>
+                <td><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %></a></td>
+                <td>
+                    <%= quiz.getCreateTime() %>
+                </td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+
+        <% } %>
     </div>
+
 
     <div id="friendActivity" class="tabcontent">
         <h3>Friends' Recent Activities</h3>
+        <div class="activities">
             <%
                 java.util.List friendsActivities = (java.util.List) request.getAttribute("friendsActivities");
                 if (friendsActivities != null) {
@@ -222,6 +258,7 @@
                     }
                 }
             %>
+        </div>
     </div>
 
     <div id="notifications" class="tabcontent">

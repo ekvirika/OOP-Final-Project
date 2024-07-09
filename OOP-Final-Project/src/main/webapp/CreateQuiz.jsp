@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="quiz-name">
                     <label for="quizName">Quiz Name:</label>
-                    <input type="text" id="quizName" name="quizName" required>
+                    <input type="text" id="quizName" name="quizName" value="<%= quiz.getQuizName()%>" required>
                 </div>
                 <div class="booleans">
                     <label>
@@ -47,7 +47,7 @@
             </div>
             <div class="quiz-desc">
                 <label for="quizDescription">Quiz Description:</label>
-                <textarea id="quizDescription" name="quizDescription" required></textarea>
+                <textarea id="quizDescription" name="quizDescription" value="<%= quiz.getQuizDescription()%>" required></textarea>
             </div>
         </div>
 
@@ -64,10 +64,11 @@
                 if (questions != null) {
                     for (int i = 0; i < questions.size(); i++) {
                         Question question = questions.get(i);
-                        String questionHtml = "<div class=\"question_" + question.getQuestionId() + "\">" +
-                                "<h2>Question " + (i + 1) + "</h2>";
+                        String questionHtml ="<h2>Question " + (i + 1) + "</h2>";
+//                                "<div class=\"question_" + question.getQuestionId() + "\">" +
+//                                "<h2>Question " + (i + 1) + "</h2>";
                         questionHtml += takeQuiz.generateUI(question.getQuestionType(), question, true);
-                        questionHtml += "</div>";
+//                        questionHtml += "</div>";
             %>
             <div>
                 <%= questionHtml %>

@@ -26,6 +26,22 @@ nav ul {
     background: white;
     max-width: 30%;
     box-shadow: 10px 10px;
+    margin: 10px 20px;
+
+}
+
+.pin{
+    position: relative;
+    width: 40px;
+    height: 40px;
+    left: 95%;
+    top: -25%;
+}
+
+.activities{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 nav ul li {
@@ -177,7 +193,7 @@ a:hover {
 }
 
 .search-button {
-    background: #2196F3;
+    background: #17A6E8;
     color: white;
     border: none;
     padding: 0 15px;
@@ -187,14 +203,16 @@ a:hover {
     cursor: pointer;
     height: 40px;
     border-radius: 0 50px 50px 0;
+    font-weight: bold;
 }
 
 .search-button i {
     font-size: 18px;
 }
 
-.search-button:hover {
-    background: #0b7dda;
+.search-button:hover , .search-button:after {
+    background: #FE9CE3;
+    transition: .3s linear;
 }
 
 aside.notifications-panel {

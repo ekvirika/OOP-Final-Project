@@ -36,6 +36,7 @@ public class HomePageServlet extends HttpServlet {
             List<Quiz> popularQuizzes = quizHistoryManager.getPopularQuizzes();
             request.setAttribute("popularQuizzes", popularQuizzes);
 
+
             List<Quiz> recentlyTakenQuizzes = quizHistoryManager.getRecentlyTakenQuizzes(username);
             request.setAttribute("recentQuizHistory", recentlyTakenQuizzes);
             System.out.println(recentlyTakenQuizzes);
@@ -43,6 +44,10 @@ public class HomePageServlet extends HttpServlet {
             List<Quiz> recentQuizzes = quizManager.getNewlyAddedQuizzes();
             request.setAttribute("recentQuizzes", recentQuizzes);
             System.out.println("rec: " + recentQuizzes);
+
+
+            List<QuizHistory> userRecent = quizHistoryManager.getAllQuizHistoryByUsername(username);
+            request.setAttribute("userRecent", userRecent);
 
 //            List<Achievement> achievements = achievementManager.getAchievementsByUsername(username);
 //            request.setAttribute("achievements", achievements);

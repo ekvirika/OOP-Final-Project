@@ -14,6 +14,10 @@ body {
     color: #F5EAEC;
 }
 
+img{
+    height: 200px;
+}
+
 h1 {
     text-align: center;
     margin-bottom: 20px;
