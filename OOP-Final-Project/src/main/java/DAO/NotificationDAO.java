@@ -19,7 +19,7 @@ public class NotificationDAO {
 
     // Add a new notification
     public void CreateNotification(Notification notification) throws SQLException {
-        String query = "INSERT INTO Notifications (usernameFrom, usernameTo, notificationType, quizLink, highScore,friendRequestId, message) VALUES (?, ?, ? ?, ?, ?, ?)";
+        String query = "INSERT INTO Notifications (usernameFrom, usernameTo, notificationType, quizLink, highScore,friendRequestId, message) VALUES (?, ?, ? , ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(notification, statement);

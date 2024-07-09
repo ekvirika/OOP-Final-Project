@@ -46,14 +46,14 @@ public class NotificationServlet extends HttpServlet {
 
         if ("quiz".equals(type)) {
             String quizLink = requestData.quizLink;
-            String bestScore = requestData.bestScore;
+            int bestScore = requestData.bestScore;
 
             responseData.status = "success";
             responseData.message = "Quiz data received.";
             responseData.receiver = receiver;
 
             try {
-                Notification note = new Notification(loggedInUsername, receiver, NotificationType.CHALLENGE, quizLink, 0, "");
+                Notification note = new Notification(loggedInUsername, receiver, NotificationType.CHALLENGE, quizLink,bestScore, 0, "");
                 NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
                 notificationManager.createNotification(note);
             } catch (SQLException e) {
@@ -68,7 +68,7 @@ public class NotificationServlet extends HttpServlet {
             responseData.receiver = receiver;
 
             try {
-                Notification note = new Notification(loggedInUsername, receiver, NotificationType.NOTE, "", 0, message);
+                Notification note = new Notification(loggedInUsername, receiver, NotificationType.NOTE, "",0, 0, message);
                 NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
                 notificationManager.createNotification(note);
             } catch (SQLException e) {
@@ -84,7 +84,7 @@ public class NotificationServlet extends HttpServlet {
                 System.out.println("Friend request sent.");
 
                 int requestId = friendManager.getFriendRequestID(loggedInUsername, receiver);
-                Notification addFriend = new Notification(loggedInUsername, receiver, NotificationType.FRIEND_REQUEST, "", requestId, "");
+                Notification addFriend = new Notification(loggedInUsername, receiver, NotificationType.FRIEND_REQUEST, "",0, requestId, "");
                 NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
                 notificationManager.createNotification(addFriend);
 
@@ -105,25 +105,17 @@ public class NotificationServlet extends HttpServlet {
             System.out.println("answer: " + answer);
 
             FriendManager friendManager = (FriendManager) request.getServletContext().getAttribute(FriendManager.ATTRIBUTE_NAME);
-            System.out.println("notificationID: " + notificationID);
-            NotificationManager notificationManager = (NotificationManager) request.getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
-            System.out.println("friendManager: hshevedei");
-
 
             if(answer){
                 try {
-//                    System.out.println("davamateb");
                     friendManager.acceptFriendRequest(loggedInUsername, requestData.receiver);
                     System.out.println("Friend request accepted.");
-                    notificationManager.deleteNotification(notificationID);
-                    System.out.println("Notification removed.");
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
             } else{
                 try {
                     friendManager.rejectFriendRequest(requestData.receiver, loggedInUsername);
-                    notificationManager.deleteNotification(notificationID);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -145,7 +137,7 @@ public class NotificationServlet extends HttpServlet {
     private class RequestData {
         String type;
         String quizLink;
-        String bestScore;
+        int bestScore;
         String message;
         String receiver;
         boolean answer;
