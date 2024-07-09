@@ -23,9 +23,9 @@ public class HomePageServlet extends HttpServlet {
         QuizHistoryManager quizHistoryManager = (QuizHistoryManager) getServletContext().getAttribute(QuizHistoryManager.ATTRIBUTE_NAME);
 //        AchievementManager achievementManager = (AchievementManager) getServletContext().getAttribute(AchievementManager.ATTRIBUTE_NAME);
         NotificationManager notificationManager = (NotificationManager) getServletContext().getAttribute(NotificationManager.ATTRIBUTE_NAME);
-//        FriendManager friendManager = (FriendManager) getServletContext().getAttribute(FriendManager.ATTRIBUTE_NAME);
         String username = (String) request.getSession().getAttribute("username");
         Account account = (Account) accountManager.getAccount(username);
+        System.out.println("account = " + account);
         List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) accountManager.getLeaderboard();
         List<Quiz> quizzes = quizManager.getAllQuizzes();
 
@@ -37,9 +37,9 @@ public class HomePageServlet extends HttpServlet {
             request.setAttribute("popularQuizzes", popularQuizzes);
 
 
-            List<Quiz> recentlyTakenQuizzes = quizHistoryManager.getRecentlyTakenQuizzes(username);
+            List<Quiz> recentlyTakenQuizzes = quizHistoryManager.getQuizzesForUserByTakingTime(account.getUserName());
             request.setAttribute("recentQuizHistory", recentlyTakenQuizzes);
-            System.out.println(recentlyTakenQuizzes);
+            System.out.println("taken: " + recentlyTakenQuizzes);
 
             List<Quiz> recentQuizzes = quizManager.getNewlyAddedQuizzes();
             request.setAttribute("recentQuizzes", recentQuizzes);

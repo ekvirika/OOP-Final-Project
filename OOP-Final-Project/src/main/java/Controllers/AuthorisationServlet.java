@@ -24,6 +24,7 @@ public class AuthorisationServlet extends HttpServlet {
         try {
             if (accountManager.successfulLogin(username, password)) {
                 Account account = accountManager.getAccount(username);
+                request.setAttribute("username", username);
                 request.getSession().setAttribute("username", username);
                 request.getSession().setAttribute("account", account);
                 request.getSession().setAttribute("loggedInAccount", account);

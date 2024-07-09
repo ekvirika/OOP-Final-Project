@@ -85,8 +85,6 @@
                       d="M21.707 21.707a1 1 0 0 1-1.414 0l-3.5-3.5a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414Z"
                       clip-rule="evenodd"/>
             </svg>
-
-            <%--            <i class="fa fa-search"></i>--%>
         </button>
         <div id="suggestions" class="suggestions-container"></div>
     </form>
@@ -208,30 +206,72 @@
         <h3>My Activity</h3>
 
         <% List<Quiz> createdQuizzes = (List<Quiz>) request.getAttribute("recentQuizzes");
+            List<QuizHistory> takenQuizzes = (List<QuizHistory>) request.getAttribute("userRecent");
             if (createdQuizzes != null && !createdQuizzes.isEmpty()) { %>
+        <div class="activity-inner">
 
-        <h3>My Quiz Creating Activities</h3>
 
-        <table>
-            <thead>
-            <tr>
-                <th>Quiz Name</th>
-                <th>Creation time</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% for (Quiz quiz : createdQuizzes) { %>
-            <tr>
-                <td><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %></a></td>
-                <td>
-                    <%= quiz.getCreateTime() %>
-                </td>
-            </tr>
-            <% } %>
-            </tbody>
-        </table>
+            <div class="created">
+                <h3>My Quiz Creating Activities</h3>
 
-        <% } %>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Quiz Name</th>
+                        <th>Creation time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for (Quiz quiz : createdQuizzes) { %>
+                    <tr>
+                        <td><a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%= quiz.getQuizName() %>
+                        </a></td>
+                        <td>
+                            <%= quiz.getCreateTime() %>
+                        </td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+
+                <% } %>
+            </div>
+            <div class="taken">
+                <h3>My Quiz Taking Activities</h3>
+                <% if (takenQuizzes != null && !takenQuizzes.isEmpty()) {
+                %>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Quiz Name</th>
+                        <th>Date</th>
+                        <th>Scored</th>
+                        <th>Time taken</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for (QuizHistory history : takenQuizzes) {
+                        Quiz currQuiz = manager.getQuiz(history.getQuizId());
+                    %>
+
+                    <tr>
+                        <td><a href="QuizServlet?quizId=<%= currQuiz.getQuizID() %>"><%= currQuiz.getQuizName() %>
+                        </a></td>
+                        <td>
+                            <%= history.getStartTime() %>
+                        </td>
+                        <td><%=history.getQuizScore()%>
+                        </td>
+                        <td><%=history.getElapsedTime()%>
+                        </td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+
+                <% } %>
+            </div>
+        </div>
     </div>
 
 
@@ -247,11 +287,13 @@
                         Quiz quiz = manager.getQuiz(quizId);
             %>
             <div class='activity'>
-                <p>Friend:  <a href="ProfileServlet?username=<%= activity.getUsername() %>"><%= activity.getUsername() %>
-                </a> </p>
-                <p>Quiz Name: <a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%=quiz.getQuizName() %></a></p>
+                <p>Friend: <a href="ProfileServlet?username=<%= activity.getUsername() %>"><%= activity.getUsername() %>
+                </a></p>
+                <p>Quiz Name: <a href="QuizServlet?quizId=<%= quiz.getQuizID() %>"><%=quiz.getQuizName() %>
+                </a></p>
                 <p>Quiz Description: </p>
-                <p>Quiz Score: <%= activity.getQuizScore() %> </p>
+                <p>Quiz Score: <%= activity.getQuizScore() %>
+                </p>
                 <p>Time Taken: <%= activity.getElapsedTime() %> seconds </p>
             </div>
             <%

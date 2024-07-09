@@ -36,12 +36,14 @@ public class AccountDAO {
      * @param account the Account object containing the account details.
      */
     public void createAccount(Account account) {
-        String query = "INSERT INTO Accounts (username, firstName, lastName, password, email, imageUrl, salt, isAdmin) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Accounts (username, firstName, lastName, password, email, imageUrl, salt, isAdmin, achievementIds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             setStatement(account, statement);
             statement.setBoolean(8, account.isAdmin());
+            account.setAchievementIds(new ArrayList<>());
+            statement.setString(9, new Gson().toJson(account.getAchievementIds()));
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -189,5 +191,4 @@ public class AccountDAO {
         ArrayList<Integer> achievementIds = gson.fromJson(resultSet.getString("achievementIds"), listType);
         account.setAchievementIds(achievementIds);
     }
-
 }

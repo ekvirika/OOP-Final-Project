@@ -1,7 +1,9 @@
 package Controllers;
 
+import Controllers.Managers.AccountManager;
 import Controllers.Managers.QuestionManager;
 import Controllers.Managers.QuizManager;
+import Models.Account;
 import Models.Question;
 import Models.Quiz;
 
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "CreateQuizServlet", urlPatterns = {"/CreateQuizServlet"})
@@ -46,6 +49,7 @@ public class CreateQuizServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String quizAction = request.getParameter("quizAction");
+        String username = request.getSession().getAttribute("username").toString();
         QuizManager quizManager = (QuizManager) request.getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         Quiz quiz = (Quiz) request.getSession().getAttribute("quiz");
 
@@ -61,6 +65,17 @@ public class CreateQuizServlet extends HttpServlet {
             quiz.setQuizName(request.getParameter("quizName"));
 
             quizManager.updateQuiz(quiz);
+            /* Achievement handling logic */
+            AccountManager manager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
+            Account account = manager.getAccount(username);
+            ArrayList<Integer> ids = (ArrayList<Integer>) account.getAchievementIds();
+            if (ids == null) {
+                ids = new ArrayList<>();
+            }
+            if (quizManager.getQuizzesByUser(username).size() == 1) { ids.add(1);
+            } else if(quizManager.getQuizzesByUser(username).size() == 5) { ids.add(2); }
+            else if(quizManager.getQuizzesByUser(username).size() == 10) { ids.add(3); }
+            manager.updateAccount(account);
             request.getSession().removeAttribute("quiz");
             request.getSession().removeAttribute("questions");
             response.sendRedirect("HomePageServlet");
@@ -68,7 +83,7 @@ public class CreateQuizServlet extends HttpServlet {
             if (quiz != null) {
                 QuestionManager questionManager = (QuestionManager) request.getServletContext().getAttribute(QuestionManager.ATTRIBUTE_NAME);
                 List<Integer> questionIds = quiz.getQuestionIds();
-                for(int id : questionIds) {
+                for (int id : questionIds) {
                     questionManager.deleteQuestion(id);
                 }
                 quizManager.deleteQuiz(quiz.getQuizID());

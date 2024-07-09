@@ -72,7 +72,7 @@ public class QuizHistoryDAO {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, username);
-
+            System.out.println(statement);
             try (ResultSet resultSet = statement.executeQuery()) {
                 getHistoryWithWhile(quizHistories, resultSet);
             } catch (SQLException e) {
@@ -181,6 +181,7 @@ public class QuizHistoryDAO {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, username);
+            System.out.println(statement);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     quizzes.add(quizDAO.readQuiz(resultSet.getInt("quizId")));

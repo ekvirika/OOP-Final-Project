@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Accounts (
                                         email VARCHAR(100) UNIQUE,
                                         imageUrl VARCHAR(255),
                                         salt VARCHAR(16),
-                                        achievementIds TEXT,
+                                        achievementIds TEXT not null,
                                         isAdmin BOOLEAN
 );
 

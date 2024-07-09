@@ -6,6 +6,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Models.Quiz" %>
 <%@ page import="java.util.List" %>
+<%@ page import="Models.Achievement" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,6 +98,7 @@
     List<Quiz> quizList = (List<Quiz>) request.getAttribute("quizList");
     List<String> friendsList = (List<String>) request.getAttribute("friendsList");
     boolean isFriend = friendsList.contains(currentUsername);
+    List<Achievement> achievementList = (List<Achievement>) request.getAttribute("achievementList");
 %>
 <header class="animate__animated">
     <div class="logo-area">
@@ -175,13 +177,15 @@
             <% if (isAdmin && !isSelf) { %>
             <form action="ProfileServlet" method="post" id="deleteProfileForm">
                 <input type="hidden" name="action" value="deleteProfile">
-                <input type="hidden" name="username" value="<%= account.getUserName() %>"> <!-- Make sure you have 'user' object with the 'username' field -->
+                <input type="hidden" name="username" value="<%= account.getUserName() %>">
+                <!-- Make sure you have 'user' object with the 'username' field -->
                 <button type="submit" class="submit" id="deleteProfileButton">Delete User</button>
             </form>
 
             <form action="ProfileServlet" method="post" id="makeAdmin">
                 <input type="hidden" name="action" value="makeAdmin">
-                <input type="hidden" name="username" value="<%= account.getUserName() %>"> <!-- Make sure you have 'user' object with the 'username' field -->
+                <input type="hidden" name="username" value="<%= account.getUserName() %>">
+                <!-- Make sure you have 'user' object with the 'username' field -->
                 <button type="submit" class="submit" id="makeAdminButton">Make Admin</button>
             </form>
 
@@ -192,7 +196,21 @@
 
         <div class="achievements animate__animated animate__fadeInRight">
             <h3>Achievements</h3>
-            <p>No achievements yet.</p>
+            <div class="inner">
+
+                <%
+                    for (Achievement achievement : achievementList) {
+                %>
+                <div class="achievement tooltip">
+                    <img class="achievementImg" src="<%=achievement.getAchievementUrl()%>" alt="">
+                    <p><%=achievement.getAchievementName()%>
+                    </p>
+                    <span class="tooltiptext"><%=achievement.getAchievementDescription()%></span>
+                </div>
+            </div>
+            <%
+                }
+            %>
         </div>
     </div>
     <div class="bottom animate__animated animate__fadeInUp">
@@ -202,7 +220,8 @@
                 <%
                     for (Quiz quiz : quizList) {
                 %>
-                <li><a href="QuizServlet?quizId=<%= quiz.getQuizID()%>"><%= quiz.getQuizName() %></a></li>
+                <li><a href="QuizServlet?quizId=<%= quiz.getQuizID()%>"><%= quiz.getQuizName() %>
+                </a></li>
                 <%
                     }
                 %>
@@ -216,7 +235,8 @@
                 <%
                     for (String friend : friendsList) {
                 %>
-                <li><a href="ProfileServlet?username=<%= friend %>"><%= friend %></a></li>
+                <li><a href="ProfileServlet?username=<%= friend %>"><%= friend %>
+                </a></li>
                 <%
                     }
                 %>

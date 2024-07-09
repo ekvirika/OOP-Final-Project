@@ -30,6 +30,11 @@ nav ul {
 
 }
 
+#personalAcivity{
+    display: flex;
+    justify-content: space-between;
+}
+
 .pin{
     position: relative;
     width: 40px;
@@ -74,6 +79,14 @@ section {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.activity-inner{
+    display: flex;
+    justify-content: space-around;
+}
+#personalAcivity table td{
+    color: #1B1616;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -93,15 +106,6 @@ table tbody tr:nth-child(odd) {
     background-color: #f5eaec;
 }
 
-footer {
-    background-color: #1B1616;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-}
 
 a {
     color: #fc6916;

@@ -50,7 +50,7 @@ public class QuizHistoryManager {
         return quizHistoryDAO.getAllQuizzesByPopularity();
     }
 
-    public List<Quiz> getRecentlyTakenQuizzes(String username) throws SQLException {
+    public List<Quiz> getQuizzesForUserByTakingTime(String username) throws SQLException {
         return quizHistoryDAO.getQuizzesForUserByTakingTime(username);
     }
 

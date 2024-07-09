@@ -1,9 +1,11 @@
 package Controllers;
 
 import Controllers.Managers.AccountManager;
+import Controllers.Managers.AchievementManager;
 import Controllers.Managers.FriendManager;
 import Controllers.Managers.QuizManager;
 import Models.Account;
+import Models.Achievement;
 import Models.Quiz;
 
 import javax.servlet.RequestDispatcher;
@@ -27,6 +29,7 @@ public class ProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        AchievementManager achievementManager = (AchievementManager) getServletContext().getAttribute(AchievementManager.ATTRIBUTE_NAME);
         AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         FriendManager friendManager = (FriendManager) getServletContext().getAttribute(FriendManager.ATTRIBUTE_NAME);
@@ -46,6 +49,13 @@ public class ProfileServlet extends HttpServlet {
 
         List<Quiz> quizList = quizManager.getQuizzesByUser(username);
         request.setAttribute("quizList", quizList);
+
+        try {
+            List<Achievement> achievementList = achievementManager.getAllAchievemtnsByUser(account.getAchievementIds());
+            request.setAttribute("achievementList", achievementList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         try {
             List<String> friendsList= friendManager.getAcceptedFriendRequests(username);

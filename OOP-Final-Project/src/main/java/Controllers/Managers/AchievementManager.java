@@ -2,9 +2,10 @@ package Controllers.Managers;
 
 import DAO.AchievementDAO;
 import Models.Achievement;
-import org.apache.commons.dbcp2.BasicDataSource;
 import utils.SQLConnector;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AchievementManager {
@@ -58,6 +59,15 @@ public class AchievementManager {
         }
     }
 
+
+    public List<Achievement> getAllAchievemtnsByUser(List<Integer> achievementIds) throws SQLException {
+        List<Achievement> achievements = new ArrayList<>();
+        for(Integer id: achievementIds) {
+            Achievement achievement = achievementDAO.getAchievement(id);
+            achievements.add(achievement);
+        }
+        return achievements;
+    }
 
 
 }
