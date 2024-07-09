@@ -132,4 +132,17 @@ h1{
     color: #17A6E8;
 }
 
+.multi-answer-field {
+    width: 50%;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+#answerFields{
+    width: 100%;
+}
+
+
 

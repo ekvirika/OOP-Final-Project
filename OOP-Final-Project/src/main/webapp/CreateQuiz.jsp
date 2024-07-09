@@ -7,7 +7,7 @@
 <%@ page import="Controllers.Managers.QuestionManager" %>
 <%@ page import="Controllers.Managers.QuizManager" %>
 
-<jsp:useBean id="takeQuiz" class="utils.TakeSinglePageQuiz"/>
+<jsp:useBean id="takeQuiz" class="utils.CreateSinglePageQuiz"/>
 <html>
 <head>
     <meta charset="UTF-8">
