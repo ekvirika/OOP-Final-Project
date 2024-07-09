@@ -1,13 +1,11 @@
 package DAO;
 
+import javafx.util.Pair;
 import Models.Quiz;
 import Models.QuizHistory;
-import javafx.util.Pair;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;

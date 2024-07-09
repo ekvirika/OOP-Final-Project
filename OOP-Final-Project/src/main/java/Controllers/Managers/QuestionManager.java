@@ -63,7 +63,7 @@ public class QuestionManager {
     }
 
 
-    public boolean isAnswerCorrect(Question question, String answer, ArrayList<String> answers,
+    public int isAnswerCorrect(Question question, String answer, ArrayList<String> answers,
                                    HashMap<String, String> matchingAnswers) {
         QuestionType questionType = question.getQuestionType();
         System.out.println("Ques: " + questionType + " " + question);
@@ -71,23 +71,44 @@ public class QuestionManager {
         System.out.println("Match: " + matchingAnswers);
         if (questionType.equals(QuestionType.MATCHING)) {
             HashMap<String, String> correctAnswers = question.getMatchingPairs();
-            return matchingAnswers.equals(correctAnswers);
-        } else if (questionType.equals(QuestionType.QUESTION_RESPONSE) ||
+            int correctCount = 0;
+
+            for (Map.Entry<String, String> entry : matchingAnswers.entrySet()) {
+                String userKey = entry.getKey();
+                String userValue = entry.getValue();
+
+                if (correctAnswers.containsKey(userKey) && correctAnswers.get(userKey).equals(userValue)) {
+                    correctCount++;
+                }
+            }
+
+            return correctCount;
+        }
+        else if (questionType.equals(QuestionType.QUESTION_RESPONSE) ||
                 questionType.equals(QuestionType.FILL_IN_THE_BLANK) ||
                 questionType.equals(QuestionType.PICTURE_RESPONSE)) {
-            return question.getSingleQuestionAnswer().equalsIgnoreCase(answer.trim());
+            return question.getSingleQuestionAnswer().equalsIgnoreCase(answer.trim()) ? 1 : 0;
         } else if (questionType.equals(QuestionType.MULTI_ANSWER)) {
-            // Case-insensitive comparison for multi-answer
             List<String> correctAnswers = new ArrayList<>();
             for (String correctAnswer : question.getMultipleAnswerFields()) {
                 correctAnswers.add(correctAnswer.toLowerCase().trim());
             }
+
             List<String> userAnswers = new ArrayList<>();
             for (String userAnswer : answers) {
                 userAnswers.add(userAnswer.toLowerCase().trim());
             }
-            return new HashSet<>(userAnswers).containsAll(correctAnswers);
-        } else if (questionType.equals(QuestionType.MULTIPLE_CHOICE) ||
+
+            int correctCount = 0;
+            for (String correctAnswer : correctAnswers) {
+                if (userAnswers.contains(correctAnswer)) {
+                    correctCount++;
+                }
+            }
+
+            return correctCount;
+        }
+        else if (questionType.equals(QuestionType.MULTIPLE_CHOICE) ||
                 questionType.equals(QuestionType.MULTIPLE_CHOICE_WITH_ANSWERS)) {
             ArrayList<String> correctAnswers = new ArrayList<>();
             ArrayList<String> allAnswers = question.getMultipleChoiceAnswers();
@@ -102,9 +123,9 @@ public class QuestionManager {
             }
             System.out.println("Correst: " + correctAnswers);
             System.out.println("User: " + userAnswers);
-            return userAnswers.containsAll(correctAnswers);
+            return userAnswers.containsAll(correctAnswers) ? 1 : 0;
         }
-        return false;
+        return 0;
     }
 
 }

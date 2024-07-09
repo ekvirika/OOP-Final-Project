@@ -13,9 +13,13 @@
 
 <div class="quiz-container">
     <% Quiz currentQuiz = (Quiz) request.getAttribute("currentQuiz");
+        Integer score = (Integer) request.getSession().getAttribute("score");
         if (currentQuiz != null) { %>
     <h1>Quiz: <%= currentQuiz.getQuizName() %></h1>
     <h2>Question <%= ((Integer) request.getAttribute("questionIndex")) + 1 %></h2>
+    <% if(currentQuiz.isImmediateFeedback()) {%>
+    <h>Score: <%= score %></h>
+    <% } %>
     <div class="question-html">
         <%= (String) request.getAttribute("questionHtml") %>
     </div>

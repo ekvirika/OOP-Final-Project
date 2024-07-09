@@ -73,8 +73,9 @@ public class QuestionServlet extends HttpServlet {
         request.setAttribute("questionHtml", questionHtml);
         request.setAttribute("quizId", quizId);
         request.setAttribute("questionIndex", questionIndex);
-
+        QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
         RequestDispatcher dispatcher = request.getRequestDispatcher("SinglePageQuestion.jsp");
+        request.getSession().setAttribute("score", quizHistory.getQuizScore());
         dispatcher.forward(request, response);
     }
 
@@ -124,9 +125,8 @@ public class QuestionServlet extends HttpServlet {
                 hashmapAnswer = gson.fromJson(userAnswersList, hashmapType);
             }
 
-            if (questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, hashmapAnswer)) {
-                quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
-            }
+            int score = questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, hashmapAnswer);
+            quizHistory.setQuizScore(quizHistory.getQuizScore() + score);
         }
 
         request.getSession().setAttribute("quizHistory", quizHistory);
@@ -169,17 +169,17 @@ public class QuestionServlet extends HttpServlet {
             hashmapAnswer = gson.fromJson(userAnswersList, hashmapType);
         }
         System.out.println("list: " + hashmapAnswer);
-        if (questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, hashmapAnswer)) {
-            quizHistory.setQuizScore(quizHistory.getQuizScore() + 1);
-        }
+        int score = questionManager.isAnswerCorrect(question, userAnswer, (ArrayList<String>) userAnswers, hashmapAnswer);
+        quizHistory.setQuizScore(quizHistory.getQuizScore() + score);
         System.out.println("Score: " + quizHistory.getQuizScore());
-
+        request.getSession().setAttribute("score", quizHistory.getQuizScore());
         request.getSession().setAttribute("questionIndex", questionIndex + 1);
 
         if (questionIndex + 1 >= questionIds.size()) {
             quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
             request.getSession().setAttribute("quizHistory", quizHistory);
             request.getSession().setAttribute("username", quizHistory.getUsername());
+            request.getSession().removeAttribute("score");
             response.sendRedirect("/QuizStatsServlet");
         } else {
             response.sendRedirect("/QuestionServlet?quizId=" + quizId);
