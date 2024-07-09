@@ -27,12 +27,79 @@ h1 {
     margin-bottom: 20px;
 }
 
+ul{
+    list-style-type: none;
+}
+
+li label{
+    color: #17A6E8;
+}
+
 .question {
+    margin: 40px 0;
     padding: 10px;
     background-color: white;
     border-radius: 4px;
-    margin-bottom: 10px;
     color: #1B1616;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 10px 10px  #17A6E8;
+}
+
+.matching-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.matching-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+}
+
+.matching-questions, .matching-answers {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+.matching-item {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid #17A6E8;
+}
+
+.matching-item:hover {
+    background-color: #e0e0e0;
+}
+
+.correct-response {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.correct-response p {
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccd;
+}
+
+
+.correct-response p{
+    color: #17A6E8;
+    font-weight: bold;
 }
 
 .buttons {

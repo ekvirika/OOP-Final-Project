@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="Models.Question" %>
-<%@ page import="utils.CreateQuiz" %>
+<%@ page import="utils.CreateQuestion" %>
 <html>
 <head>
     <meta charset="UTF-8">

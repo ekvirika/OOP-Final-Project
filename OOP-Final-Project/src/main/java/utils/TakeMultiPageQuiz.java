@@ -6,7 +6,7 @@ import Models.Question;
 import java.util.*;
 
 
-public class TakeQuiz {
+public class TakeMultiPageQuiz {
 
     public String generateUI(QuestionType questionType, Question question) {
 

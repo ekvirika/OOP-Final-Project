@@ -7,240 +7,192 @@ import java.util.*;
 
 public class CreateQuiz {
 
-    public String generateUI(QuestionType questionType) {
+    public String generateUI(QuestionType questionType, Question question, boolean isEditable) {
         switch (questionType) {
             case QUESTION_RESPONSE:
-                return generateQuesRes();
+                return generateQuesRes(question);
+//                        + generateCorrectResponse(question) + generateEditButtons(question, isEditable);
             case FILL_IN_THE_BLANK:
-                return generateFillBlank();
+                return generateFillBlank(question);
+//                        + generateCorrectResponse(question) + generateEditButtons(question, isEditable);
             case MULTIPLE_CHOICE:
-                return generateMultiChoice();
+                return generateMultiChoice(question, isEditable);
             case PICTURE_RESPONSE:
-                return generatePictRes();
+                return generatePictRes(question);
+//                        + generateCorrectResponse(question) + generateEditButtons(question, isEditable);
             case MULTI_ANSWER:
-                return generateMultiAns();
+                return generateMultiAns(question, isEditable);
             case MULTIPLE_CHOICE_WITH_ANSWERS:
-                return generateMultiChoiceAns();
+                return generateMultiChoiceAns(question, isEditable);
             case MATCHING:
-                return generateMatching();
+                return generateMatching(question, isEditable);
             default:
                 System.out.println("Invalid question type");
                 return "";
         }
     }
 
-    private String generateQuesRes() {
-        return "<form action=\"CreateQuestionServlet\" method=\"post\">"
-                + "<input type=\"hidden\" name=\"questionType\" value=\"QUESTION_RESPONSE\">"
-                + "<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">"
-                + "<input type=\"text\" name=\"answerText\" placeholder=\"Type correct answer here\">"
-                + "<button class=\"btn\" type=\"submit\">Save Question</button>"
-                + "</form>";
+    private String generateQuesRes(Question question) {
+        StringBuilder html = new StringBuilder();
+        html.append("<div class=\"questiontxt\">").append(question.getQuestionText()).append("</div>");
+        html.append("<div class=\"correct-response\">Correct Answer: ");
+        html.append("<p>").append(question.getSingleQuestionAnswer())
+                .append("</p>");
+
+        html.append("</div>");
+        return html.toString();
     }
 
-    private String generateFillBlank() {
-        return "<form action=\"CreateQuestionServlet\" method=\"post\">"
-                + "<input type=\"hidden\" name=\"questionType\" value=\"FILL_IN_THE_BLANK\">"
-                + "<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">"
-                + "<input type=\"text\" name=\"answerText\" placeholder=\"Type correct answer here\">"
-                + "<button class=\"btn\" type=\"submit\">Save Question</button>"
-                + "</form>";
+    private String generateFillBlank(Question question) {
+        StringBuilder html = new StringBuilder();
+        html.append("<div class=\"questiontxt\">").append(question.getQuestionText()).append("</div>");
+
+        html.append("<div class=\"correct-response\">Correct Answer: ");
+        html.append("<p>").append(question.getSingleQuestionAnswer())
+                .append("</p>");
+
+        html.append("</div>");
+        return html.toString();
     }
 
-    private String generateMultiChoice() {
-        StringBuilder formBuilder = new StringBuilder();
-        formBuilder.append("<form action=\"CreateQuestionServlet\" method=\"post\">")
-                .append("<input type=\"hidden\" name=\"questionType\" value=\"MULTIPLE_CHOICE\">")
-                .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">")
-                .append("<input type=\"text\" name=\"answer1\" placeholder=\"Type answer 1 here\">")
-                .append("<input type=\"text\" name=\"answer2\" placeholder=\"Type answer 2 here\">")
-                .append("<input type=\"text\" name=\"answer3\" placeholder=\"Type answer 3 here\">")
-                .append("<input type=\"text\" name=\"answer4\" placeholder=\"Type answer 4 here\">")
-                .append("<input type=\"text\" name=\"correctIndexes\" placeholder=\"Type the index of the correct answer(s) separated by commas\">")
-                .append("<button type=\"submit\">Save Question</button>")
-                .append("</form>");
+    private String generateMultiChoice(Question question, boolean isEditable) {
+        StringBuilder html = new StringBuilder();
+        html.append("<div class=\"questiontxt\">").append(question.getQuestionText()).append("</div>")
+                .append("<ul class=\"answers\">");
 
-        return formBuilder.toString();
-    }
+        List<String> answers = question.getMultipleChoiceAnswers();
+        for (int i = 0; i < answers.size(); i++) {
+            String answerId = "answer" + (char) ('A' + i);
+            String answerLabel = answers.get(i);
 
-    private String generatePictRes() {
-        return "<form action=\"CreateQuestionServlet\" method=\"post\">"
-                + "<input type=\"hidden\" name=\"questionType\" value=\"PICTURE_RESPONSE\">"
-                + "<input type=\"text\" name=\"questionImage\" placeholder=\"Type your Image URL here\">"
-                + "<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">"
-                + "<input type=\"text\" name=\"answerText\" placeholder=\"Type correct answer here\">"
-                + "<button class=\"btn\" type=\"submit\">Save Question</button>"
-                + "</form>";
-    }
+            // Check if the current answer is a correct answer
+            boolean isCorrect = question.getMultipleChoiceCorrectIndexes().contains(i);
 
-//    private String generateMultiAns() {
-//        StringBuilder formBuilder = new StringBuilder();
-//        formBuilder.append("<form action=\"CreateQuestionServlet\" method=\"post\">")
-//                .append("<input type=\"hidden\" name=\"questionType\" value=\"MULTI_ANSWER\">")
-//                .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">");
-//
-//        int maxAnswers = 10;
-//        for (int i = 1; i <= maxAnswers; i++) {
-//            formBuilder.append("<input type=\"text\" name=\"answer").append(i).append("\" placeholder=\"Type correct answer ").append(i).append(" here\">");
-//        }
-//
-//        formBuilder.append("<button type=\"submit\">Save Question</button>")
-//                .append("</form>");
-//
-//        return formBuilder.toString();
-//    }
+            html.append("<li><input type=\"radio\" id=\"").append(answerId).append("_").append(question.getQuestionId())
+                    .append("\" name=\"userAnswer_").append(question.getQuestionId()).append("\" value=\"").append(answerLabel).append("\"");
 
-    private String generateMultiAns() {
-        StringBuilder formBuilder = new StringBuilder();
-        formBuilder.append("<form id=\"multiAnswerForm\" action=\"CreateQuestionServlet\" method=\"post\">")
-                .append("<input type=\"hidden\" name=\"questionType\" value=\"MULTI_ANSWER\">")
-                .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\" required>");
+            // If the answer is correct, mark it as checked
+            if (isCorrect) {
+                html.append(" checked");
+            }
 
-        // Initial input fields for answers
-        formBuilder.append("<div id=\"answerFields\">");
-        formBuilder.append("<div><input type=\"text\" name=\"answer1\" placeholder=\"Type correct answer 1 here\" required></div>");
-        formBuilder.append("</div>");
-
-        // Button to add new answer input fields dynamically
-        formBuilder.append("<button type=\"button\" onclick=\"addAnswerField()\">Add Answer Field</button>");
-
-        // Submit button
-        formBuilder.append("<button type=\"submit\">Save Question</button>")
-                .append("</form>");
-
-        // JavaScript function to add new answer fields dynamically
-        formBuilder.append("<script>");
-        formBuilder.append("function addAnswerField() {");
-        formBuilder.append("var answerFields = document.getElementById('answerFields');");
-        formBuilder.append("var newInput = document.createElement('div');");
-        formBuilder.append("var index = answerFields.children.length + 1;");
-        formBuilder.append("newInput.innerHTML = '<input type=\"text\" name=\"answer' + index + '\" placeholder=\"Type correct answer ' + index + ' here\" required>';")
-                .append("answerFields.appendChild(newInput);");
-        formBuilder.append("}");
-        formBuilder.append("</script>");
-
-        return formBuilder.toString();
-    }
-
-
-    private String generateMultiChoiceAns() {
-        StringBuilder formBuilder = new StringBuilder();
-        formBuilder.append("<form action=\"CreateQuestionServlet\" method=\"post\">")
-                .append("<input type=\"hidden\" name=\"questionType\" value=\"MULTIPLE_CHOICE_WITH_ANSWERS\">")
-                .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">")
-                .append("<input type=\"text\" name=\"answer1\" placeholder=\"Type answer 1 here\">")
-                .append("<input type=\"text\" name=\"answer2\" placeholder=\"Type answer 2 here\">")
-                .append("<input type=\"text\" name=\"answer3\" placeholder=\"Type answer 3 here\">")
-                .append("<input type=\"text\" name=\"answer4\" placeholder=\"Type answer 4 here\">")
-                .append("<input type=\"text\" name=\"correctIndexes\" placeholder=\"Type the index of the correct answer(s) separated by commas\">")
-                .append("<button type=\"submit\">Save Question</button>")
-                .append("</form>");
-
-        return formBuilder.toString();
-    }
-    private String generateMatching() {
-        StringBuilder formBuilder = new StringBuilder();
-        formBuilder.append("<form action=\"CreateQuestionServlet\" method=\"post\">")
-                .append("<input type=\"hidden\" name=\"questionType\" value=\"MATCHING\">")
-                .append("<input type=\"text\" name=\"questionText\" placeholder=\"Type your question here\">")
-                .append("<div class=\"quiz\">")
-                .append("<div class=\"questions\" id=\"questions\">")
-                .append("<div class=\"pair\">")
-                .append("<input type=\"text\" name=\"question1\" placeholder=\"Question 1\">")
-                .append("<input type=\"text\" name=\"answer1\" placeholder=\"Answer 1\">")
-                .append("</div>")
-                .append("</div>")
-                .append("<button type=\"button\" class=\"add-pair-btn\" onclick=\"addPair()\">Add Pair</button>")
-                .append("</div>")
-                .append("<input type=\"hidden\" name=\"pairCount\" id=\"pairCount\" value=\"1\">") // Added pairCount field
-                .append("<button class=\"btn\" type=\"submit\">Save Question</button>")
-                .append("</form>")
-                .append("<script>")
-                .append("let pairCount = 1;")
-                .append("function addPair() {")
-                .append("  pairCount++;")
-                .append("  const questionsDiv = document.getElementById('questions');")
-                .append("  const newPairDiv = document.createElement('div');")
-                .append("  newPairDiv.classList.add('pair');")
-                .append("  newPairDiv.innerHTML = `<input type='text' name='question${pairCount}' placeholder='Question ${pairCount}'>")
-                .append("  <input type='text' name='answer${pairCount}' placeholder='Answer ${pairCount}'>`;")
-                .append("  questionsDiv.appendChild(newPairDiv);")
-                .append("  document.getElementById('pairCount').value = pairCount;") // Update pairCount field
-                .append("}")
-                .append("</script>");
-        return formBuilder.toString();
-    }
-
-
-    public Question createQuestion(QuestionType questionType, Map<String, String> formData) {
-        Question question = new Question();
-        question.setQuestionType(questionType);
-        question.setQuestionText(formData.get("questionText"));
-
-        switch (questionType) {
-            case QUESTION_RESPONSE:
-                question.setSingleQuestionAnswer(formData.get("answerText"));
-                break;
-            case FILL_IN_THE_BLANK:
-                question.setSingleQuestionAnswer(formData.get("answerText"));
-                break;
-            case MULTIPLE_CHOICE:
-                ArrayList<String> choices = new ArrayList<>();
-                choices.add(formData.get("answer1"));
-                choices.add(formData.get("answer2"));
-                choices.add(formData.get("answer3"));
-                choices.add(formData.get("answer4"));
-                question.setMultipleChoiceAnswers(choices);
-
-                ArrayList<Integer> correctIndexes = new ArrayList<>();
-                String[] indexes = formData.get("correctIndexes").split(",");
-                for (String index : indexes) {
-                    correctIndexes.add(Integer.parseInt(index.trim()));
-                }
-                question.setMultipleChoiceCorrectIndexes(correctIndexes);
-                break;
-            case PICTURE_RESPONSE:
-                question.setQuestionImage(formData.get("questionImage"));
-                question.setSingleQuestionAnswer(formData.get("answerText"));
-                break;
-            case MULTI_ANSWER:
-                HashSet<String> answers = new HashSet<>();
-                for (int i = 1; i <= 10; i++) {
-                    String answer = formData.get("answer" + i);
-                    if (answer != null && !answer.isEmpty()) {
-                        answers.add(answer);
-                    }
-                }
-                question.setAlternativeAnswers(answers);
-                break;
-            case MULTIPLE_CHOICE_WITH_ANSWERS:
-                choices = new ArrayList<>();
-                choices.add(formData.get("answer1"));
-                choices.add(formData.get("answer2"));
-                choices.add(formData.get("answer3"));
-                choices.add(formData.get("answer4"));
-                question.setMultipleChoiceAnswers(choices);
-
-                correctIndexes = new ArrayList<>();
-                indexes = formData.get("correctIndexes").split(",");
-                for (String index : indexes) {
-                    correctIndexes.add(Integer.parseInt(index.trim()));
-                }
-                question.setMultipleChoiceCorrectIndexes(correctIndexes);
-                break;
-            case MATCHING:
-                HashMap<String, String> pairs = new HashMap<>();
-                for (int i = 1; ; i++) {
-                    String questionKey = formData.get("question" + i);
-                    String answerValue = formData.get("answer" + i);
-                    if (questionKey == null || answerValue == null) break;
-                    pairs.put(questionKey, answerValue);
-                }
-                question.setMatchingPairs(pairs);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid question type");
+            html.append(">")
+                    .append("<label for=\"").append(answerId).append("_").append(question.getQuestionId()).append("\">").append(answerLabel).append("</label></li>");
         }
-        return question;
+        html.append("</ul>");
+
+//        html.append("<div class=\"correct-response\">Correct Answer: ");
+//        for (int index : question.getMultipleChoiceCorrectIndexes()) {
+//            html.append("<p>").append(question.getMultipleChoiceAnswers().get(index))
+//                    .append("</p>");
+//        }
+//        html.append("</div>");
+        html.append("<input type=\"hidden\" name=\"userAnswers_").append(question.getQuestionId()).append("\" value=\"\">");
+        return html.toString();
+    }
+
+
+    private String generatePictRes(Question question) {
+        StringBuilder html = new StringBuilder();
+        html.append("<div class=\"image-question\"><img src=\"").append(question.getQuestionImage()).append("\" alt=\"Question Image\"></div>")
+                .append("<div class=\"questiontxt\">").append(question.getQuestionText()).append("</div>");
+        html.append("<div class=\"correct-response\">Correct Answer: ");
+        html.append("<p>").append(question.getSingleQuestionAnswer())
+                .append("</p>");
+
+        html.append("</div>");
+        return html.toString();
+    }
+
+    private String generateMultiAns(Question question, boolean isEditable) {
+        List<String> correctAnswers = question.getMultipleAnswerFields();
+        StringBuilder html = new StringBuilder();
+
+        html.append("<div class=\"questiontxt\">").append(question.getQuestionText()).append("</div>")
+                .append("<div class=\"response\">");
+//
+//        for (int i = 0; i < correctAnswers.size(); i++) {
+//            html.append("<input type=\"text\" id=\"userAnswer_").append(question.getQuestionId())
+//                    .append("\" name=\"userAnswer_").append(question.getQuestionId())
+//                    .append("\" placeholder=\"Answer Here\">");
+//        }
+
+        html.append("</div>");
+
+        html.append("<div class=\"correct-response\">Correct Answer: ");
+        for (String ans : question.getMultipleAnswerFields()) {
+            html.append("<p>").append(ans)
+                    .append("</p>");
+        }
+        html.append("</div>");
+        html.append("<input type=\"hidden\" name=\"userAnswers_").append(question.getQuestionId()).append("\" value=\"\">");
+        return html.toString();
+    }
+
+    private String generateMultiChoiceAns(Question question, boolean isEditable) {
+        StringBuilder html = new StringBuilder();
+
+        html.append("<div class=\"questiontxt\"><h3>").append(question.getQuestionText()).append("</h3></div>")
+                .append("<ul class=\"answers\">");
+
+        List<String> answers = question.getMultipleChoiceAnswers();
+        List<Integer> correctIndexes = question.getMultipleChoiceCorrectIndexes();
+
+        for (int i = 0; i < answers.size(); i++) {
+            char answerId = (char) ('A' + i);
+            boolean isCorrect = correctIndexes.contains(i);  // Check if this answer is correct
+
+            html.append("<li><input type=\"checkbox\" id=\"answer").append(answerId).append("_").append(question.getQuestionId())
+                    .append("\" name=\"userAnswer_").append(question.getQuestionId()).append("\" value=\"").append(answerId).append("\"")
+                    .append(isCorrect ? " checked" : "")  // Mark the checkbox as checked if it's a correct answer
+                    .append(">")
+                    .append("<label for=\"answer").append(answerId).append("_").append(question.getQuestionId())
+                    .append("\">").append(answers.get(i)).append("</label></li>");
+        }
+
+        html.append("</ul>");
+//        html.append("<div class=\"correct-response\">Correct Answer: ");
+//        for (int index : question.getMultipleChoiceCorrectIndexes()) {
+//            html.append("<p>").append(question.getMultipleChoiceAnswers().get(index))
+//                    .append("</p>");
+//        }
+//        html.append("</div>");
+
+        html.append("<input type=\"hidden\" name=\"userAnswers_").append(question.getQuestionId()).append("\" value=\"\">");
+        return html.toString();
+    }
+
+    private String generateMatching(Question question, boolean isEditable) {
+        HashMap<String, String> matchingPairs = question.getMatchingPairs();
+
+        List<String> questions = new ArrayList<>(matchingPairs.keySet());
+        List<String> answers = new ArrayList<>(matchingPairs.values());
+
+        StringBuilder html = new StringBuilder();
+        html.append("<div class=\"matching-container\">")
+                .append("<h1>").append(question.getQuestionText()).append("</h1>")
+                .append("<div class=\"matching-content\">")
+                .append("<div class=\"matching-questions\">");
+
+        for (int i = 0; i < questions.size(); i++) {
+            html.append("<div class=\"matching-item\" id=\"question").append(i + 1).append("_").append(question.getQuestionId())
+                    .append("\" onclick=\"selectQuestion('question").append(i + 1).append("_").append(question.getQuestionId()).append("')\">")
+                    .append(questions.get(i)).append("</div>");
+        }
+
+        html.append("</div><div class=\"matching-answers\">");
+
+        for (int i = 0; i < answers.size(); i++) {
+            html.append("<div class=\"matching-item\" id=\"answer").append(i + 1).append("_").append(question.getQuestionId())
+                    .append("\" onclick=\"selectAnswer('answer").append(i + 1).append("_").append(question.getQuestionId()).append("')\">")
+                    .append(answers.get(i)).append("</div>");
+        }
+
+        html.append("</div></div>")
+                .append("<div class=\"correct-response\">Correct Answer: <p>").append(question.getMatchingPairs().toString()).append("</p></div>")
+                .append("<input type=\"hidden\" name=\"userAnswers_").append(question.getQuestionId()).append("\" value=\"\">")
+                .append("<br>")
+                .append("</div>");
+        return html.toString();
     }
 }

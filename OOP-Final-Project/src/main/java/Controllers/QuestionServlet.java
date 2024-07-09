@@ -8,7 +8,7 @@ import Models.Quiz;
 import Models.QuizHistory;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import utils.TakeQuiz;
+import utils.TakeMultiPageQuiz;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,7 +33,7 @@ public class QuestionServlet extends HttpServlet {
         int quizId = Integer.parseInt(request.getParameter("quizId"));
         request.getSession().setAttribute("qid", quizId);
         Quiz quiz = quizManager.getQuiz(quizId);
-        TakeQuiz takeQuiz = new TakeQuiz();
+        TakeMultiPageQuiz takeQuiz = new TakeMultiPageQuiz();
 
         if (quiz.isSinglePage()) {
             StringBuilder questionsHtml = new StringBuilder();

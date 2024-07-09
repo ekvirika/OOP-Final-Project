@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @WebServlet(name = "CreateQuizServlet", urlPatterns = {"/CreateQuizServlet"})
 public class CreateQuizServlet extends HttpServlet {
@@ -37,9 +38,9 @@ public class CreateQuizServlet extends HttpServlet {
             quizId = quiz.getQuizID();
             System.out.println("ucnauri: " + quizId);
         }
-//        System.out.println(quiz);
+        System.out.println(quiz);
         List<Question> questions = quizManager.getAllQuestionsByQuiz(quizId);
-//        System.out.println("questions: -------" + questions);
+        System.out.println("questions: -------" + questions);
         request.getSession().setAttribute("questions", questions);
         request.getSession().setAttribute("quizId", quizId);
         request.getSession().setAttribute("quiz", quiz);
@@ -68,9 +69,9 @@ public class CreateQuizServlet extends HttpServlet {
             /* Achievement handling logic */
             AccountManager manager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
             Account account = manager.getAccount(username);
-            ArrayList<Integer> ids = (ArrayList<Integer>) account.getAchievementIds();
+            Set<Integer> ids = (HashSet<Integer>) account.getAchievementIds();
             if (ids == null) {
-                ids = new ArrayList<>();
+                ids = new HashSet<>();
             }
             if (quizManager.getQuizzesByUser(username).size() == 1) { ids.add(1);
             } else if(quizManager.getQuizzesByUser(username).size() == 5) { ids.add(2); }

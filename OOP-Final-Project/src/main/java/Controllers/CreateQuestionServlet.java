@@ -5,7 +5,7 @@ import Controllers.Managers.QuestionManager;
 import Controllers.Managers.QuizManager;
 import Models.Question;
 import Models.Quiz;
-import utils.CreateQuiz;
+import utils.CreateQuestion;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -32,7 +32,7 @@ public class CreateQuestionServlet extends HttpServlet {
             QuestionType questionType = QuestionType.fromString(type);
             System.out.println("Converted questionType in GET: " + questionType);
 
-            CreateQuiz createQuiz = new CreateQuiz();
+            CreateQuestion createQuiz = new CreateQuestion();
             String html = createQuiz.generateUI(questionType);
             System.out.println("Generated HTML: " + html);
 

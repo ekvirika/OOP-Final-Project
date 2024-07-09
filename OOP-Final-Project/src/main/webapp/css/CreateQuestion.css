@@ -61,7 +61,8 @@ form input[type="text"]:focus {
 
 button.btn,
 .add-pair-btn,
-form button[type="submit"] {
+form button[type="submit"] ,
+button{
     display: block;
     padding: 15px;
     background-color: #17A6E8;

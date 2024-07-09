@@ -7,13 +7,20 @@
 <%@ page import="Controllers.Managers.QuestionManager" %>
 <%@ page import="Controllers.Managers.QuizManager" %>
 
-<jsp:useBean id="takeQuiz" class="utils.CreateSinglePageQuiz"/>
+<jsp:useBean id="takeQuiz" class="utils.CreateQuiz"/>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Create New Quiz</title>
     <link rel="icon" href="./assets/Logo.png">
     <link rel="stylesheet" href="css/CreateQuiz.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -64,11 +71,11 @@
                 if (questions != null) {
                     for (int i = 0; i < questions.size(); i++) {
                         Question question = questions.get(i);
-                        String questionHtml ="<h2>Question " + (i + 1) + "</h2>";
+                        String questionHtml = "<div class=\"question\"><h2>Question " + (i + 1) + "</h2>";
 //                                "<div class=\"question_" + question.getQuestionId() + "\">" +
 //                                "<h2>Question " + (i + 1) + "</h2>";
                         questionHtml += takeQuiz.generateUI(question.getQuestionType(), question, true);
-//                        questionHtml += "</div>";
+                        questionHtml += "</div>";
             %>
             <div>
                 <%= questionHtml %>
@@ -104,6 +111,7 @@
     });
 
     function submitForm(action) {
+        console.log("aq");
         if (action === 'save' && !validateForm()) {
             return;
         }
@@ -120,38 +128,55 @@
         return true;
     }
 
-    <%--function deleteQuestion(questionId){--%>
-    <%--    <% QuestionManager manager = (QuestionManager) request.getServletContext().getAttribute(QuestionManager.ATTRIBUTE_NAME);--%>
-    <%--    <% QuizManager quizManager = (QuizManager) request.getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);--%>
-    <%--    manager.deleteQuestion();--%>
-    <%--    %>--%>
-    <%--    var questionDiv = document.querySelector(".question_" + questionId);--%>
-    <%--    if (questionDiv) {--%>
-    <%--        questionDiv.style.display = "none";--%>
-    <%--    }--%>
+
+
+    <%--function deleteQuestion(questionId) {--%>
+    <%--    // Send an AJAX request to the server to delete the question--%>
+    <%--    var xhr = new XMLHttpRequest();--%>
+    <%--    xhr.open("POST", "<%= request.getContextPath() %>/deleteQuestion", true);--%>
+    <%--    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");--%>
+    <%--    xhr.onreadystatechange = function () {--%>
+    <%--        if (xhr.readyState === XMLHttpRequest.DONE) {--%>
+    <%--            if (xhr.status === 200) {--%>
+    <%--                // On success, hide the question div--%>
+    <%--                var questionDiv = document.querySelector(".question_" + questionId);--%>
+    <%--                if (questionDiv) {--%>
+    <%--                    questionDiv.style.display = "none";--%>
+    <%--                }--%>
+    <%--            } else {--%>
+    <%--                alert("Failed to delete question.");--%>
+    <%--            }--%>
+    <%--        }--%>
+    <%--    };--%>
+    <%--    xhr.send("questionId=" + encodeURIComponent(questionId));--%>
     <%--}--%>
 
-    function deleteQuestion(questionId) {
-        // Send an AJAX request to the server to delete the question
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "<%= request.getContextPath() %>/deleteQuestion", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // On success, hide the question div
-                    var questionDiv = document.querySelector(".question_" + questionId);
-                    if (questionDiv) {
-                        questionDiv.style.display = "none";
-                    }
-                } else {
-                    alert("Failed to delete question.");
-                }
-            }
-        };
-        xhr.send("questionId=" + encodeURIComponent(questionId));
-    }
-
+    <%--function deleteQuestion(questionId) {--%>
+    <%--    fetch('/deleteQuestion', {--%>
+    <%--        method: 'POST',--%>
+    <%--        headers: {--%>
+    <%--            'Content-Type': 'application/x-www-form-urlencoded'--%>
+    <%--        },--%>
+    <%--        body: new URLSearchParams({--%>
+    <%--            'questionId': questionId--%>
+    <%--        })--%>
+    <%--    })--%>
+    <%--        .then(response => {--%>
+    <%--            if (response.ok) {--%>
+    <%--                return response.text();--%>
+    <%--            } else {--%>
+    <%--                throw new Error('Failed to delete question');--%>
+    <%--            }--%>
+    <%--        })--%>
+    <%--        .then(message => {--%>
+    <%--            console.log(message);--%>
+    <%--            // Optionally remove the question from the DOM--%>
+    <%--            document.getElementById(`question-<%= request.getAttribute("questionId") %>>`).remove();--%>
+    <%--        })--%>
+    <%--        .catch(error => {--%>
+    <%--            console.error('Error:', error);--%>
+    <%--        });--%>
+    // }
 
 </script>
 </body>
