@@ -28,7 +28,7 @@ public class QuizHistoryDAO {
             statement.setInt(3, quizHistory.getQuizScore());
             statement.setTime(4, quizHistory.getStartTime());
             statement.setTime(5, quizHistory.getEndTime());
-            statement.setDate(6, quizHistory.getEndDate());
+            statement.setDate(6, (Date) quizHistory.getEndDate());
             statement.setLong(7, quizHistory.getElapsedTime());
             statement.executeUpdate();
         }
@@ -58,7 +58,7 @@ public class QuizHistoryDAO {
                         resultSet.getLong("elapsedTime")
                 );
                 Calendar calendar = Calendar.getInstance();
-                quizHistory.setEndDate((Date) calendar.getTime());
+                quizHistory.setEndDate(calendar.getTime());
                 return quizHistory;
             }
         }
@@ -212,7 +212,7 @@ public class QuizHistoryDAO {
                     resultSet.getLong("elapsedTime")
             );
             Calendar calendar = Calendar.getInstance();
-            quizHistory.setEndDate((Date) calendar.getTime());
+            quizHistory.setEndDate(calendar.getTime());
             activities.add(quizHistory);
         }
     }

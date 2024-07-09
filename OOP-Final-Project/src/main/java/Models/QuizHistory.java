@@ -1,7 +1,7 @@
 package Models;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Represents the history of a quiz attempt by a user, including details such as quiz ID, user ID,
