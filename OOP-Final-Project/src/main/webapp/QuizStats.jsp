@@ -30,13 +30,13 @@
 
             <h2>Your Results</h2>
             <ul>
-                <li>Quiz : <%= request.getAttribute("quizName") %>
+                <li><span class="quiz">Quiz</span> : <%= request.getAttribute("quizName") %>
                 </li>
-                <li>User: <%= request.getAttribute("username") %>
+                <li><span class="user">User</span> : <%= request.getAttribute("username") %>
                 </li>
-                <li>Score: <%= request.getAttribute("score") %>
+                <li><span class="score">Score</span> : <%= request.getAttribute("score") %>
                 </li>
-                <li>Time Taken: <%= request.getAttribute("timeTakenSeconds") %> seconds</li>
+                <li><span class="time-taken">Time Taken</span> : <%= request.getAttribute("timeTakenSeconds") %> seconds</li>
             </ul>
         </div>
 
@@ -79,7 +79,7 @@
 
             <div class="leaderboard">
                 <h2>Leaderboard</h2>
-                <table>
+                <table class="leaderboard">
                     <thead>
                     <tr>
                         <th>Rank</th>
