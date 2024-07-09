@@ -97,7 +97,7 @@
 <% } %>
 
 <% if (account.getUserName().equals(quiz.getCreatorUsername())) { %>
-<form action="QuizServlet" method="post">
+<form action="CreateQuizServlet" method="get">
     <input type="hidden" name="quizId" value="<%=quiz.getQuizID()%>">
     <input type="hidden" name="action" value="editQuiz">
     <button type="submit" class="start-btn">Edit Quiz</button>

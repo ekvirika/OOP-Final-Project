@@ -94,6 +94,27 @@ public class QuizHistoryDAO {
         return null;
     }
 
+    public List<QuizHistory> getAllQuizHistoryByUsername(String username, int quizId){
+        String query = "SELECT * FROM QuizHistory WHERE username = ? AND quizId = ?";
+        List<QuizHistory> quizHistories = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, username);
+            statement.setInt(2, quizId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                getHistoryWithWhile(quizHistories, resultSet);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return quizHistories;
+    }
+
     // Update a quiz history record
     public void updateQuizHistory(QuizHistory quizHistory) throws SQLException {
         String query = "UPDATE QuizHistory SET quizScore = ?, startTime = ?, endTime = ?, elapsedTime = ? WHERE quizId = ? AND username = ?";
@@ -131,6 +152,7 @@ public class QuizHistoryDAO {
         }
         return quizHistories;
     }
+
 
     public List<Quiz> getAllQuizzesByPopularity() throws SQLException {
         List<Quiz> quizzes = new ArrayList<>();

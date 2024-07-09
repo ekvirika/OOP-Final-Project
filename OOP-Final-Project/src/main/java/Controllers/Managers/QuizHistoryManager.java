@@ -61,4 +61,8 @@ public class QuizHistoryManager {
     public Pair<Long, Long> getAverageScoreAndTimeByQuizId(int quizId) throws SQLException {
         return quizHistoryDAO.getAverageScoreAndTimeByQuizId(quizId);
     }
+
+    public List<QuizHistory> getAllQuizHistoryByUsername(String username, int quizId){
+        return quizHistoryDAO.getAllQuizHistoryByUsername(username, quizId);
+    }
 }

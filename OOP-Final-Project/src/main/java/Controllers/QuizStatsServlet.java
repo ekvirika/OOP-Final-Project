@@ -35,6 +35,7 @@ public class QuizStatsServlet extends HttpServlet {
         QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
         String loggedIn = (String) request.getSession().getAttribute("username");
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
+
         int quizId = quizHistory.getQuizId();
         request.getSession().setAttribute("quizId", quizId);
         String quizName = quizManager.getQuiz(quizId).getQuizName();
@@ -59,12 +60,8 @@ public class QuizStatsServlet extends HttpServlet {
 
 
         List<QuizHistory> personalHistory = new ArrayList<>();
-        try {
-            personalHistory = quizHistoryManager.getAllQuizHistoryByUsername(loggedIn);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ServletException("Failed to retrieve quiz history from database", e);
-        }
+        personalHistory = quizHistoryManager.getAllQuizHistoryByUsername(username, quizId);
+//            personalHistory = quizHistoryManager.getAllQuizHistoryByUsername(loggedIn);
 
         LeaderboardManager leaderboardManager = (LeaderboardManager) getServletContext().getAttribute(LeaderboardManager.ATTRIBUTE_NAME);
         try {
@@ -75,7 +72,7 @@ public class QuizStatsServlet extends HttpServlet {
             throw new ServletException("Unable to retrieve leaderboard data", e);
         }
 
-        quizStatsCounter(personalHistory, request);
+//        quizStatsCounter(personalHistory, request);
         try {
             Pair<Long, Long> avgs = quizHistoryManager.getAverageScoreAndTimeByQuizId(quizId);
             request.setAttribute("avgScore", avgs.getKey());

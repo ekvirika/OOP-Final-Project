@@ -24,6 +24,8 @@ public class QuizServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String quizIdParam = request.getParameter("quizId");
+        System.out.println("aq var " + quizIdParam);
         int quizId = Integer.parseInt(request.getParameter("quizId"));
         AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
         String username = request.getSession().getAttribute("username").toString();
@@ -37,7 +39,7 @@ public class QuizServlet extends HttpServlet {
 
         request.setAttribute("quizId", quizId);
 //        int quizid = request.getSession().getAttribute("quizId").toString();
-
+//
         boolean isAdmin = accountManager.isAdmin(username);
         request.setAttribute("isAdmin", isAdmin);
 
