@@ -34,8 +34,8 @@ public class FriendsDAO {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setBoolean(1, isAccepted);
-            statement.setString(2, usernameFrom);
-            statement.setString(3, usernameTo);
+            statement.setString(3, usernameFrom);
+            statement.setString(2, usernameTo);
             System.out.println(statement);
             statement.executeUpdate();
             connection.close();
