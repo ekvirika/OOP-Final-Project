@@ -30,7 +30,8 @@ public class SuggestionServlet extends HttpServlet {
             for (Account account : allAccounts) {
                 if((account.getFirstName().contains(query) ||
                     account.getLastName().contains(query) ||
-                    account.getUserName().contains(query)) &&
+                    account.getUserName().contains(query) ||
+                    account.getEmail().contains(query)) &&
                     !account.getUserName().equals(loggedInUsername)){
                     suggestions.add(account);
                 }
