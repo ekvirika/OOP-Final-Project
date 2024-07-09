@@ -37,6 +37,8 @@
                 <li><span class="score">Score</span> : <%= request.getAttribute("score") %>
                 </li>
                 <li><span class="time-taken">Time Taken</span> : <%= request.getAttribute("timeTakenSeconds") %> seconds</li>
+                <li><span class="time-taken">Time taken (global average): </span> : <%= request.getAttribute("avgTime") %> seconds</li>
+                <li><span class="time-taken">Score (global average): </span> : <%= request.getAttribute("avgTime") %> seconds</li>
             </ul>
         </div>
 
@@ -117,7 +119,7 @@
     </main>
     <div class="actions">
         <a href="/HomePageServlet">Go Home</a>
-<%--        <a href="QuizServlet?quizId=<%= request.getAttribute("quizId") %>"> Retake Quiz</a>--%>
+        <a href="QuizServlet?quizId=<%= request.getAttribute("quizId") %>"> Retake Quiz</a>
 <%--        <form action="QuizServlet" method="post">--%>
 <%--            <button class="retake" type="submit">Retake Quiz</button>--%>
 <%--            <input type="hidden" name="quizId" value="<%= question.getQuizId() %>">--%>

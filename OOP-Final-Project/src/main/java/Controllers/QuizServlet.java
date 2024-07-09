@@ -42,7 +42,7 @@ public class QuizServlet extends HttpServlet {
             e.printStackTrace();
             throw new ServletException("Unable to retrieve leaderboard data", e);
         }
-
+        request.getSession().setAttribute("quiz", quiz);
         request.getRequestDispatcher("/QuizDescription.jsp").forward(request, response);
     }
 

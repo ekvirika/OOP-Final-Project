@@ -5,6 +5,7 @@ import Controllers.Managers.QuizHistoryManager;
 import Controllers.Managers.QuizManager;
 import Models.LeaderboardEntry;
 import Models.QuizHistory;
+import javafx.util.Pair;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -75,7 +76,13 @@ public class QuizStatsServlet extends HttpServlet {
         }
 
         quizStatsCounter(personalHistory, request);
-//        Pair<Long, Long> avgs = quizHistoryManager.getAverageScoreAndTimeByQuizId(quizId);
+        try {
+            Pair<Long, Long> avgs = quizHistoryManager.getAverageScoreAndTimeByQuizId(quizId);
+            request.setAttribute("avgScore", avgs.getKey());
+            request.setAttribute("avgTime", avgs.getKey());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         request.setAttribute("quizId", quizId);
         request.setAttribute("personalHistory", personalHistory);
         request.setAttribute("quizName", quizName);
