@@ -119,7 +119,7 @@
             <% } else { %>
             <button type="button" class="submit" id="sendNote">Send Note</button>
             <button type="button" class="submit" id="challenge">Challenge</button>
-            <% if (isFriend) { %>
+            <% if (!isFriend) { %>
             <button type="submit" class="submit" id="addFriend">Add Friend</button>
             <% } %>
 
@@ -144,12 +144,19 @@
                 </div>
             </div>
             <% } %>
-            <% if (isAdmin) { %>
+            <% if (isAdmin && !isSelf) { %>
             <form action="ProfileServlet" method="post" id="deleteProfileForm">
                 <input type="hidden" name="action" value="deleteProfile">
                 <input type="hidden" name="username" value="<%= account.getUserName() %>"> <!-- Make sure you have 'user' object with the 'username' field -->
                 <button type="submit" class="submit" id="deleteProfileButton">Delete User</button>
             </form>
+
+            <form action="ProfileServlet" method="post" id="makeAdmin">
+                <input type="hidden" name="action" value="makeAdmin">
+                <input type="hidden" name="username" value="<%= account.getUserName() %>"> <!-- Make sure you have 'user' object with the 'username' field -->
+                <button type="submit" class="submit" id="makeAdminButton">Make Admin</button>
+            </form>
+
             <% } %>
 
 

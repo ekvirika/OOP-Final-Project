@@ -99,4 +99,11 @@ public class AccountManager {
     public boolean deleteAccount(String username){
         return accountDAO.deleteAccount(username);
     }
+
+    public void makeAdmin(String username){
+        Account account = accountDAO.readAccount(username);
+        account.setAdmin(true);
+        accountDAO.updateAccount(account);
+    }
 }
+

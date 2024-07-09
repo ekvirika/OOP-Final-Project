@@ -80,6 +80,14 @@ public class ProfileServlet extends HttpServlet {
             }
             return;
         }
+
+        if(action != null && action.equals("makeAdmin")){
+            System.out.println("makeAdmin");
+            String username = request.getParameter("username");
+            accountManager.makeAdmin(username);
+            response.sendRedirect("ProfileServlet?username=" + username);
+            return;
+        }
         if (method != null && method.equalsIgnoreCase("put")) {
             doPut(request, response);
         } else {
