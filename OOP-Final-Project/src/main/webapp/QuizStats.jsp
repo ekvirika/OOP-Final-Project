@@ -38,7 +38,7 @@
                 </li>
                 <li><span class="time-taken">Time Taken</span> : <%= request.getAttribute("timeTakenSeconds") %> seconds</li>
                 <li><span class="time-taken">Time taken (global average): </span> : <%= request.getAttribute("avgTime") %> seconds</li>
-                <li><span class="time-taken">Score (global average): </span> : <%= request.getAttribute("avgTime") %> seconds</li>
+                <li><span class="time-taken">Score (global average): </span> : <%= request.getAttribute("avgTime") %></li>
             </ul>
         </div>
 

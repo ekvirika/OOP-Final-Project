@@ -4,6 +4,8 @@
 <%@ page import="utils.TakeSinglePageQuiz" %>
 <%@ page import="java.util.List" %>
 <%@ page import="Models.Quiz" %>
+<%@ page import="Controllers.Managers.QuestionManager" %>
+<%@ page import="Controllers.Managers.QuizManager" %>
 
 <jsp:useBean id="takeQuiz" class="utils.TakeSinglePageQuiz"/>
 <html>
@@ -28,13 +30,18 @@
                 </div>
                 <div class="booleans">
                     <label>
-                        <input type="checkbox" name="isSinglePage" <% if (quiz != null && quiz.isSinglePage()) { %>checked<% } %> /> Single Page Quiz
+                        <input type="checkbox" name="isSinglePage"
+                               <% if (quiz != null && quiz.isSinglePage()) { %>checked<% } %> /> Single Page Quiz
                     </label>
                     <label>
-                        <input type="checkbox" name="randomizeQuestions" <% if (quiz != null && quiz.isRandomizeQuestions()) { %>checked<% } %> /> Randomize Questions
+                        <input type="checkbox" name="randomizeQuestions"
+                               <% if (quiz != null && quiz.isRandomizeQuestions()) { %>checked<% } %> /> Randomize
+                        Questions
                     </label>
                     <label>
-                        <input type="checkbox" name="immediateFeedback" <% if (quiz != null && quiz.isImmediateFeedback()) { %>checked<% } %> /> Immediate Feedback
+                        <input type="checkbox" name="immediateFeedback"
+                               <% if (quiz != null && quiz.isImmediateFeedback()) { %>checked<% } %> /> Immediate
+                        Feedback
                     </label>
                 </div>
             </div>
@@ -57,12 +64,15 @@
                 if (questions != null) {
                     for (int i = 0; i < questions.size(); i++) {
                         Question question = questions.get(i);
-                        String questionHtml = "<h2>Question " + (i + 1) + "</h2>";
+                        String questionHtml = "<div class=\"question_" + question.getQuestionId() + "\">" +
+                                "<h2>Question " + (i + 1) + "</h2>";
                         questionHtml += takeQuiz.generateUI(question.getQuestionType(), question, true);
+                        questionHtml += "</div>";
             %>
             <div>
                 <%= questionHtml %>
-                <input type="hidden" name="questionId_<%= question.getQuestionId() %>" value="<%= question.getQuestionId() %>">
+                <input type="hidden" name="questionId_<%= question.getQuestionId() %>"
+                       value="<%= question.getQuestionId() %>">
             </div>
             <%
                     }
@@ -108,6 +118,40 @@
         }
         return true;
     }
+
+    <%--function deleteQuestion(questionId){--%>
+    <%--    <% QuestionManager manager = (QuestionManager) request.getServletContext().getAttribute(QuestionManager.ATTRIBUTE_NAME);--%>
+    <%--    <% QuizManager quizManager = (QuizManager) request.getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);--%>
+    <%--    manager.deleteQuestion();--%>
+    <%--    %>--%>
+    <%--    var questionDiv = document.querySelector(".question_" + questionId);--%>
+    <%--    if (questionDiv) {--%>
+    <%--        questionDiv.style.display = "none";--%>
+    <%--    }--%>
+    <%--}--%>
+
+    function deleteQuestion(questionId) {
+        // Send an AJAX request to the server to delete the question
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "<%= request.getContextPath() %>/deleteQuestion", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // On success, hide the question div
+                    var questionDiv = document.querySelector(".question_" + questionId);
+                    if (questionDiv) {
+                        questionDiv.style.display = "none";
+                    }
+                } else {
+                    alert("Failed to delete question.");
+                }
+            }
+        };
+        xhr.send("questionId=" + encodeURIComponent(questionId));
+    }
+
+
 </script>
 </body>
 </html>

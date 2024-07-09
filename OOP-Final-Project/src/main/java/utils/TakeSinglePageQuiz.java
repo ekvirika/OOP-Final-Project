@@ -171,8 +171,8 @@ public class TakeSinglePageQuiz {
     }
 
     private String generateEditButtons(Question question) {
-        return "<div class=\"edit-buttons\">"
-                + "<button type=\"button\" class=\"deleteBtn\"  onclick=\"deleteQuestion('" + question.getQuestionId() + "')\">Delete</button>"
+        return "<div class=\"edit-buttons\" id=\"question-" + question.getQuestionId() + "\">"
+                + "<button type=\"button\" class=\"deleteBtn\" onclick=\"deleteQuestion('" + question.getQuestionId() + "')\">Delete</button>"
                 + "<input type=\"hidden\" name=\"questionId\" value=\"" + question.getQuestionId() + "\">"
                 + "</div>";
     }

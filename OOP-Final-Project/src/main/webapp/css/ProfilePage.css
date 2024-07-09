@@ -227,3 +227,8 @@ h1, h2, h3{
     align-items: center;
     justify-content: center;
 }
+
+a{
+    text-decoration: underline;
+    color: #17A6E8;
+}

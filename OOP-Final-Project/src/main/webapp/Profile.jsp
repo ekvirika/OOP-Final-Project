@@ -202,7 +202,7 @@
                 <%
                     for (Quiz quiz : quizList) {
                 %>
-                <li><%= quiz.getQuizName() %></li>
+                <li><a href="QuizServlet?quizId=<%= quiz.getQuizID()%>"><%= quiz.getQuizName() %></a></li>
                 <%
                     }
                 %>

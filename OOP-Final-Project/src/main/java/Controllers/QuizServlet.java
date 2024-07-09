@@ -1,12 +1,14 @@
 package Controllers;
 
 import Controllers.Managers.AccountManager;
+import Controllers.Managers.QuizHistoryManager;
 import Models.Account;
 import Models.LeaderboardEntry;
 import Controllers.Managers.LeaderboardManager;
 import Models.Quiz;
 import Controllers.Managers.QuizManager;
 import Models.QuizHistory;
+import javafx.util.Pair;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +30,7 @@ public class QuizServlet extends HttpServlet {
         Account account = accountManager.getAccount(username);
         request.setAttribute("account", account);
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
+        QuizHistoryManager quizHistoryManager = (QuizHistoryManager) getServletContext().getAttribute(QuizHistoryManager.ATTRIBUTE_NAME);
         LeaderboardManager leaderboardManager = (LeaderboardManager) getServletContext().getAttribute(LeaderboardManager.ATTRIBUTE_NAME);
         Quiz quiz = quizManager.getQuiz(quizId);
         request.setAttribute("currentQuiz", quiz);
@@ -37,6 +40,14 @@ public class QuizServlet extends HttpServlet {
 
         boolean isAdmin = accountManager.isAdmin(username);
         request.setAttribute("isAdmin", isAdmin);
+
+        try {
+            Pair<Long, Long> avgs = quizHistoryManager.getAverageScoreAndTimeByQuizId(quizId);
+            request.setAttribute("avgScore", avgs.getKey());
+            request.setAttribute("avgTime", avgs.getKey());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         try {
             List<LeaderboardEntry> leaderboard = leaderboardManager.getLeaderboard(quizId);

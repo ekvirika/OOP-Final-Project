@@ -42,13 +42,14 @@
     <div class="description animate__animated animate__fadeInUp">
         <h2>Quiz Description</h2>
         <p><span>Description:</span> <%= quiz.getQuizDescription() %></p>
-        <p><span>Score:</span> <%= quiz.getQuizScore() %></p>
         <p><span>Question number:</span> <%= quiz.getQuestionIds().size() %></p>
         <p><span>Author:</span> <%= quiz.getCreatorUsername() %></p>
         <p><span>Page Type:</span> <%= quiz.isSinglePage() ? "Single page" : "Multiple pages" %></p>
         <p><span>Randomize Questions:</span> <%= quiz.isRandomizeQuestions() %></p>
         <p><span>Immediate Feedback:</span> <%= quiz.isImmediateFeedback() %></p>
         <p><span>Create Time:</span> <%= quiz.getCreateTime() %></p>
+        <p><span class="time-taken">Time taken (global average): </span> : <%= request.getAttribute("avgTime") %> seconds</p>
+        <p><span class="time-taken">Score (global average): </span> : <%= request.getAttribute("avgTime") %></p>
     </div>
     <div class="leaderboard">
         <h2>Leaderboard</h2>

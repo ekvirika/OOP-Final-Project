@@ -7,7 +7,7 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 100vh;
+    height: 100% !important;
     user-select: none;
     background-image: url("data:image/svg+xml,%0A%3Csvg id='visual' viewBox='0 0 1920 1080' width='1920' height='1080' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1'%3E%3Crect x='0' y='0' width='1920' height='1080' fill='%231B1616'%3E%3C/rect%3E%3Cdefs%3E%3ClinearGradient id='grad1_0' x1='43.8%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='14.444444444444446%25' stop-color='%231b1616' stop-opacity='1'%3E%3C/stop%3E%3Cstop offset='85.55555555555554%25' stop-color='%231b1616' stop-opacity='1'%3E%3C/stop%3E%3C/linearGradient%3E%3C/defs%3E%3Cdefs%3E%3ClinearGradient id='grad2_0' x1='0%25' y1='0%25' x2='56.3%25' y2='100%25'%3E%3Cstop offset='14.444444444444446%25' stop-color='%231b1616' stop-opacity='1'%3E%3C/stop%3E%3Cstop offset='85.55555555555554%25' stop-color='%231b1616' stop-opacity='1'%3E%3C/stop%3E%3C/linearGradient%3E%3C/defs%3E%3Cg transform='translate(1920, 0)'%3E%3Cpath d='M0 378C-49.5 372.5 -98.9 367.1 -144.7 349.2C-190.4 331.4 -232.3 301.2 -264.5 264.5C-296.6 227.7 -319 184.5 -336.3 139.3C-353.6 94.1 -365.8 47.1 -378 0L0 0Z' fill='%23fe9ce3'%3E%3C/path%3E%3C/g%3E%3Cg transform='translate(0, 1080)'%3E%3Cpath d='M0 -378C47.6 -368.6 95.2 -359.3 142 -342.8C188.7 -326.2 234.7 -302.5 267.3 -267.3C299.9 -232.1 319.1 -185.4 335.4 -138.9C351.6 -92.5 364.8 -46.2 378 0L0 0Z' fill='%23fe9ce3'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
     background-repeat: no-repeat no-repeat;
