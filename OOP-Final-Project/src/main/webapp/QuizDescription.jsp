@@ -21,11 +21,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
     <link rel="icon" href="./assets/Logo.png">
+
+    <style>
+        .start-btn{
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
 <% Quiz quiz = (Quiz) request.getAttribute("currentQuiz");
     List<LeaderboardEntry> leaderboard = (List<LeaderboardEntry>) request.getAttribute("leaderboard");
     Account account = (Account) request.getAttribute("account");
+    boolean isAdmin = (Boolean) request.getAttribute("isAdmin");
 %>
 <header class="animate__animated animate__fadeInDown">
     <h1><%= quiz.getQuizName() %></h1>
@@ -79,6 +86,14 @@
     <input type="hidden" name="userId" value="<%= request.getSession().getAttribute("userId") %>">
     <button type="submit" class="start-btn">Start Quiz</button>
 </form>
+
+<% if (isAdmin) { %>
+<form action="QuizServlet" method="post">
+    <input type="hidden" name="quizId" value="<%= quiz.getQuizID() %>">
+    <input type="hidden" name="action" value="deleteQuiz">
+    <button type="submit" class="start-btn">Delete Quiz</button>
+</form>
+<% } %>
 
 <%--<%--%>
 <%--    if (account.isAdmin()) {--%>

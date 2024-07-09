@@ -31,6 +31,10 @@ public class QuizServlet extends HttpServlet {
         LeaderboardManager leaderboardManager = (LeaderboardManager) getServletContext().getAttribute(LeaderboardManager.ATTRIBUTE_NAME);
         Quiz quiz = quizManager.getQuiz(quizId);
         request.setAttribute("currentQuiz", quiz);
+
+        boolean isAdmin = accountManager.isAdmin(username);
+        request.setAttribute("isAdmin", isAdmin);
+
         try {
             List<LeaderboardEntry> leaderboard = leaderboardManager.getLeaderboard(quizId);
             request.setAttribute("leaderboard", leaderboard);
@@ -44,15 +48,26 @@ public class QuizServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int quizId = Integer.parseInt(request.getParameter("quizId"));
-        String username = (String) request.getSession().getAttribute("username");
+        String action = request.getParameter("action");
+        System.out.println(action);
+        if ("deleteQuiz".equals(action)) {
+            int quizId = Integer.parseInt(request.getParameter("quizId"));
+            QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
 
-        QuizHistory quizHistory = new QuizHistory(quizId, username);
-        quizHistory.setStartTime(new java.sql.Time(System.currentTimeMillis()));
+            quizManager.deleteQuiz(quizId);
+            System.out.println(request.getContextPath() + "webapp/HomePage.jsp");
+            response.sendRedirect(request.getContextPath() + "/HomePageServlet");
+        } else {
+            int quizId = Integer.parseInt(request.getParameter("quizId"));
+            String username = (String) request.getSession().getAttribute("username");
 
-        int questionIndex = 0;
-        request.getSession().setAttribute("quizHistory", quizHistory);
-        request.getSession().setAttribute("questionIndex", questionIndex);
-        response.sendRedirect(request.getContextPath() + "/QuestionServlet?quizId=" + quizId + "&questionIndex=0");
+            QuizHistory quizHistory = new QuizHistory(quizId, username);
+            quizHistory.setStartTime(new java.sql.Time(System.currentTimeMillis()));
+
+            int questionIndex = 0;
+            request.getSession().setAttribute("quizHistory", quizHistory);
+            request.getSession().setAttribute("questionIndex", questionIndex);
+            response.sendRedirect(request.getContextPath() + "/QuestionServlet?quizId=" + quizId + "&questionIndex=0");
+        }
     }
 }

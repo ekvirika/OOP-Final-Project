@@ -105,5 +105,10 @@ public class AccountManager {
         account.setAdmin(true);
         accountDAO.updateAccount(account);
     }
+
+    public boolean isAdmin(String username){
+        Account account = accountDAO.readAccount(username);
+        return account.isAdmin();
+    }
 }
 
