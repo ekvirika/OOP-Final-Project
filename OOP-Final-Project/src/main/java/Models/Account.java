@@ -191,7 +191,7 @@ public class Account {
     }
 
     public List<Integer> getAchievementIds() {
-        return Collections.unmodifiableList(achievementIds);
+        return achievementIds;
     }
 
     public void setAchievementIds(List<Integer> achievements) {
@@ -224,4 +224,5 @@ public class Account {
                 ", password=" + password +
                 '}';
     }
+
 }

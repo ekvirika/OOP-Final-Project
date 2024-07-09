@@ -78,6 +78,16 @@
     <button type="submit" class="start-btn">Start Quiz</button>
 </form>
 
+<%
+    String loggedInUser = (String) request.getSession().getAttribute("username");
+    boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");
+    if (isAdmin) {
+%>
+<form action="AddAnnouncementServlet" method="post">
+    <button class="add-announcement">Add Announcement</button>
+</form>
+<% } %>
+
 
 </body>
 </html>

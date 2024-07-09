@@ -27,9 +27,11 @@ public class QuestionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         QuestionManager questionManager = (QuestionManager) getServletContext().getAttribute(QuestionManager.ATTRIBUTE_NAME);
         int quizId = Integer.parseInt(request.getParameter("quizId"));
+        request.getSession().setAttribute("qid", quizId);
         Quiz quiz = quizManager.getQuiz(quizId);
         TakeQuiz takeQuiz = new TakeQuiz();
 

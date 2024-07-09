@@ -39,6 +39,7 @@ public class RegistrationServlet extends HttpServlet {
 
         if (!accountManager.accountExists(username)) {
             accountManager.createNewUser(account);
+            httpRequest.getSession().setAttribute("account", account);
             httpRequest.getSession().setAttribute("username", username);
             httpRequest.getSession().setAttribute("loggedInAccount", account);
             httpResponse.sendRedirect("/HomePageServlet");

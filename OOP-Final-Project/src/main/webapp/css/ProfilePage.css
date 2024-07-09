@@ -10,6 +10,9 @@ button {
 .modal *{
     z-index: 1005 !important;
 }
+input, ul, li, a{
+    z-index: 10 !important;
+}
 
 .submit{
     border-radius: 5px;

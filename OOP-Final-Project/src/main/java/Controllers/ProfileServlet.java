@@ -1,7 +1,10 @@
 package Controllers;
 
-import Models.Account;
 import Controllers.Managers.AccountManager;
+import Controllers.Managers.FriendManager;
+import Controllers.Managers.QuizManager;
+import Models.Account;
+import Models.Quiz;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,25 +16,44 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/ProfileServlet"})
 @MultipartConfig
 public class ProfileServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
+        QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
+        FriendManager friendManager = (FriendManager) getServletContext().getAttribute(FriendManager.ATTRIBUTE_NAME);
         String loggedInUsername = (String) request.getSession().getAttribute("username");
         String username = request.getParameter("username");
+        System.out.println(username);
+        System.out.println(loggedInUsername);
 
         if (username == null) username = loggedInUsername;
         Account account = accountManager.getAccount(username);
+        Account loggedInAccount = accountManager.getAccount(loggedInUsername);
         request.setAttribute("account", account);
         boolean isSelf = username.equals(loggedInUsername);
         request.setAttribute("isSelf", isSelf);
-        boolean isAdmin = account.isAdmin();
+        boolean isAdmin = loggedInAccount.isAdmin();
         request.setAttribute("isAdmin", isAdmin);
+
+        List<Quiz> quizList = quizManager.getQuizzesByUser(username);
+        request.setAttribute("quizList", quizList);
+
+        try {
+            List<String> friendsList= friendManager.getAcceptedFriendRequests(username);
+            request.setAttribute("friendsList", friendsList);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("Profile.jsp");
         requestDispatcher.forward(request, response);
     }
@@ -48,6 +70,7 @@ public class ProfileServlet extends HttpServlet {
             accountManager.deleteAccount(username);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("HomePageServlet");
             requestDispatcher.forward(request, response);
+            return;
         }
         if (method != null && method.equalsIgnoreCase("put")) {
             doPut(request, response);

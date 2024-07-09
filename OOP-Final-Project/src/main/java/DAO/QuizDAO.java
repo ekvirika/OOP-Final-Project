@@ -197,17 +197,20 @@ public class QuizDAO {
      */
     public List<Quiz> getAllQuizzesByUser(String username) {
         List<Quiz> quizzes = new ArrayList<>();
-        String query = "SELECT * FROM Quiz where username = ?";
+        String query = "SELECT * FROM Quiz WHERE username = ?";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
             statement.setString(1, username);
-            while (resultSet.next()) {
-                quizzes.add(extractQuizFromResultSet(resultSet));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    quizzes.add(extractQuizFromResultSet(resultSet));
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error retrieving all quizzes: " + e.getMessage(), e);
         }
         return quizzes;
     }
+
 }

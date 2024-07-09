@@ -35,6 +35,7 @@ public class QuizStatsServlet extends HttpServlet {
         String loggedIn = (String) request.getSession().getAttribute("username");
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         int quizId = quizHistory.getQuizId();
+        request.getSession().setAttribute("quizId", quizId);
         String quizName = quizManager.getQuiz(quizId).getQuizName();
         int score = quizHistory.getQuizScore();
 

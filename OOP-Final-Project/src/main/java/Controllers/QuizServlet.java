@@ -22,10 +22,9 @@ public class QuizServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int quizId = Integer.parseInt(request.getParameter("quizId"));
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
-
+        LeaderboardManager leaderboardManager = (LeaderboardManager) getServletContext().getAttribute(LeaderboardManager.ATTRIBUTE_NAME);
         Quiz quiz = quizManager.getQuiz(quizId);
         request.setAttribute("currentQuiz", quiz);
-        LeaderboardManager leaderboardManager = (LeaderboardManager) request.getServletContext().getAttribute(LeaderboardManager.ATTRIBUTE_NAME);
         try {
             List<LeaderboardEntry> leaderboard = leaderboardManager.getLeaderboard(quizId);
             request.setAttribute("leaderboard", leaderboard);

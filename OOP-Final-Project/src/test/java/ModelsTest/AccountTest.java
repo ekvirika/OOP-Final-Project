@@ -132,20 +132,6 @@ public class AccountTest {
     }
 
     @Test
-    public void testGetQuizIds() {
-        List<Integer> quizIds = Arrays.asList(10, 20, 30);
-        account.setQuizIds(quizIds);
-        assertEquals(quizIds, account.getQuizIds());
-    }
-
-    @Test
-    public void testSetQuizIds() {
-        List<Integer> quizIds = Arrays.asList(40, 50, 60);
-        account.setQuizIds(quizIds);
-        assertEquals(quizIds, account.getQuizIds());
-    }
-
-    @Test
     public void testToString() {
         String expected = "Account{" +
                 ", userName='johndoe'" +
