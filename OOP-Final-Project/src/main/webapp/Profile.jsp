@@ -68,6 +68,7 @@
     boolean isAdmin = (Boolean) request.getAttribute("isAdmin");
     List<Quiz> quizList = (List<Quiz>) request.getAttribute("quizList");
     List<String> friendsList = (List<String>) request.getAttribute("friendsList");
+    boolean isFriend = friendsList.contains(account.getUserName());
 %>
 <header class="animate__animated">
     <div class="logo-area">
@@ -118,7 +119,9 @@
             <% } else { %>
             <button type="button" class="submit" id="sendNote">Send Note</button>
             <button type="button" class="submit" id="challenge">Challenge</button>
+            <% if (isFriend) { %>
             <button type="submit" class="submit" id="addFriend">Add Friend</button>
+            <% } %>
 
             <div id="challengeModal" class="modal">
                 <div class="modal-content">
