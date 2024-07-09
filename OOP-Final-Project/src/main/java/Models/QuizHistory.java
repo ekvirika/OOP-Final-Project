@@ -1,5 +1,6 @@
 package Models;
 
+import java.sql.Date;
 import java.sql.Time;
 
 /**
@@ -13,6 +14,7 @@ public class QuizHistory {
     private int quizScore;
     private Time startTime;
     private Time endTime;
+    private Date endDate;
     private long elapsedTime;
 
     /**
@@ -152,6 +154,12 @@ public class QuizHistory {
         this.elapsedTime = elapsedTime;
     }
 
+    public Date getEndDate() {
+        return endDate;
+    }
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
     @Override
     public String toString() {

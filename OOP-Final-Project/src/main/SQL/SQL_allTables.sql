@@ -88,10 +88,12 @@ CREATE TABLE QuizHistory (
                              quizScore INT DEFAULT 0,
                              startTime TIME,
                              endTime TIME,
+                             endDate DATE,
                              elapsedTime BIGINT DEFAULT 0,
                              FOREIGN KEY (quizId) REFERENCES Quiz(quizId) ON DELETE CASCADE,
                              FOREIGN KEY (username) REFERENCES Accounts(username) ON DELETE CASCADE
 );
+
 
 
 CREATE TABLE IF NOT EXISTS Notifications (

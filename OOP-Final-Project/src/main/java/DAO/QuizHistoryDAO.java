@@ -2,10 +2,14 @@ package DAO;
 
 import Models.Quiz;
 import Models.QuizHistory;
+import javafx.util.Pair;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class QuizHistoryDAO {
@@ -18,7 +22,7 @@ public class QuizHistoryDAO {
 
     // Create a new quiz history record
     public void createQuizHistory(QuizHistory quizHistory) throws SQLException {
-        String query = "INSERT INTO QuizHistory (quizId, username, quizScore, startTime, endTime, elapsedTime) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO QuizHistory (quizId, username, quizScore, startTime, endTime, endDate, elapsedTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, quizHistory.getQuizId());
@@ -26,7 +30,8 @@ public class QuizHistoryDAO {
             statement.setInt(3, quizHistory.getQuizScore());
             statement.setTime(4, quizHistory.getStartTime());
             statement.setTime(5, quizHistory.getEndTime());
-            statement.setLong(6, quizHistory.getElapsedTime());
+            statement.setDate(6, quizHistory.getEndDate());
+            statement.setLong(7, quizHistory.getElapsedTime());
             statement.executeUpdate();
         }
     }
@@ -37,17 +42,26 @@ public class QuizHistoryDAO {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, quizId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new QuizHistory(
-                            resultSet.getInt("quizId"),
-                            resultSet.getString("username"),
-                            resultSet.getInt("quizScore"),
-                            resultSet.getTime("startTime"),
-                            resultSet.getTime("endTime"),
-                            resultSet.getLong("elapsedTime")
-                    );
-                }
+            QuizHistory quizHistory = getQuizHistory(statement);
+            if (quizHistory != null) return quizHistory;
+        }
+        return null;
+    }
+
+    private QuizHistory getQuizHistory(PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                QuizHistory quizHistory = new QuizHistory(
+                        resultSet.getInt("quizId"),
+                        resultSet.getString("username"),
+                        resultSet.getInt("quizScore"),
+                        resultSet.getTime("startTime"),
+                        resultSet.getTime("endTime"),
+                        resultSet.getLong("elapsedTime")
+                );
+                Calendar calendar = Calendar.getInstance();
+                quizHistory.setEndDate((Date) calendar.getTime());
+                return quizHistory;
             }
         }
         return null;
@@ -62,22 +76,11 @@ public class QuizHistoryDAO {
             statement.setString(1, username);
 
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    QuizHistory quizHistory = new QuizHistory(
-                            resultSet.getInt("quizId"),
-                            resultSet.getString("username"),
-                            resultSet.getInt("quizScore"),
-                            resultSet.getTime("startTime"),
-                            resultSet.getTime("endTime"),
-                            resultSet.getLong("elapsedTime")
-                    );
-                    quizHistories.add(quizHistory);
-                }
+                getHistoryWithWhile(quizHistories, resultSet);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-
         return quizHistories;
     }
 
@@ -87,18 +90,8 @@ public class QuizHistoryDAO {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, username);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new QuizHistory(
-                            resultSet.getInt("quizId"),
-                            resultSet.getString("username"),
-                            resultSet.getInt("quizScore"),
-                            resultSet.getTime("startTime"),
-                            resultSet.getTime("endTime"),
-                            resultSet.getLong("elapsedTime")
-                    );
-                }
-            }
+            QuizHistory quizHistory = getQuizHistory(statement);
+            if (quizHistory != null) return quizHistory;
         }
         return null;
     }
@@ -136,17 +129,7 @@ public class QuizHistoryDAO {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                QuizHistory quizHistory = new QuizHistory(
-                        resultSet.getInt("quizId"),
-                        resultSet.getString("username"),
-                        resultSet.getInt("quizScore"),
-                        resultSet.getTime("startTime"),
-                        resultSet.getTime("endTime"),
-                        resultSet.getLong("elapsedTime")
-                );
-                quizHistories.add(quizHistory);
-            }
+            getHistoryWithWhile(quizHistories, resultSet);
         }
         return quizHistories;
     }
@@ -214,19 +197,36 @@ public class QuizHistoryDAO {
             statement.setString(2, username);
             statement.setString(3, username);
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    activities.add(new QuizHistory(
-                            resultSet.getInt("quizId"),
-                            resultSet.getString("username"),
-                            resultSet.getInt("quizScore"),
-                            resultSet.getTime("startTime"),
-                            resultSet.getTime("endTime"),
-                            resultSet.getLong("elapsedTime")));
-                }
+                getHistoryWithWhile(activities, resultSet);
             }
+            return activities;
         }
-        return activities;
     }
 
+    private void getHistoryWithWhile(List<QuizHistory> activities, ResultSet resultSet) throws SQLException {
+        while (resultSet.next()) {
+            QuizHistory quizHistory = new QuizHistory(
+                    resultSet.getInt("quizId"),
+                    resultSet.getString("username"),
+                    resultSet.getInt("quizScore"),
+                    resultSet.getTime("startTime"),
+                    resultSet.getTime("endTime"),
+                    resultSet.getLong("elapsedTime")
+            );
+            Calendar calendar = Calendar.getInstance();
+            quizHistory.setEndDate((Date) calendar.getTime());
+            activities.add(quizHistory);
+        }
+    }
 
+    public Pair<Long, Long> getAverageScoreAndTimeByQuizId(String quizId) throws SQLException {
+        String query = "SELECT avg(quizScore), avg(elapsedTime) FROM QuizHistory WHERE quizId = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, quizId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                return new Pair<>(resultSet.getLong("avg(quizScore)"), resultSet.getLong("avg(elapsedTime)"));
+            }
+        }
+    }
 }

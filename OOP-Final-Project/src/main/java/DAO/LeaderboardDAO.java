@@ -38,10 +38,24 @@ public class LeaderboardDAO {
                 "WHERE q.quizId = ? " +
                 "ORDER BY qh.quizScore DESC, qh.elapsedTime ASC;";
 
+        return getLeaderboardEntries(quizId, leaderBoard, query);
+    }
+
+    public List<LeaderboardEntry> readLeaderBoardForLastFixedTime(int quizId) throws SQLException {
+        List<LeaderboardEntry> leaderBoard = new ArrayList<>();
+        String query = "SELECT qh.username, qh.quizScore, qh.elapsedTime " +
+                "FROM QUIZ q " +
+                "LEFT JOIN QuizHistory qh ON qh.quizId = q.quizId " +
+                "WHERE q.quizId = ? " +
+                "AND DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 15 MINUTE), '%Y-%m-%d %H:%i:%s') < DATE_FORMAT(q.endDate, '%Y-%m-%d %H:%i:%s') " +
+                "ORDER BY qh.quizScore DESC, qh.elapsedTime ASC";
+
+        return getLeaderboardEntries(quizId, leaderBoard, query);
+    }
+
+    private List<LeaderboardEntry> getLeaderboardEntries(int quizId, List<LeaderboardEntry> leaderBoard, String query) throws SQLException {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
-
-            // Set the quizId parameter in the query
             statement.setInt(1, quizId);
 
             try (ResultSet resultSet = statement.executeQuery()) {
