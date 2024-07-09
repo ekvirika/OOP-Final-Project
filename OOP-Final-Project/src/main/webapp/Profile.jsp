@@ -7,6 +7,7 @@
 <%@ page import="Models.Quiz" %>
 <%@ page import="java.util.List" %>
 <%@ page import="Models.Achievement" %>
+<%@ page import="java.util.Set" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,7 +99,7 @@
     List<Quiz> quizList = (List<Quiz>) request.getAttribute("quizList");
     List<String> friendsList = (List<String>) request.getAttribute("friendsList");
     boolean isFriend = friendsList.contains(currentUsername);
-    List<Achievement> achievementList = (List<Achievement>) request.getAttribute("achievementList");
+    Set<Achievement> achievementList = (Set<Achievement>) request.getAttribute("achievementList");
 %>
 <header class="animate__animated">
     <div class="logo-area">
@@ -197,7 +198,6 @@
         <div class="achievements animate__animated animate__fadeInRight">
             <h3>Achievements</h3>
             <div class="inner">
-
                 <%
                     for (Achievement achievement : achievementList) {
                 %>
@@ -207,10 +207,10 @@
                     </p>
                     <span class="tooltiptext"><%=achievement.getAchievementDescription()%></span>
                 </div>
+                <%
+                    }
+                %>
             </div>
-            <%
-                }
-            %>
         </div>
     </div>
     <div class="bottom animate__animated animate__fadeInUp">

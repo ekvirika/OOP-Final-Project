@@ -205,8 +205,10 @@
     <div id="personalAcivity" class="tabcontent">
         <h3>My Activity</h3>
 
-        <% List<Quiz> createdQuizzes = (List<Quiz>) request.getAttribute("recentQuizzes");
-            List<QuizHistory> takenQuizzes = (List<QuizHistory>) request.getAttribute("userRecent");
+        <% List<Quiz> createdQuizzes = (List<Quiz>) request.getAttribute("userRecent");
+            List<Quiz> takenQuizzes = (List<Quiz>) request.getAttribute("recentQuizHistory");
+            QuizHistoryManager quizHistoryManager = (QuizHistoryManager)
+                        request.getServletContext().getAttribute(QuizHistoryManager.ATTRIBUTE_NAME);
             if (createdQuizzes != null && !createdQuizzes.isEmpty()) { %>
         <div class="activity-inner">
 
@@ -244,26 +246,15 @@
                     <thead>
                     <tr>
                         <th>Quiz Name</th>
-                        <th>Date</th>
-                        <th>Scored</th>
-                        <th>Time taken</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <% for (QuizHistory history : takenQuizzes) {
-                        Quiz currQuiz = manager.getQuiz(history.getQuizId());
+                    <% for (Quiz history : takenQuizzes) {
                     %>
 
                     <tr>
-                        <td><a href="QuizServlet?quizId=<%= currQuiz.getQuizID() %>"><%= currQuiz.getQuizName() %>
+                        <td><a href="QuizServlet?quizId=<%= history.getQuizID() %>"><%= history.getQuizName() %>
                         </a></td>
-                        <td>
-                            <%= history.getStartTime() %>
-                        </td>
-                        <td><%=history.getQuizScore()%>
-                        </td>
-                        <td><%=history.getElapsedTime()%>
-                        </td>
                     </tr>
                     <% } %>
                     </tbody>

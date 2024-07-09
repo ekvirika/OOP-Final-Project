@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -42,7 +43,7 @@ public class AccountDAO {
 
             setStatement(account, statement);
             statement.setBoolean(8, account.isAdmin());
-            account.setAchievementIds(new ArrayList<>());
+            account.setAchievementIds(new HashSet<>());
             statement.setString(9, new Gson().toJson(account.getAchievementIds()));
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -186,9 +187,9 @@ public class AccountDAO {
 
     private void setGson(ResultSet resultSet, Account account) throws SQLException {
         Gson gson = new Gson();
-        Type listType = new TypeToken<ArrayList<Integer>>() {
+        Type listType = new TypeToken<HashSet<Integer>>() {
         }.getType();
-        ArrayList<Integer> achievementIds = gson.fromJson(resultSet.getString("achievementIds"), listType);
+        HashSet<Integer> achievementIds = gson.fromJson(resultSet.getString("achievementIds"), listType);
         account.setAchievementIds(achievementIds);
     }
 }

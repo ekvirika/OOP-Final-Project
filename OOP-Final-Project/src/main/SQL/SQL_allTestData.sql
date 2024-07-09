@@ -11,14 +11,13 @@ INSERT INTO Achievement (achievementId, achievementName, achievementUrl, achieve
 VALUES (3, 'Prodigious Author', 'https://img.icons8.com/?size=100&id=yrPIS24okymU&format=png&color=000000', 'The user created ten quizzes');
 
 INSERT INTO Achievement (achievementId, achievementName, achievementUrl, achievementDescription)
-VALUES (4, 'Quiz Machine', 'https://img.icons8.com/?size=100&id=114898&format=png&color=000000', 'The user took ten quizzes');
+VALUES (4, 'Quiz Machine', 'https://img.icons8.com/?size=100&id=114898&format=png&color=000000', 'The user took five quizzes');
 
 INSERT INTO Achievement (achievementId, achievementName, achievementUrl, achievementDescription)
-VALUES (5, 'I am the Greatest', 'https://img.icons8.com/?size=100&id=80747&format=png&color=000000', 'The user had the highest score on a quiz. Note, once earned this
-achievement does not go away if someone else later bests the high score');
+VALUES (5, 'I am the Greatest', 'https://img.icons8.com/?size=100&id=80747&format=png&color=000000', 'The user had the highest score on a quiz. ');
 
 INSERT INTO Achievement (achievementId, achievementName, achievementUrl, achievementDescription)
-VALUES (6, 'Practice Makes Perfect', 'https://img.icons8.com/?size=100&id=114206&format=png&color=000000', 'The user took a quiz in practice mode.');
+VALUES (6, 'Practice Makes Perfect', 'https://img.icons8.com/?size=100&id=114206&format=png&color=000000', 'The user took ten quizzes.');
 
 
 -- Insert a quiz

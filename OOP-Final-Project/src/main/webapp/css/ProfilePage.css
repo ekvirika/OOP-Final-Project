@@ -128,6 +128,14 @@ h3{
     font-size: 1.5em !important;
 }
 
+
+.achievement{
+    margin: 10px 7px !important;
+}
+.achievement p {
+    font-size: 15px;
+}
+
 .achievements h3 {
     color: #FC6916; /* Header color */
     margin-bottom: 10px;

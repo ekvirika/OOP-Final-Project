@@ -65,4 +65,8 @@ public class QuizHistoryManager {
     public List<QuizHistory> getAllQuizHistoryByUsername(String username, int quizId){
         return quizHistoryDAO.getAllQuizHistoryByUsername(username, quizId);
     }
+
+    public String getHighestScoreUserNameByQuizId(int quizId) throws SQLException {
+        return quizHistoryDAO.getHighestScoreUserNameByQuizId(quizId);
+    }
 }

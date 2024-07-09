@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/ProfileServlet"})
 @MultipartConfig
@@ -51,7 +52,7 @@ public class ProfileServlet extends HttpServlet {
         request.setAttribute("quizList", quizList);
 
         try {
-            List<Achievement> achievementList = achievementManager.getAllAchievemtnsByUser(account.getAchievementIds());
+            Set<Achievement> achievementList = achievementManager.getAllAchievemtnsByUser(account.getAchievementIds());
             request.setAttribute("achievementList", achievementList);
         } catch (SQLException e) {
             throw new RuntimeException(e);

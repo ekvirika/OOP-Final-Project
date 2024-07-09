@@ -94,6 +94,27 @@ public class QuizHistoryDAO {
         return null;
     }
 
+    /**
+     * Gets the username with the highest score for a given quizId.
+     *
+     * @param quizId the ID of the quiz.
+     * @return the username with the highest score.
+     * @throws SQLException if a database access error occurs.
+     */
+    public String getHighestScoreUserNameByQuizId(int quizId) throws SQLException {
+        String query = "SELECT username FROM quizHistory WHERE quizId = ? ORDER BY quizScore DESC LIMIT 1";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, quizId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("username");
+                }
+            }
+        }
+        return null;
+    }
+
     public List<QuizHistory> getAllQuizHistoryByUsername(String username, int quizId){
         String query = "SELECT * FROM QuizHistory WHERE username = ? AND quizId = ?";
         List<QuizHistory> quizHistories = new ArrayList<>();
@@ -103,6 +124,24 @@ public class QuizHistoryDAO {
             statement.setString(1, username);
             statement.setInt(2, quizId);
 
+            try (ResultSet resultSet = statement.executeQuery()) {
+                getHistoryWithWhile(quizHistories, resultSet);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quizHistories;
+    }
+
+    public List<QuizHistory> getAllQuizHistoryByUsernameOnly(String username){
+        String query = "SELECT * FROM QuizHistory WHERE username = ?";
+        List<QuizHistory> quizHistories = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, username);
             try (ResultSet resultSet = statement.executeQuery()) {
                 getHistoryWithWhile(quizHistories, resultSet);
             } catch (SQLException e) {
@@ -239,6 +278,7 @@ public class QuizHistoryDAO {
             activities.add(quizHistory);
         }
     }
+
 
     public Pair<Long, Long> getAverageScoreAndTimeByQuizId(int quizId) throws SQLException {
         String query = "SELECT avg(quizScore), avg(elapsedTime) FROM QuizHistory WHERE quizId = ?";

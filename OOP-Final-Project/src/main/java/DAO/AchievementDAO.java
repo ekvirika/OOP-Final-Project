@@ -3,9 +3,12 @@ package DAO;
 import Models.Achievement;
 import org.apache.commons.dbcp2.BasicDataSource;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AchievementDAO {
 
@@ -71,9 +74,9 @@ public class AchievementDAO {
     }
 
     // Retrieve all achievement records
-    public List<Achievement> getAllAchievements() throws SQLException {
+    public Set<Achievement> getAllAchievements() throws SQLException {
         String query = "SELECT * FROM Achievement";
-        List<Achievement> achievements = new ArrayList<>();
+        Set<Achievement> achievements = new HashSet<>();
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {

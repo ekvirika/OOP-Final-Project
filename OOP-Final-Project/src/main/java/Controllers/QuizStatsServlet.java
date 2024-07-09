@@ -1,8 +1,7 @@
 package Controllers;
 
-import Controllers.Managers.LeaderboardManager;
-import Controllers.Managers.QuizHistoryManager;
-import Controllers.Managers.QuizManager;
+import Controllers.Managers.*;
+import Models.Account;
 import Models.LeaderboardEntry;
 import Models.QuizHistory;
 import javafx.util.Pair;
@@ -35,13 +34,24 @@ public class QuizStatsServlet extends HttpServlet {
         QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
         String loggedIn = (String) request.getSession().getAttribute("username");
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
-
+        AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
+        AchievementManager achievementManager = (AchievementManager) getServletContext().getAttribute(AchievementManager.ATTRIBUTE_NAME);
+        Account acc = accountManager.getAccount(loggedIn);
         int quizId = quizHistory.getQuizId();
+        try {
+            if (quizHistoryManager.getAllQuizHistoryByUsername(loggedIn).size() == 5) {
+                acc.getAchievementIds().add(4);
+            } else if (quizHistoryManager.getAllQuizHistoryByUsername(loggedIn).size() == 10) {
+                acc.getAchievementIds().add(6);
+            }
+            accountManager.updateAccount(acc);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         request.getSession().setAttribute("quizId", quizId);
         String quizName = quizManager.getQuiz(quizId).getQuizName();
         int score = quizHistory.getQuizScore();
 
-//        if (!isQuizHistoryStored(request)) {
         quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
         long startTime = quizHistory.getStartTime().getTime();
         long endTime = quizHistory.getEndTime().getTime();
@@ -51,12 +61,16 @@ public class QuizStatsServlet extends HttpServlet {
 
         try {
             quizHistoryManager.createQuizHistory(quizHistory);
+            if (quizHistoryManager.getHighestScoreUserNameByQuizId(quizId).equals(acc.getUserName())
+                    && quizHistory.getQuizScore() > 0) {
+                acc.getAchievementIds().add(5);
+            }
+            accountManager.updateAccount(acc);
             request.getSession().setAttribute("quizHistoryStored", true); // Set flag to indicate history is stored
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to store quiz history in database", e);
         }
-//        }
 
 
         List<QuizHistory> personalHistory = new ArrayList<>();
@@ -92,26 +106,4 @@ public class QuizStatsServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private boolean isQuizHistoryStored(HttpServletRequest request) {
-        Boolean quizHistoryStored = (Boolean) request.getSession().getAttribute("quizHistoryStored");
-        return quizHistoryStored != null && quizHistoryStored;
-    }
-
-    private void quizStatsCounter(List<QuizHistory> personalHistory, HttpServletRequest request) {
-        double totalScore = 0;
-        double totalTimeTaken = 0;
-        int count = 0;
-
-        for (QuizHistory history : personalHistory) {
-            totalScore += history.getQuizScore();
-            totalTimeTaken += history.getElapsedTime();
-            count++;
-        }
-
-        double averageScore = count > 0 ? totalScore / count : 0;
-        double averageTimeTaken = count > 0 ? totalTimeTaken / count : 0;
-
-        request.setAttribute("averageScore", averageScore);
-        request.setAttribute("averageTimeTaken", averageTimeTaken);
-    }
 }

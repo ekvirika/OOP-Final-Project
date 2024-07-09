@@ -1,8 +1,6 @@
 package Models;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a user account with basic information such as user ID, username, first name, last name,
@@ -17,7 +15,7 @@ public class Account {
     private String email;
     private String imageUrl;
     private List<String> friends;
-    private List<Integer> achievementIds;
+    private Set<Integer> achievementIds;
     private boolean isAdmin;
 
 
@@ -41,7 +39,7 @@ public class Account {
         this.email = email;
         this.imageUrl = imageUrl;
         this.friends = new ArrayList<>();
-        this.achievementIds = new ArrayList<>();
+        this.achievementIds = new HashSet<>();
         this.salt = salt;
         isAdmin = false;
     }
@@ -190,11 +188,11 @@ public class Account {
         this.salt = salt;
     }
 
-    public List<Integer> getAchievementIds() {
+    public Set<Integer> getAchievementIds() {
         return achievementIds;
     }
 
-    public void setAchievementIds(List<Integer> achievements) {
+    public void setAchievementIds(Set<Integer> achievements) {
         this.achievementIds = achievements;
     }
 

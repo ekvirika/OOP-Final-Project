@@ -202,6 +202,7 @@ public class QuizDAO {
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, username);
+            System.out.println("by user: "+ statement);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     quizzes.add(extractQuizFromResultSet(resultSet));

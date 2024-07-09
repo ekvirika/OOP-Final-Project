@@ -36,17 +36,15 @@ public class HomePageServlet extends HttpServlet {
             List<Quiz> popularQuizzes = quizHistoryManager.getPopularQuizzes();
             request.setAttribute("popularQuizzes", popularQuizzes);
 
+            List<Quiz> recentQuizzes = quizManager.getNewlyAddedQuizzes();
+            request.setAttribute("recentQuizzes", recentQuizzes);
+            System.out.println("rec: " + recentQuizzes);
 
             List<Quiz> recentlyTakenQuizzes = quizHistoryManager.getQuizzesForUserByTakingTime(account.getUserName());
             request.setAttribute("recentQuizHistory", recentlyTakenQuizzes);
             System.out.println("taken: " + recentlyTakenQuizzes);
 
-            List<Quiz> recentQuizzes = quizManager.getNewlyAddedQuizzes();
-            request.setAttribute("recentQuizzes", recentQuizzes);
-            System.out.println("rec: " + recentQuizzes);
-
-
-            List<QuizHistory> userRecent = quizHistoryManager.getAllQuizHistoryByUsername(username);
+            List<Quiz> userRecent = quizManager.getQuizzesByUser(account.getUserName());
             request.setAttribute("userRecent", userRecent);
 
 //            List<Achievement> achievements = achievementManager.getAchievementsByUsername(username);

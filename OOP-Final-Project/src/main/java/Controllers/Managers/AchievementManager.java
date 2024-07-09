@@ -6,7 +6,9 @@ import utils.SQLConnector;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AchievementManager {
     public static final String ATTRIBUTE_NAME = "AchievementManager";
@@ -17,7 +19,7 @@ public class AchievementManager {
         achievementDAO = new AchievementDAO(sqlConnector.dataSource);
     }
 
-    public List<Achievement> getAllAchievements() {
+    public Set<Achievement> getAllAchievements() {
         try {
             return achievementDAO.getAllAchievements();
         } catch (Exception e) {
@@ -60,8 +62,8 @@ public class AchievementManager {
     }
 
 
-    public List<Achievement> getAllAchievemtnsByUser(List<Integer> achievementIds) throws SQLException {
-        List<Achievement> achievements = new ArrayList<>();
+    public Set<Achievement> getAllAchievemtnsByUser(Set<Integer> achievementIds) throws SQLException {
+        Set<Achievement> achievements = new HashSet<>();
         for(Integer id: achievementIds) {
             Achievement achievement = achievementDAO.getAchievement(id);
             achievements.add(achievement);
