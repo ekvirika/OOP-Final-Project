@@ -252,6 +252,7 @@
                     if (type.equals(NotificationType.FRIEND_REQUEST)) {
                 %>
                 <a href="ProfileServlet?username=<%= notification.getUsernameFrom() %>"><%= notification.getUsernameFrom() %></a> sent you a friend request.
+                <input type="hidden" class="usernameFrom" name="usernameFrom" value="<%= notification.getUsernameFrom() %>">
                 <button onclick="handleFriendRequest('yes', '<%= notification.getNotificationId() %>')">Yes</button>
                 <button onclick="handleFriendRequest('no', '<%= notification.getNotificationId() %>')">No</button>
                 <%
@@ -286,7 +287,8 @@
 
 <script>
     function handleFriendRequest(response, notificationId) {
-        let receiverId = document.getElementById("receiverId").value;
+        // let receiverId = document.getElementById("receiverId").value;
+        let receiverId = document.querySelector(".usernameFrom").value;
         // Add your logic to handle friend request response (yes/no)
         if(response === "yes"){
             fetch('notificationServlet', {

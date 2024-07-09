@@ -16,6 +16,7 @@ import java.util.List;
 public class HomePageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getSession().removeAttribute("quizId");
         AccountManager accountManager = (AccountManager) getServletContext().getAttribute(AccountManager.ATTRIBUTE_NAME);
         QuizManager quizManager = (QuizManager) getServletContext().getAttribute(QuizManager.ATTRIBUTE_NAME);
         AnnouncementManager announcementManager = (AnnouncementManager) getServletContext().getAttribute(AnnouncementManager.ATTRIBUTE_NAME);

@@ -53,6 +53,7 @@
                 out.println("<div class='account-info'>");
                 out.println(account.getFirstName() + " " + account.getLastName() + " (" + account.getUserName() + ")");
                 out.println("</div>");
+                out.println("<input type=\"hidden\" name=\"username\" value="+account.getUserName()+"\">");
                 out.println("<a href='ProfileServlet?username=" + account.getUserName() + "'><button class='profile-button'>See Profile</button></a>");
                 out.println("</li>");
             }

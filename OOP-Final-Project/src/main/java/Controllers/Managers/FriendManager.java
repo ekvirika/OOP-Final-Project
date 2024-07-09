@@ -1,7 +1,6 @@
 package Controllers.Managers;
 
 import DAO.FriendsDAO;
-import DAO.NotificationDAO;
 import Models.FriendRequest;
 import utils.SQLConnector;
 
@@ -45,5 +44,9 @@ public class FriendManager {
 
     public int getFriendRequestID(String usernameFrom, String usernameTo) throws SQLException {
         return friendsDAO.getFriendRequestId(usernameFrom, usernameTo);
+    }
+
+    public ArrayList<String> getAcceptedFriendRequests(String usernameFrom) throws SQLException {
+        return (ArrayList<String>) friendsDAO.getAcceptedFriends(usernameFrom);
     }
 }

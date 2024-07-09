@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FriendsDAO {
     private BasicDataSource dataSource;
@@ -27,14 +28,20 @@ public class FriendsDAO {
         }
     }
 
-    public void updateFriendshipStatus(String usernameFrom, String usernameTo, Boolean isAccepted) throws SQLException {
-        String query = "UPDATE Friends SET isAccepted = ? WHERE usernameFrom = ? AND usernameTo = ?";
+    public void updateFriendshipStatus(String usernameFrom, String usernameTo, Boolean isAccepted){
+        System.out.println("aq var");
+        String query = "UPDATE Friends SET friends.isAccepted = ? WHERE friends.usernameFrom = ? AND friends.usernameTo = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setBoolean(1, isAccepted);
             statement.setString(2, usernameFrom);
             statement.setString(3, usernameTo);
+            System.out.println(statement);
             statement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -90,5 +97,26 @@ public class FriendsDAO {
                 throw new SQLException("Friend request not found.");
             }
         }
+    }
+
+    public List<String> getAcceptedFriends(String username) throws SQLException {
+        List<String> friends = new ArrayList<>();
+        String query = "SELECT usernameFrom, usernameTo FROM Friends WHERE (usernameFrom = ? OR usernameTo = ?) AND isAccepted = 1";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, username);
+            statement.setString(2, username);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String usernameFrom = resultSet.getString("usernameFrom");
+                String usernameTo = resultSet.getString("usernameTo");
+                if (!usernameFrom.equals(username)) {
+                    friends.add(usernameFrom);
+                } else {
+                    friends.add(usernameTo);
+                }
+            }
+        }
+        return friends;
     }
 }
