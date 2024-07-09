@@ -80,14 +80,13 @@
     <button type="submit" class="start-btn">Start Quiz</button>
 </form>
 
-<%
-
-    if (account.isAdmin()) {
-%>
-<form action="QuizServlet" method="post">
-    <button class="add-announcement" >Delete quiz</button>
-</form>
-<% } %>
+<%--<%--%>
+<%--    if (account.isAdmin()) {--%>
+<%--%>--%>
+<%--<form action="QuizServlet" method="post">--%>
+<%--    <button class="add-announcement" >Delete quiz</button>--%>
+<%--</form>--%>
+<%--<% } %>--%>
 
 
 </body>
