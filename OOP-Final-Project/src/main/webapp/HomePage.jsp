@@ -73,39 +73,59 @@
         <div class="quizzes-inside">
             <div class="new">
                 <h3>Newly added Quizzes</h3>
-                <ul>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Quiz Name</th>
+                        <th>Author</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     <%
                         List<Quiz> recentQuizHistory = (List) request.getAttribute("recentQuizzes");
                         if (recentQuizHistory != null) {
                             for (Quiz obj : recentQuizHistory) {
-
                     %>
-                    <li><a href="QuizServlet?quizId=<%= obj.getQuizID() %>"><%= obj.getQuizName() %>
-                    </a>
-                    </li>
+                    <tr>
+                        <td><a href="QuizServlet?quizId=<%= obj.getQuizID() %>"><%= obj.getQuizName() %></a></td>
+                        <td><a href="ProfileServlet?username=<%= obj.getCreatorUsername() %>"><%= obj.getCreatorUsername() %></a></td>
+                        <td><%= obj.getCreateTime() %></td>
+                    </tr>
                     <%
                             }
                         }
                     %>
-                </ul>
+                    </tbody>
+                </table>
             </div>
             <div class="popular">
                 <h3>Popular Quizzes</h3>
-                <ul>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Quiz Name</th>
+                        <th>Author</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     <%
                         List<Quiz> popularQuizzes = (List) request.getAttribute("popularQuizzes");
                         if (popularQuizzes != null) {
                             for (Quiz obj : popularQuizzes) {
-
                     %>
-                    <li><a href="QuizServlet?quizId=<%= obj.getQuizID() %>"><%= obj.getQuizName() %>
-                    </a>
-                    </li>
+                    <tr>
+                        <td><a href="QuizServlet?quizId=<%= obj.getQuizID() %>"><%= obj.getQuizName() %></a></td>
+                        <td><%= obj.getCreatorUsername() %></td>
+                        <td><%= obj.getCreateTime() %></td>
+                    </tr>
                     <%
                             }
                         }
                     %>
-                </ul>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
