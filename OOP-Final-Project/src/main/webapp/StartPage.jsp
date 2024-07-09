@@ -32,7 +32,6 @@
     </div>
     <div class="nav-bar">
         <ul>
-            <li><a href="./HomePage.jsp">Quizzies</a></li>
             <li><a href="./Authorisation.jsp">Sign in</a></li>
             <li><a href="./Registration.jsp">Sign up</a></li>
         </ul>
