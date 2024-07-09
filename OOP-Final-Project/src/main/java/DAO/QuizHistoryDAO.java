@@ -187,4 +187,46 @@ public class QuizHistoryDAO {
         return quizzes;
     }
 
+    public void deleteAllQuizzesById(int quizId) throws SQLException {
+        String query = "DELETE FROM QuizHistory WHERE quizId = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, quizId);
+            statement.executeUpdate();
+        }
+    }
+
+    public List<QuizHistory> getUsersFriendsRecentActivities(String username) throws SQLException {
+        List<QuizHistory> activities = new ArrayList<>();
+        String query = "SELECT * FROM QuizHistory qh " +
+                "WHERE qh.username IN ( " +
+                "    SELECT a.userName " +
+                "    FROM Accounts a " +
+                "    JOIN Friends f ON (a.userName = f.usernameFrom OR a.userName = f.usernameTo) " +
+                "    WHERE (f.usernameFrom = ? OR f.usernameTo = ?) " +
+                "      AND f.isAccepted = TRUE " +
+                "      AND a.userName != ? " +
+                ") " +
+                "ORDER BY DATE_FORMAT(startTime, '%Y-%m-%d %H:%i:%s') DESC;";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, username);
+            statement.setString(2, username);
+            statement.setString(3, username);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    activities.add(new QuizHistory(
+                            resultSet.getInt("quizId"),
+                            resultSet.getString("username"),
+                            resultSet.getInt("quizScore"),
+                            resultSet.getTime("startTime"),
+                            resultSet.getTime("endTime"),
+                            resultSet.getLong("elapsedTime")));
+                }
+            }
+        }
+        return activities;
+    }
+
+
 }
