@@ -117,7 +117,7 @@
     </main>
     <div class="actions">
         <a href="/HomePageServlet">Go Home</a>
-        <a href="QuizServlet?quizId=<%= request.getAttribute("quizId") %>"> Retake Quiz</a>
+<%--        <a href="QuizServlet?quizId=<%= request.getAttribute("quizId") %>"> Retake Quiz</a>--%>
 <%--        <form action="QuizServlet" method="post">--%>
 <%--            <button class="retake" type="submit">Retake Quiz</button>--%>
 <%--            <input type="hidden" name="quizId" value="<%= question.getQuizId() %>">--%>

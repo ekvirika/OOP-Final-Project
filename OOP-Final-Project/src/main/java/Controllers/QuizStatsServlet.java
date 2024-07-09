@@ -1,9 +1,9 @@
 package Controllers;
 
-import Models.LeaderboardEntry;
 import Controllers.Managers.LeaderboardManager;
 import Controllers.Managers.QuizHistoryManager;
 import Controllers.Managers.QuizManager;
+import Models.LeaderboardEntry;
 import Models.QuizHistory;
 
 import javax.servlet.RequestDispatcher;
@@ -39,24 +39,23 @@ public class QuizStatsServlet extends HttpServlet {
         String quizName = quizManager.getQuiz(quizId).getQuizName();
         int score = quizHistory.getQuizScore();
 
-        // Check if quiz history is already stored
-        if (!isQuizHistoryStored(request)) {
-            quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
-            long startTime = quizHistory.getStartTime().getTime();
-            long endTime = quizHistory.getEndTime().getTime();
-            long timeTakenSeconds = (endTime - startTime) / 1000;
-            quizHistory.setElapsedTime(timeTakenSeconds);
-            String username = quizHistory.getUsername();
+//        if (!isQuizHistoryStored(request)) {
+        quizHistory.setEndTime(new java.sql.Time(System.currentTimeMillis()));
+        long startTime = quizHistory.getStartTime().getTime();
+        long endTime = quizHistory.getEndTime().getTime();
+        long timeTakenSeconds = (endTime - startTime) / 1000;
+        quizHistory.setElapsedTime(timeTakenSeconds);
+        String username = quizHistory.getUsername();
 
-            // Store quiz history in database
-            try {
-                quizHistoryManager.createQuizHistory(quizHistory);
-                request.getSession().setAttribute("quizHistoryStored", true); // Set flag to indicate history is stored
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new ServletException("Failed to store quiz history in database", e);
-            }
+        try {
+            quizHistoryManager.createQuizHistory(quizHistory);
+            request.getSession().setAttribute("quizHistoryStored", true); // Set flag to indicate history is stored
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ServletException("Failed to store quiz history in database", e);
         }
+//        }
+
 
         List<QuizHistory> personalHistory = new ArrayList<>();
         try {
@@ -76,6 +75,7 @@ public class QuizStatsServlet extends HttpServlet {
         }
 
         quizStatsCounter(personalHistory, request);
+//        Pair<Long, Long> avgs = quizHistoryManager.getAverageScoreAndTimeByQuizId(quizId);
         request.setAttribute("quizId", quizId);
         request.setAttribute("personalHistory", personalHistory);
         request.setAttribute("quizName", quizName);
@@ -83,6 +83,7 @@ public class QuizStatsServlet extends HttpServlet {
         request.setAttribute("score", score);
         request.setAttribute("timeTakenSeconds", quizHistory.getElapsedTime());
         request.setAttribute("quizHistory", quizHistory);
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("QuizStats.jsp");
         dispatcher.forward(request, response);
     }

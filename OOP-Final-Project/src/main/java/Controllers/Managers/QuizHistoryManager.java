@@ -3,6 +3,7 @@ package Controllers.Managers;
 import DAO.QuizHistoryDAO;
 import Models.Quiz;
 import Models.QuizHistory;
+import javafx.util.Pair;
 import utils.SQLConnector;
 
 import java.sql.SQLException;
@@ -55,5 +56,9 @@ public class QuizHistoryManager {
 
     public List<QuizHistory> getUsersFriendsRecentActivities(String username) throws SQLException {
         return quizHistoryDAO.getUsersFriendsRecentActivities(username);
+    }
+
+    public Pair<Long, Long> getAverageScoreAndTimeByQuizId(int quizId) throws SQLException {
+        return quizHistoryDAO.getAverageScoreAndTimeByQuizId(quizId);
     }
 }

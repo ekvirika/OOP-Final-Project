@@ -217,11 +217,11 @@ public class QuizHistoryDAO {
         }
     }
 
-    public Pair<Long, Long> getAverageScoreAndTimeByQuizId(String quizId) throws SQLException {
+    public Pair<Long, Long> getAverageScoreAndTimeByQuizId(int quizId) throws SQLException {
         String query = "SELECT avg(quizScore), avg(elapsedTime) FROM QuizHistory WHERE quizId = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, quizId);
+            statement.setInt(1, quizId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 return new Pair<>(resultSet.getLong("avg(quizScore)"), resultSet.getLong("avg(elapsedTime)"));
             }
