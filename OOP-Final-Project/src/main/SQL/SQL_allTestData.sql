@@ -106,7 +106,7 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
                       matchingPairs)
 VALUES (3, 6, 'Match the following scientists with their discoveries.', NULL, NULL, NULL, NULL, NULL, NULL,
-        '{"Marie Curie":"Radioactivity","Charles Darwin":"Theory of evolution"');
+        '{"Marie Curie":"Radioactivity","Charles Darwin":"Theory of evolution"}');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
