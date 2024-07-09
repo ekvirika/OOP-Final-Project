@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS Notifications (
     usernameTO VARCHAR(255) NOT NULL,
     notificationType INT NOT NULL,
     quizLink VARCHAR(255) DEFAULT NULL,
+    highScore INT DEFAULT NULL,
     friendRequestId INT DEFAULT NULL,
     message TEXT,
     PRIMARY KEY (notificationId),

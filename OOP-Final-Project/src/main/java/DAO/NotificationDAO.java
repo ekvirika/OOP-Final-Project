@@ -19,7 +19,7 @@ public class NotificationDAO {
 
     // Add a new notification
     public void CreateNotification(Notification notification) throws SQLException {
-        String query = "INSERT INTO Notifications (usernameFrom, usernameTo, notificationType, quizLink, friendRequestId, message) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Notifications (usernameFrom, usernameTo, notificationType, quizLink, highScore,friendRequestId, message) VALUES (?, ?, ? ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(notification, statement);
@@ -35,19 +35,21 @@ public class NotificationDAO {
 
         // Initialize all fields to null in case they need to be reset
         statement.setNull(4, java.sql.Types.VARCHAR); // quizLink
-        statement.setNull(5, java.sql.Types.INTEGER); // requestId
-        statement.setNull(6, java.sql.Types.VARCHAR); // message
+        statement.setNull(5, Types.INTEGER); // highscore
+        statement.setNull(6, java.sql.Types.INTEGER); // requestId
+        statement.setNull(7, java.sql.Types.VARCHAR); // message
 
         // Set fields based on notification type
         switch (notification.getNotificationType()) {
             case CHALLENGE: // Assume case 0
                 statement.setString(4, notification.getQuizLink());
+                statement.setInt(5, notification.getHighScore());
                 break;
             case FRIEND_REQUEST: // Assume case 1
-                statement.setInt(5, notification.getRequestId());
+                statement.setInt(6, notification.getRequestId());
                 break;
             case NOTE: // Assume case 2
-                statement.setString(6, notification.getMessage());
+                statement.setString(7, notification.getMessage());
                 break;
             default:
                 throw new IllegalArgumentException("Unknown notification type: " + notification.getNotificationType());
@@ -69,6 +71,7 @@ public class NotificationDAO {
                             resultSet.getString("usernameTo"),
                             NotificationType.values()[resultSet.getInt("notificationType")],
                             resultSet.getString("quizLink"),
+                            resultSet.getInt("highScore"),
                             resultSet.getInt("friendRequestId"),
                             resultSet.getString("message")
                     );
@@ -80,11 +83,11 @@ public class NotificationDAO {
 
     // Update a notification
     public void updateNotification(Notification notification) throws SQLException {
-        String query = "UPDATE Notifications SET usernameFrom = ?, usernameTo = ?, notificationType = ?, quizLink = ?, friendRequestId = ?, message = ? WHERE notificationId = ?";
+        String query = "UPDATE Notifications SET usernameFrom = ?, usernameTo = ?, notificationType = ?, quizLink = ?, highScore = ? ,friendRequestId = ?, message = ? WHERE notificationId = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             setStatement(notification, statement);
-            statement.setInt(7, notification.getNotificationId());
+            statement.setInt(8, notification.getNotificationId());
 
             statement.executeUpdate();
         }
@@ -115,6 +118,7 @@ public class NotificationDAO {
                         resultSet.getString("usernameTo"),
                         NotificationType.values()[resultSet.getInt("notificationType")],
                         resultSet.getString("quizLink"),
+                        resultSet.getInt("highScore"),
                         resultSet.getInt("friendRequestId"),
                         resultSet.getString("message")
                 ));

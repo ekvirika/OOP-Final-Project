@@ -9,13 +9,14 @@ public class Notification {
     private String usernameTo;
     private NotificationType notificationType;
     private String quizLink;
+    private int highScore;
     private int requestId;
     private String message;
     private FriendRequest friendRequest;
 
     // Parameterized constructor
     public Notification(int notificationId, String usernameFrom, String usernameTo,
-                        NotificationType notificationType, String quizLink, int requestId, String message) {
+                        NotificationType notificationType, String quizLink, int highScore, int requestId, String message) {
         this.notificationId = notificationId;
         this.usernameFrom = usernameFrom;
         this.usernameTo = usernameTo;
@@ -23,16 +24,18 @@ public class Notification {
         this.quizLink = quizLink;
         this.requestId = requestId;
         this.message = message;
+        this.highScore = highScore;
     }
 
     public Notification(String usernameFrom, String usernameTo,
-                        NotificationType notificationType, String quizLink, int requestId, String message) {
+                        NotificationType notificationType, String quizLink, int highScore, int requestId, String message) {
         this.usernameFrom = usernameFrom;
         this.usernameTo = usernameTo;
         this.notificationType = notificationType;
         this.quizLink = quizLink;
         this.requestId = requestId;
         this.message = message;
+        this.highScore = highScore;
     }
 
     // Getters and Setters
@@ -91,15 +94,20 @@ public class Notification {
     public void setMessage(String message) {
         this.message = message;
     }
+
     public FriendRequest getFriendRequest() {
         return friendRequest;
     }
+
     public void setFriendRequest(FriendRequest friendRequest) {
         this.friendRequest = friendRequest;
     }
 
-    public int getHighScore(){
-//        QuizHistory quizHistory = (QuizHistory) request.getSession().getAttribute("quizHistory");
-        return 0;
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
     }
 }
