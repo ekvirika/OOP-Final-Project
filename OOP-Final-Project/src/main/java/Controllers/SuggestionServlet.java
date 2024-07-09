@@ -28,10 +28,10 @@ public class SuggestionServlet extends HttpServlet {
             AccountManager accountManager = new AccountManager();
             List<Account> allAccounts = accountManager.getAccounts();
             for (Account account : allAccounts) {
-                if((account.getFirstName().contains(query) ||
-                    account.getLastName().contains(query) ||
-                    account.getUserName().contains(query) ||
-                    account.getEmail().contains(query)) &&
+                if((account.getFirstName().startsWith(query) ||
+                    account.getLastName().startsWith(query) ||
+                    account.getUserName().startsWith(query) ||
+                    account.getEmail().startsWith(query)) &&
                     !account.getUserName().equals(loggedInUsername)){
                     suggestions.add(account);
                 }
