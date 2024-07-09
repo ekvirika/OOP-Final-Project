@@ -43,7 +43,7 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
                       matchingPairs)
 VALUES (1, 6, 'Match the following pairs.', NULL, NULL, NULL, NULL, NULL, NULL,
-        '[{\"key\":\"Red\",\"value\":\"Color\"},{\"key\":\"Car\",\"value\":\"Vehicle\"}]');
+        '[{"Red":"Color"},{"Car":"Vehicle"}]');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
@@ -75,7 +75,7 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
                       matchingPairs)
 VALUES (2, 6, 'Match the following historical figures with their achievements.', NULL, NULL, NULL, NULL, NULL, NULL,
-        '[{\"key\":\"Albert Einstein\",\"value\":\"Theory of Relativity\"},{\"key\":\"Isaac Newton\",\"value\":\"Laws of Motion\"}]');
+        '[{"Albert Einstein":"Theory of relativity"},{"Isaac Newton":"Laws of motion"}]');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
@@ -106,7 +106,7 @@ INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, 
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
                       matchingPairs)
 VALUES (3, 6, 'Match the following scientists with their discoveries.', NULL, NULL, NULL, NULL, NULL, NULL,
-        '[{\"key\":\"Marie Curie\",\"value\":\"Radioactivity\"},{\"key\":\"Charles Darwin\",\"value\":\"Theory of Evolution\"}]');
+        '[{"Marie Curie":"Radioactivity"},{"Charles Darwin":"Theory of evolution"}]');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
@@ -136,8 +136,8 @@ VALUES (4, 5, 'Which of the following are plays by William Shakespeare?', NULL, 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
                       matchingPairs)
-VALUES (4, 6, 'Match the followings with their works.', NULL, NULL, NULL, NULL, NULL, NULL,
-        '[{\"key\":\"Mark Twain\",\"value\":\"The Adventures of Tom Sawyer\"},{\"key\":\"J.K. Rowling\",\"value\":\"Harry Potter\"}]');
+VALUES (4, 6, 'Match followings with their works.', NULL, NULL, NULL, NULL, NULL, NULL,
+        '[{"Mark Twain":"The Adventures of Tom Sawyer"},{"J.K. Rowling":"Harry Potter"}]');
 
 INSERT INTO Question (quizId, questionType, questionText, singleQuestionAnswer, alternativeAnswers,
                       multipleChoiceAnswers, multipleChoiceCorrectIndexes, questionImage, multipleAnswerFields,
