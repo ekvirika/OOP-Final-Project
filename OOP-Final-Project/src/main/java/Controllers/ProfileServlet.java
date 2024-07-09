@@ -67,9 +67,17 @@ public class ProfileServlet extends HttpServlet {
         String action = request.getParameter("action");
         if(action != null && action.equals("deleteProfile")){
             String username = request.getParameter("username");
-            accountManager.deleteAccount(username);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("HomePageServlet");
-            requestDispatcher.forward(request, response);
+            if (accountManager.deleteAccount(username)) {
+                System.out.println("Deleted profile");
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"success\": true}");
+            } else {
+                System.out.println("Not deleted profile");
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"success\": false}");
+            }
             return;
         }
         if (method != null && method.equalsIgnoreCase("put")) {

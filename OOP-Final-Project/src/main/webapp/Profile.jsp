@@ -144,14 +144,14 @@
                 </div>
             </div>
             <% } %>
-            <%  if (isAdmin) { %>
-            <form action="ProfileServlet" method="post">
-                <input type="hidden" name="username"
-                       value="\<%= ((Account) request.getAttribute("account")).getUserName() %>\">
-                <button type="submit" name="action" value="deleteProfile" class="submit">Delete Profile</button>
+            <% if (isAdmin) { %>
+            <form action="ProfileServlet" method="post" id="deleteProfileForm">
+                <input type="hidden" name="action" value="deleteProfile">
+                <input type="hidden" name="username" value="<%= account.getUserName() %>"> <!-- Make sure you have 'user' object with the 'username' field -->
+                <button type="submit" class="submit" id="deleteProfileButton">Delete User</button>
             </form>
-            <% }
-                %>
+            <% } %>
+
 
         </div>
 
@@ -189,7 +189,36 @@
         </div>
     </div>
 </div>
-
 <script src="javascript/SendNotification.js" defer></script>
+
+<script>
+    document.getElementById('deleteProfileButton').onclick = function (event) {
+        event.preventDefault(); // Prevent the form from submitting the traditional way
+
+        fetch('ProfileServlet', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                action: 'deleteProfile',
+                username: '<%= account.getUserName() %>' // Assuming you have the username available in JSP
+            })
+        })
+            .then(response => {
+                console.log(response)
+                if (response.ok) {
+                    // Redirect to HomePageServlet
+                    window.location.href = 'HomePageServlet';
+                } else {
+                    alert('Failed to delete profile. Please try again.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the profile. Please try again.');
+            });
+    }
+</script>
 </body>
 </html>
